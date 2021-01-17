@@ -1,6 +1,7 @@
 <template>
   <div :class="classObj" class="app-wrapper">
     <div v-if="device === 'mobile' && sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
+    <sidebar class="sidebar-container" />
   </div>
 </template>
 
@@ -8,12 +9,16 @@
 import { defineComponent, computed, watch, onBeforeMount, onBeforeUnmount, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import store from '@/store'
+import { Sidebar } from './components'
 
 const { body } = document
 const WIDTH = 992
 
 export default defineComponent({
   name: 'App',
+  components: {
+    Sidebar
+  },
   setup() {
     const sidebar = computed(() => store.state.app.sidebar)
     const device = computed(() => store.state.app.device)
