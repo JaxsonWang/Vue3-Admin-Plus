@@ -15,11 +15,6 @@ const routes = [
           title: '系统首页',
           icon: 'dashboard'
         }
-      },
-      {
-        path: 'about',
-        name: 'About',
-        component: () => import('@/views/About')
       }
     ]
   }

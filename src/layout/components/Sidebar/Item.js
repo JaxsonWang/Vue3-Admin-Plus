@@ -1,22 +1,30 @@
-import { defineComponent, toRefs } from 'vue'
+import { defineComponent } from 'vue'
 import './Item.scss'
 
 export default defineComponent({
   name: 'MenuItem',
-  setup(props) {
-    const { icon, title } = toRefs(props)
-
+  props: {
+    icon: {
+      type: String,
+      default: ''
+    },
+    title: {
+      type: String,
+      default: ''
+    }
+  },
+  render(h) {
     const vNodes = []
-    if (icon) {
-      if (icon.includes('el-icon')) {
-        vNodes.push(<i class={[icon, 'sub-el-icon']} />)
+    if (this.icon) {
+      if (this.icon.includes('el-icon')) {
+        vNodes.push(<i class={[this.icon, 'sub-el-icon']} />)
       } else {
-        vNodes.push(<svg-icon icon-class={icon}/>)
+        vNodes.push(<svg-icon icon-class={this.icon} />)
       }
     }
 
-    if (title) {
-      vNodes.push(<span slot='title'>{(title)}</span>)
+    if (this.title) {
+      vNodes.push(<span slot='title'>{(this.title)}</span>)
     }
 
     return vNodes

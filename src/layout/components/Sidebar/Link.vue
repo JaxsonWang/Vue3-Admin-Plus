@@ -3,15 +3,21 @@
     <slot />
   </component>
 </template>
+
 <script>
-import { defineComponent, toRefs, computed } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { isExternal } from '@/utils/validate'
 
 export default defineComponent({
   name: 'Link',
+  props: {
+    to: {
+      type: String,
+      default: '/'
+    }
+  },
   setup(props) {
-    const { to } = toRefs(props)
-    const isExt = computed(() => isExternal(to))
+    const isExt = computed(() => isExternal(props.to))
     const type = computed(() => isExt.value ? 'a' : 'router-link')
     const linkProps = to => {
       if (isExt.value) {

@@ -1,6 +1,6 @@
 <template>
   <div v-if="!item.hidden">
-    <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
+    <template v-if="hasOneShowingChild(item.children, item) && (!onlyOneChild.children || onlyOneChild.noShowingChildren) && !item.alwaysShow">
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
         <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
           <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title" />
@@ -9,7 +9,7 @@
     </template>
 
     <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
-      <template v-slot:title>
+      <template #title>
         <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" />
       </template>
       <sidebar-item
@@ -26,7 +26,7 @@
 
 <script>
 import path from 'path'
-import { defineComponent, ref, reactive } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import Item from './Item'
 import AppLink from './Link'
 import { isExternal } from '@/utils/validate'
@@ -38,22 +38,28 @@ export default defineComponent({
     AppLink
   },
   props: {
-    item1: Object,
-    isNest1: Boolean,
-    basePath: Object
+    item: {
+      type: Object,
+      default: () => {}
+    },
+    isNest: {
+      type: Boolean,
+      default: false
+    },
+    basePath: {
+      type: String,
+      default: '/'
+    }
   },
   setup(props) {
-    const item = reactive(props.item1)
-    const isNest = ref(props.isNest1)
-    const basePath = reactive(props.basePath)
     let onlyOneChild = reactive({})
-
     const hasOneShowingChild = (children = [], parent) => {
       const showingChildren = children.filter(item => {
         if (item.hidden) {
           return false
         } else {
           // Temp set(will be used if only has one showing child)
+          console.log(item)
           onlyOneChild = item
           return true
         }
@@ -66,7 +72,6 @@ export default defineComponent({
 
       // Show parent if there are no child router to display
       if (showingChildren.length === 0) {
-        // eslint-disable-next-line no-unused-vars
         onlyOneChild = { ...parent, path: '', noShowingChildren: true }
         return true
       }
@@ -78,15 +83,14 @@ export default defineComponent({
       if (isExternal(routePath)) {
         return routePath
       }
-      if (isExternal(basePath.value)) {
-        return basePath.value
+      if (isExternal(props.basePath)) {
+        return props.basePath
       }
-      return path.resolve(basePath.value, routePath)
+      return path.resolve(props.basePath, routePath)
     }
 
     return {
-      item,
-      isNest,
+      onlyOneChild,
       hasOneShowingChild,
       resolvePath
     }
