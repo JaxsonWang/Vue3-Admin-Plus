@@ -33,8 +33,10 @@ export default defineComponent({
       }
     })
     watch(useRoute(), route => {
-      if (store.app.device === 'mobile' && store.app.opened) {
-        store.dispatch('app/closeSideBar', { withoutAnimation: false })
+      if (store.getters.device === 'mobile' && store.getters.sidebar.opened) {
+        store.dispatch('app/closeSideBar', {
+          withoutAnimation: false
+        })
       }
     })
     const isMobile = () => {

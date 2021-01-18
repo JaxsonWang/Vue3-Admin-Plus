@@ -6,13 +6,26 @@ const routes = [
     path: '/',
     component: Layout,
     redirect: '/Dashboard',
+    meta: {
+      title: '系统首页',
+      icon: 'dashboard'
+    },
     children: [
       {
         path: 'dashboard',
         name: 'Dashboard',
         component: () => import('@/views/Home'),
         meta: {
-          title: '系统首页',
+          title: '仪表盘',
+          icon: 'dashboard'
+        }
+      },
+      {
+        path: 'about',
+        name: 'About',
+        component: () => import('@/views/About'),
+        meta: {
+          title: '关于',
           icon: 'dashboard'
         }
       }
