@@ -20,7 +20,7 @@
 <script>
 import { defineComponent, watch, onBeforeMount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import pathToRegexp from 'path-to-regexp'
+import * as pathToRegexp from 'path-to-regexp'
 
 export default defineComponent({
   setup() {

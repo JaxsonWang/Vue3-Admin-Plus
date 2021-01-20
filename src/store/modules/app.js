@@ -1,6 +1,6 @@
 const state = {
   sidebar: {
-    opened: parseInt(localStorage.getItem('sidebarStatus'), 10) ? !!+parseInt(localStorage.getItem('sidebarStatus'), 10) : true,
+    opened: localStorage.getItem('sidebarStatus') !== 'null' ? localStorage.getItem('sidebarStatus') !== 'false' : true,
     withoutAnimation: false
   },
   device: 'desktop'
@@ -10,14 +10,10 @@ const mutations = {
   TOGGLE_SIDEBAR: state => {
     state.sidebar.opened = !state.sidebar.opened
     state.sidebar.withoutAnimation = false
-    if (state.sidebar.opened) {
-      localStorage.setItem('sidebarStatus', '1')
-    } else {
-      localStorage.setItem('sidebarStatus', '0')
-    }
+    localStorage.setItem('sidebarStatus', state.sidebar.opened.toString())
   },
   CLOSE_SIDEBAR: (state, withoutAnimation) => {
-    localStorage.setItem('sidebarStatus', '0')
+    localStorage.setItem('sidebarStatus', 'false')
     state.sidebar.opened = false
     state.sidebar.withoutAnimation = withoutAnimation
   },

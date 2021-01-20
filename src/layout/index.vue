@@ -15,7 +15,7 @@
 import { defineComponent, computed, watch, onBeforeMount, onBeforeUnmount, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import store from '@/store'
-import { Sidebar, Navbar } from './components'
+import { Sidebar, Navbar, AppMain } from './components'
 
 const { body } = document
 const WIDTH = 992
@@ -24,7 +24,8 @@ export default defineComponent({
   name: 'App',
   components: {
     Sidebar,
-    Navbar
+    Navbar,
+    AppMain
   },
   setup() {
     const sidebar = computed(() => store.state.app.sidebar)
