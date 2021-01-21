@@ -1,15 +1,13 @@
 <template>
   <div class="home">
-    <hello-world msg="test" />
+    test
   </div>
 </template>
 
 <script>
-import HelloWorld from '@/components/HelloWorld'
-export default {
-  name: 'Home',
-  components: {
-    HelloWorld
-  }
-}
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'Home'
+})
 </script>

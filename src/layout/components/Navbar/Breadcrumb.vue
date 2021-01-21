@@ -18,11 +18,12 @@
 </template>
 
 <script>
-import { defineComponent, watch, onBeforeMount } from 'vue'
+import { defineComponent, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import * as pathToRegexp from 'path-to-regexp'
 
 export default defineComponent({
+  name: 'Breadcrumb',
   setup() {
     const route = useRoute()
     const router = useRouter()
@@ -66,11 +67,9 @@ export default defineComponent({
       }
       router.push(pathCompile(path))
     }
-    watch(useRoute(), () => getBreadcrumb)
+    watch(route, () => getBreadcrumb)
 
-    onBeforeMount(() => {
-      getBreadcrumb()
-    })
+    getBreadcrumb()
 
     return {
       levelList,

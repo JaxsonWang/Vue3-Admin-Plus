@@ -21,7 +21,7 @@ const { body } = document
 const WIDTH = 992
 
 export default defineComponent({
-  name: 'App',
+  name: 'Layout',
   components: {
     Sidebar,
     Navbar,
