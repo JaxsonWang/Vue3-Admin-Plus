@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import { defineComponent, computed, watch, onBeforeMount, onBeforeUnmount, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { defineComponent, computed, onBeforeMount, onBeforeUnmount, onMounted } from 'vue'
+import { onBeforeRouteUpdate } from 'vue-router'
 import store from '@/store'
 import { Sidebar, Navbar, AppMain } from './components'
 
@@ -39,13 +39,6 @@ export default defineComponent({
         mobile: device.value === 'mobile'
       }
     })
-    watch(useRoute(), route => {
-      if (store.getters.device === 'mobile' && store.getters.sidebar.opened) {
-        store.dispatch('app/closeSideBar', {
-          withoutAnimation: false
-        })
-      }
-    })
     const isMobile = () => {
       const rect = body.getBoundingClientRect()
       return rect.width - 1 < WIDTH
@@ -66,6 +59,7 @@ export default defineComponent({
         withoutAnimation: false
       })
     }
+
     onBeforeMount(() => {
       window.addEventListener('resize', resizeHandler)
     })
@@ -77,6 +71,14 @@ export default defineComponent({
     })
     onBeforeUnmount(() => {
       window.addEventListener('resize', resizeHandler)
+    })
+    // 路由更新回调
+    onBeforeRouteUpdate(() => {
+      if (store.getters.device === 'mobile' && store.getters.sidebar.opened) {
+        store.dispatch('app/closeSideBar', {
+          withoutAnimation: false
+        })
+      }
     })
 
     return {

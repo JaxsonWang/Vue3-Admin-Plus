@@ -1,6 +1,6 @@
 <template>
   <div :class="{'has-logo':showLogo}">
-    <logo v-if="showLogo" :collapse="isCollapse" />
+    <logo v-if="showLogo" :collapse="!isCollapse" />
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
         :default-active="activeMenu"
@@ -34,10 +34,14 @@ export default defineComponent({
     SidebarItem
   },
   setup() {
+    const route = useRoute()
     const sidebar = computed(() => store.state.app.sidebar)
     const routes = computed(() => useRouter().options.routes)
+    const showLogo = computed(() => store.state.settings.sidebarLogo)
+    const variables = computed(() => variable)
+    const isCollapse = computed(() => sidebar.value.opened)
+
     const activeMenu = computed(() => {
-      const route = useRoute()
       const { meta, path } = route
       // if set path, the sidebar will highlight the path you set
       if (meta.activeMenu) {
@@ -45,9 +49,6 @@ export default defineComponent({
       }
       return path
     })
-    const showLogo = computed(() => store.state.settings.sidebarLogo)
-    const variables = computed(() => variable)
-    const isCollapse = computed(() => sidebar.value.opened)
 
     return {
       routes,
