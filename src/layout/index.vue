@@ -1,9 +1,9 @@
 <template>
-  <div :class="classObj" class="app-wrapper">
+  <div :class="appWrapper" class="app-wrapper">
     <div v-if="device === 'mobile' && sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
     <sidebar class="sidebar-container" />
     <div class="main-container">
-      <div :class="{'fixed-header':fixedHeader}">
+      <div :class="fixedHeader">
         <navbar />
       </div>
       <app-main />
@@ -30,12 +30,16 @@ export default defineComponent({
   setup() {
     const sidebar = computed(() => store.state.app.sidebar)
     const device = computed(() => store.state.app.device)
-    const fixedHeader = computed(() => store.state.settings.fixedHeader)
-    const classObj = computed(() => {
+    const fixedHeader = computed(() => {
       return {
-        hideSidebar: !sidebar.value.opened,
-        openSidebar: sidebar.value.opened,
-        withoutAnimation: sidebar.value.withoutAnimation,
+        'fixed-header': store.state.settings.fixedHeader
+      }
+    })
+    const appWrapper = computed(() => {
+      return {
+        'hide-sidebar': !sidebar.value.opened,
+        'open-sidebar': sidebar.value.opened,
+        'without-animation': sidebar.value.withoutAnimation,
         mobile: device.value === 'mobile'
       }
     })
@@ -66,7 +70,9 @@ export default defineComponent({
     onMounted(() => {
       if (isMobile()) {
         store.dispatch('app/toggleDevice', 'mobile')
-        store.dispatch('app/closeSideBar', { withoutAnimation: true })
+        store.dispatch('app/closeSideBar', {
+          withoutAnimation: true
+        })
       }
     })
     onBeforeUnmount(() => {
@@ -85,7 +91,7 @@ export default defineComponent({
       sidebar,
       device,
       fixedHeader,
-      classObj,
+      appWrapper,
       handleClickOutside
     }
   }
@@ -100,7 +106,7 @@ export default defineComponent({
   position: relative;
   height: 100%;
   width: 100%;
-  &.mobile.openSidebar{
+  &.mobile.open-sidebar {
     position: fixed;
     top: 0;
   }
@@ -124,7 +130,7 @@ export default defineComponent({
   transition: width 0.28s;
 }
 
-.hideSidebar .fixed-header {
+.hide-sidebar .fixed-header {
   width: calc(100% - 54px)
 }
 

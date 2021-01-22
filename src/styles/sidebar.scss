@@ -91,7 +91,7 @@
     }
   }
 
-  .hideSidebar {
+  .hide-sidebar {
     .sidebar-container {
       width: 54px !important;
     }
@@ -167,7 +167,7 @@
       width: $sideBarWidth !important;
     }
 
-    &.hideSidebar {
+    &.hide-sidebar {
       .sidebar-container {
         pointer-events: none;
         transition-duration: 0.3s;
@@ -176,7 +176,7 @@
     }
   }
 
-  .withoutAnimation {
+  .without-animation {
 
     .main-container,
     .sidebar-container {

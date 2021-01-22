@@ -15,7 +15,7 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar + '?imageView2/1/w/80/h/80'" class="user-avatar">
+          <img :src="avatar + '?imageView2/1/w/80/h/80'" class="user-avatar" alt="avatar" />
           <i class="el-icon-caret-bottom" />
         </div>
         <template #dropdown>
@@ -32,7 +32,7 @@
               <el-dropdown-item>Docs</el-dropdown-item>
             </a>
             <el-dropdown-item divided @click="logout">
-              <span style="display:block;">Log Out</span>
+              <span>Log Out</span>
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -103,11 +103,8 @@ export default defineComponent({
     height: 100%;
     line-height: 50px;
 
-    &:focus {
-      outline: none;
-    }
-
-    .right-menu-item {
+    // 导航栏工具菜单
+    ::v-deep .right-menu-item {
       display: inline-block;
       padding: 0 8px;
       height: 100%;
@@ -125,7 +122,8 @@ export default defineComponent({
       }
     }
 
-    .avatar-container {
+    // 头像下拉菜单
+    ::v-deep .avatar-container {
       margin-right: 30px;
 
       .avatar-wrapper {
