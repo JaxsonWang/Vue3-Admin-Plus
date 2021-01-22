@@ -1,6 +1,6 @@
 <template>
-  <div v-if="isExt" :style="styleExternalIcon" class="svg-external-icon svg-icon" v-on="$attrs" />
-  <svg v-else :class="svgClass" aria-hidden="true" v-on="$attrs">
+  <div v-if="isExt" :style="styleExternalIcon" class="svg-external-icon svg-icon" v-bind="$attrs" />
+  <svg v-else :class="svgClass" aria-hidden="true" v-bind="$attrs">
     <use :xlink:href="iconName" />
   </svg>
 </template>
@@ -34,8 +34,8 @@ export default defineComponent({
     })
     const styleExternalIcon = computed(() => {
       return {
-        mask: `url(${this.iconClass}) no-repeat 50% 50%`,
-        '-webkit-mask': `url(${this.iconClass}) no-repeat 50% 50%`
+        mask: `url(${props.iconClass}) no-repeat 50% 50%`,
+        '-webkit-mask': `url(${props.iconClass}) no-repeat 50% 50%`
       }
     })
 
