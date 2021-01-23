@@ -13,4 +13,4 @@ export const fixedHeader = false
  * @type {boolean} true | false
  * @description Whether show the logo in sidebar
  */
-export const sidebarLogo = false
+export const sidebarLogo = true

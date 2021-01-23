@@ -1,17 +1,12 @@
 <template>
-  <div
-    :class="{
-      collapse: collapse
-    }"
-    class="sidebar-logo-container"
-  >
-    <transition name="sidebarLogoFade">
+  <div :class="{ collapse: collapse }" class="sidebar-logo-container">
+    <transition name="sidebar-logo-fade" mode="out-in">
       <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo" alt="logo" />
+        <img v-if="logo" :src="logo" class="sidebar-logo">
         <h1 v-else class="sidebar-title">{{ title }} </h1>
       </router-link>
       <router-link v-else key="expand" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo" alt="logo" />
+        <img v-if="logo" :src="logo" class="sidebar-logo">
         <h1 class="sidebar-title">{{ title }} </h1>
       </router-link>
     </transition>
@@ -19,16 +14,20 @@
 </template>
 
 <script>
-import { defineComponent, ref, toRefs } from 'vue'
+import { defineComponent, ref } from 'vue'
 export default defineComponent({
   name: 'SidebarLogo',
-  setup(props) {
-    const { collapse } = toRefs(props)
-    const title = ref('Vue Admin Template')
+  props: {
+    collapse: {
+      type: Boolean,
+      default: false
+    }
+  },
+  setup() {
+    const title = ref('Vue3 Element Plus')
     const logo = ref('https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png')
 
     return {
-      collapse,
       title,
       logo
     }
@@ -37,15 +36,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.sidebarLogoFade-enter-active {
-  transition: opacity 1.5s;
-}
-
-.sidebarLogoFade-enter,
-.sidebarLogoFade-leave-to {
-  opacity: 0;
-}
-
 .sidebar-logo-container {
   position: relative;
   width: 100%;

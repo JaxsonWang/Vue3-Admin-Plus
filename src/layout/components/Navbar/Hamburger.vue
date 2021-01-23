@@ -7,7 +7,7 @@
   -->
 
 <template>
-  <div style="padding: 0 15px;" @click="toggleClick">
+  <div class="hamburger-wrapper" @click="toggleClick">
     <svg
       :class="{'is-active': isActive}"
       class="hamburger"
@@ -43,15 +43,18 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
-.hamburger {
-  display: inline-block;
-  vertical-align: middle;
-  width: 20px;
-  height: 20px;
-}
+<style lang="scss" scoped>
+.hamburger-wrapper {
+  padding-right: 15px;
+  .hamburger {
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+  }
 
-.hamburger.is-active {
-  transform: rotate(180deg);
+  .hamburger.is-active {
+    transform: rotate(180deg);
+  }
 }
 </style>

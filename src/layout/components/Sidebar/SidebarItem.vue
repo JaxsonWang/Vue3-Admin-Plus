@@ -1,16 +1,38 @@
 <template>
   <div v-if="!item.hidden">
-    <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
+    <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children || onlyOneChild.noShowingChildren) && !item.alwaysShow">
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
-        <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
-          <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title" />
+        <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-no-dropdown': !isNest}">
+          <template v-if="onlyOneChild.meta.icon || (item.meta && item.meta.icon)">
+            <template v-if="(onlyOneChild.meta.icon || (item.meta && item.meta.icon)).includes('el-icon')">
+              <i :class="onlyOneChild.meta.icon || (item.meta && item.meta.icon)" class="sub-el-icon" />
+            </template>
+            <template v-else>
+              <svg-icon :icon-class="onlyOneChild.meta.icon || (item.meta && item.meta.icon)" />
+            </template>
+          </template>
+          <template #title>{{ onlyOneChild.meta.title }}</template>
         </el-menu-item>
       </app-link>
     </template>
 
-    <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
+    <el-submenu
+      v-else
+      ref="subMenu"
+      :index="resolvePath(item.path)"
+      popper-append-to-body
+      popper-class="body-popper-el-submenu"
+    >
       <template #title>
-        <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" />
+        <template v-if="item.meta && item.meta.icon">
+          <template v-if="(item.meta && item.meta.icon).includes('el-icon')">
+            <i :class="item.meta && item.meta.icon" class="sub-el-icon" />
+          </template>
+          <template v-else>
+            <svg-icon :icon-class="item.meta && item.meta.icon" />
+          </template>
+          <span v-if="item.meta.title">{{ item.meta.title }}</span>
+        </template>
       </template>
       <sidebar-item
         v-for="child in item.children"
@@ -27,14 +49,12 @@
 <script>
 import path from 'path'
 import { defineComponent, ref } from 'vue'
-import Item from './Item'
 import AppLink from './Link'
 import { isExternal } from '@/utils/validate'
 
 export default defineComponent({
   name: 'SidebarItem',
   components: {
-    Item,
     AppLink
   },
   props: {

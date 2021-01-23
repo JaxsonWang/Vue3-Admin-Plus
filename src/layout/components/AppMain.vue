@@ -7,31 +7,36 @@
   -->
 
 <template>
-  <section class="app-main">
+  <el-main class="app-main">
     <router-view v-slot="{ Component }">
-      <transition name="fade-transform" mode="out-in">
+      <transition name="fade-transform">
         <component :is="Component" />
       </transition>
     </router-view>
-  </section>
+  </el-main>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
+
 export default defineComponent({
   name: 'AppMain'
 })
 </script>
 
-<style lang="scss">
-.app-main {
+<style lang="scss" scoped>
+// navbar 置顶
+.fixed-header + .app-main {
+  padding-top: 70px;
+  // el-footer = 50px
   min-height: calc(100vh - 50px);
+}
+
+.app-main {
+  // el-footer = 50px + el-footer = 50px
+  min-height: calc(100vh - 50px - 50px);
   width: 100%;
   position: relative;
   overflow: hidden;
-}
-
-.fixed-header + .app-main {
-  padding-top: 50px;
 }
 </style>

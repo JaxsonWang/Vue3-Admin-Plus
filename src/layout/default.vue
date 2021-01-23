@@ -1,0 +1,334 @@
+<template>
+  <el-container :class="appWrapper" class="app-wrapper">
+    <div v-if="device === 'mobile' && sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
+    <sidebar class="sidebar-container" />
+    <el-container class="main-container">
+      <el-header class="navbar-wrapper" :class="fixedHeader" height="50px">
+        <navbar />
+      </el-header>
+      <app-main />
+      <app-footer />
+    </el-container>
+  </el-container>
+</template>
+
+<script>
+import { defineComponent, computed, watch, onBeforeMount, onBeforeUnmount, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import store from '@/store'
+import { Sidebar, Navbar, AppMain, AppFooter } from './components'
+
+const { body } = document
+const WIDTH = 992
+
+export default defineComponent({
+  name: 'Layout',
+  components: {
+    Sidebar,
+    Navbar,
+    AppMain,
+    AppFooter
+  },
+  setup() {
+    const route = useRoute()
+    const sidebar = computed(() => store.state.app.sidebar)
+    const device = computed(() => store.state.app.device)
+    const fixedHeader = computed(() => {
+      return {
+        'fixed-header': store.state.settings.fixedHeader
+      }
+    })
+    const appWrapper = computed(() => {
+      return {
+        'hide-sidebar': !sidebar.value.opened,
+        'open-sidebar': sidebar.value.opened,
+        'without-animation': sidebar.value.withoutAnimation,
+        mobile: device.value === 'mobile'
+      }
+    })
+
+    const isMobile = () => {
+      const rect = body.getBoundingClientRect()
+      return rect.width - 1 < WIDTH
+    }
+    const resizeHandler = () => {
+      if (!document.hidden) {
+        store.dispatch('app/toggleDevice', isMobile() ? 'mobile' : 'desktop')
+
+        if (isMobile()) {
+          store.dispatch('app/closeSideBar', {
+            withoutAnimation: true
+          })
+        }
+      }
+    }
+    const handleClickOutside = () => {
+      store.dispatch('app/closeSideBar', {
+        withoutAnimation: false
+      })
+    }
+
+    // 路由更新回调
+    watch(() => route.path, () => {
+      if (store.getters.device === 'mobile' && store.getters.sidebar.opened) {
+        store.dispatch('app/closeSideBar', {
+          withoutAnimation: false
+        })
+      }
+    })
+
+    onBeforeMount(() => {
+      window.addEventListener('resize', resizeHandler)
+    })
+    onMounted(() => {
+      if (isMobile()) {
+        store.dispatch('app/toggleDevice', 'mobile')
+        store.dispatch('app/closeSideBar', {
+          withoutAnimation: true
+        })
+      }
+    })
+    onBeforeUnmount(() => {
+      window.addEventListener('resize', resizeHandler)
+    })
+
+    return {
+      sidebar,
+      device,
+      fixedHeader,
+      appWrapper,
+      handleClickOutside
+    }
+  }
+})
+</script>
+<style lang="scss" scoped>
+@import "~@/styles/mixin.scss";
+@import "~@/styles/variables.scss";
+
+.app-wrapper {
+  @include clearfix;
+  position: relative;
+  height: 100%;
+  width: 100%;
+
+  .drawer-bg {
+    background: #000;
+    opacity: 0.3;
+    width: 100%;
+    top: 0;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+  }
+
+  // 侧边栏默认样式
+  .sidebar-container {
+    transition: width 280ms;
+    background-color: $menuBg;
+    height: 100%;
+    position: fixed;
+    font-size: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    overflow: hidden;
+
+    // 侧边栏禁用横向滚动
+    ::v-deep(.scrollbar-wrapper) {
+      overflow-x: hidden;
+    }
+
+    // 调整侧边栏垂直滚动条位置
+    ::v-deep(.el-scrollbar__bar.is-vertical) {
+      right: 0;
+    }
+
+    // 隐藏侧边栏水平滚动条
+    ::v-deep(.is-horizontal) {
+      display: none;
+    }
+
+    // 菜单图标边距调整
+    ::v-deep(.svg-icon) {
+      margin-right: 16px;
+    }
+
+    // element-ui 菜单自带图标调整
+    ::v-deep(.sub-el-icon) {
+      margin-right: 12px;
+      margin-left: -2px;
+      color: currentColor;
+      width: 1em;
+      height: 1em;
+    }
+
+    ::v-deep(.el-menu) {
+      border: none;
+    }
+
+    // 鼠标菜单悬浮背景色
+    ::v-deep(.submenu-title-noDropdown),
+    ::v-deep(.el-submenu__title) {
+      &:hover {
+        background-color: $menuHover !important;
+      }
+    }
+
+    // 高亮父节点菜单标题和当前节点背景颜色
+    ::v-deep(.is-active) {
+      background-color: $subMenuBg !important;
+      &:hover {
+        background-color: $subMenuHover !important;
+      }
+      & > .el-submenu__title {
+        color: $subMenuActiveText !important;
+      }
+    }
+
+    // 包含 logo 调整侧边栏高度
+    &.has-logo {
+      ::v-deep(.aside-scrollbar) {
+        height: calc(100% - 50px);
+      }
+    }
+  }
+
+  // 右侧主页内容
+  .main-container {
+    position: relative;
+    min-height: 100%;
+    margin-left: $sideBarWidth;
+    transition: margin-left 280ms;
+
+    // navbar 置顶
+    .fixed-header {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 1;
+      width: calc(100% - #{$sideBarWidth});
+      transition: width 280ms;
+    }
+
+    .navbar-wrapper {
+      background-color: #fff;
+      box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
+    }
+  }
+
+  &.hide-sidebar {
+    // navbar 置顶
+    .fixed-header {
+      width: calc(100% - 54px)
+    }
+
+    // 关闭侧边栏 右侧主页内容
+    .main-container {
+      margin-left: $hideSideBarWidth;
+    }
+
+    ::v-deep(.el-submenu) {
+      overflow: hidden;
+
+      & > .el-submenu__title {
+        padding: 0 !important;
+
+        .svg-icon {
+          margin-left: 20px;
+        }
+
+        .sub-el-icon {
+          margin-left: 19px;
+        }
+
+        .el-submenu__icon-arrow {
+          display: none;
+        }
+      }
+    }
+
+    ::v-deep(.el-submenu) {
+      overflow: hidden;
+
+      &>.el-submenu__title {
+        padding: 0 !important;
+
+        .svg-icon {
+          margin-left: 20px;
+        }
+
+        .sub-el-icon {
+          margin-left: 19px;
+        }
+
+        .el-submenu__icon-arrow {
+          display: none;
+        }
+      }
+    }
+
+    ::v-deep(.el-menu--collapse) {
+      // 修复收缩侧边栏宽度过大导致菜单预览错位
+      width: $hideSideBarWidth;
+
+      &.el-menu {
+        // 隐藏收缩侧边栏 border 线
+        border-right-color: transparent;
+      }
+
+      .el-submenu {
+        & > .el-submenu__title {
+          & > span {
+            // 收缩侧边栏时候隐藏菜单标题
+            height: 0;
+            width: 0;
+            overflow: hidden;
+            visibility: hidden;
+            display: inline-block;
+          }
+        }
+      }
+
+      // 修复收缩侧边栏有背景色的问题
+      .is-active.submenu-title-no-dropdown {
+        background-color: $menuBg!important;
+      }
+    }
+  }
+
+  // 响应式
+  &.mobile {
+    // navbar 栏置顶
+    .fixed-header {
+      width: 100%;
+    }
+
+    &.open-sidebar {
+      position: fixed;
+      top: 0;
+    }
+
+    .sidebar-container {
+      transition: transform 280ms;
+      width: $sideBarWidth !important;
+    }
+
+    &.hide-sidebar {
+      .sidebar-container {
+        pointer-events: none;
+        transition-duration: 300ms;
+        transform: translate3d(-$sideBarWidth, 0, 0);
+      }
+    }
+  }
+
+  &.without-animation {
+    .main-container,
+    .sidebar-container {
+      transition: none;
+    }
+  }
+}
+</style>

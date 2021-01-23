@@ -75,11 +75,9 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .navbar {
-  height: 50px;
-  overflow: hidden;
   position: relative;
-  background: #fff;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
+  height: 100%;
+  overflow: hidden;
 
   .hamburger-container {
     line-height: 46px;
@@ -104,7 +102,7 @@ export default defineComponent({
     line-height: 50px;
 
     // 导航栏工具菜单
-    ::v-deep .right-menu-item {
+    ::v-deep(.right-menu-item) {
       display: inline-block;
       padding: 0 8px;
       height: 100%;
@@ -123,25 +121,28 @@ export default defineComponent({
     }
 
     // 头像下拉菜单
-    ::v-deep .avatar-container {
+    ::v-deep(.avatar-container) {
+      display: block;
       margin-right: 30px;
+      height: 100%;
 
       .avatar-wrapper {
-        margin-top: 5px;
         position: relative;
+        height: 100%;
 
         .user-avatar {
           cursor: pointer;
           width: 40px;
           height: 40px;
           border-radius: 10px;
+          vertical-align: middle;
         }
 
         .el-icon-caret-bottom {
           cursor: pointer;
           position: absolute;
           right: -20px;
-          top: 25px;
+          top: 30px;
           font-size: 12px;
         }
       }

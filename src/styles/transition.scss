@@ -11,7 +11,7 @@
 /* fade */
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.28s;
+  transition: opacity 280ms;
 }
 
 .fade-enter,
@@ -53,4 +53,16 @@
 
 .breadcrumb-leave-active {
   position: absolute;
+}
+
+/* sidebar logo transition */
+.sidebar-logo-fade-enter-active,
+.sidebar-logo-fade-leave-active {
+  opacity: 1;
+  transition: opacity 280ms;
+}
+
+.sidebar-logo-fade-enter,
+.sidebar-logo-fade-leave-active {
+  opacity: 0;
 }
