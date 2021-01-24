@@ -1,0 +1,17 @@
+/*!
+ * Copyright (c) 2021
+ * 项目名称：Vue3-Admin-Plus
+ * 文件名称：element-variables.scss
+ * 创建日期：2021/1/24 下午7:49
+ * 创建作者：jaxson
+ */
+
+/* 改变主题色变量 */
+$--color-primary: #009999;
+
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~element-plus/lib/theme-chalk/fonts';
+
+@import "~element-plus/packages/theme-chalk/src/index";
+
+$colorPrimary: $--color-primary

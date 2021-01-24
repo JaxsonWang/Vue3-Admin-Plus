@@ -51,6 +51,7 @@ export default defineComponent({
     vertical-align: middle;
     width: 20px;
     height: 20px;
+    transition-duration: 500ms;
   }
 
   .hamburger.is-active {

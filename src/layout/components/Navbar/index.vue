@@ -7,7 +7,9 @@
   -->
 
 <template>
-  <div class="navbar">
+  <div class="navbar" :style="{
+    height: height
+  }">
     <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
     <breadcrumb class="breadcrumb-container" />
@@ -54,6 +56,12 @@ export default defineComponent({
     Breadcrumb,
     Hamburger
   },
+  props: {
+    height: {
+      type: String,
+      default: '50px'
+    }
+  },
   setup() {
     const avatar = 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
     const sidebar = computed(() => store.getters.sidebar)
@@ -74,9 +82,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import "~@/styles/variables.scss";
+
 .navbar {
   position: relative;
-  height: 100%;
   overflow: hidden;
 
   .hamburger-container {
@@ -84,11 +93,12 @@ export default defineComponent({
     height: 100%;
     float: left;
     cursor: pointer;
-    transition: background .3s;
+    transition: color 280ms;
     -webkit-tap-highlight-color:transparent;
 
     &:hover {
-      background: rgba(0, 0, 0, .025)
+      color: $menuActiveText!important;
+      fill: currentColor;
     }
   }
 
@@ -112,7 +122,7 @@ export default defineComponent({
 
       &.hover-effect {
         cursor: pointer;
-        transition: background .3s;
+        transition: background 280ms;
 
         &:hover {
           background: rgba(0, 0, 0, .025)

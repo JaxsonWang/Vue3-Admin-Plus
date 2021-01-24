@@ -1,9 +1,10 @@
-import { showSettings, fixedHeader, sidebarLogo } from '@/settings'
+import { showSettings, fixedHeader, sidebarLogo, tagsView } from '@/settings'
 
 const state = {
   showSettings: showSettings,
   fixedHeader: fixedHeader,
-  sidebarLogo: sidebarLogo
+  sidebarLogo: sidebarLogo,
+  tagsView: tagsView
 }
 
 const mutations = {
