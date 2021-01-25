@@ -226,7 +226,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "~@/styles/element-variables.scss";
+@import "~@/styles/variables.scss";
 
 .tags-view-container {
   height: 40px;

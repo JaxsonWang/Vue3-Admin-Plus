@@ -7,7 +7,6 @@
  */
 
 @import "~@/styles/mixin.scss";
-@import "~@/styles/variables.scss";
 
 .app-wrapper {
   @include clearfix;
@@ -40,27 +39,27 @@
     box-shadow: 2px 0 8px 0 rgb(29 35 41 / 10%);
 
     // 侧边栏禁用横向滚动
-    ::v-deep(.scrollbar-wrapper) {
+    .scrollbar-wrapper {
       overflow-x: hidden;
     }
 
     // 调整侧边栏垂直滚动条位置
-    ::v-deep(.el-scrollbar__bar.is-vertical) {
+    .el-scrollbar__bar.is-vertical {
       right: 0;
     }
 
     // 隐藏侧边栏水平滚动条
-    ::v-deep(.is-horizontal) {
+    .is-horizontal {
       display: none;
     }
 
     // 菜单图标边距调整
-    ::v-deep(.svg-icon) {
+    .svg-icon {
       margin-right: 16px;
     }
 
     // element-ui 菜单自带图标调整
-    ::v-deep(.sub-el-icon) {
+    .sub-el-icon {
       margin-right: 12px;
       margin-left: -2px;
       color: currentColor;
@@ -68,20 +67,20 @@
       height: 1em;
     }
 
-    ::v-deep(.el-menu) {
+    .el-menu {
       border: none;
     }
 
     // 鼠标菜单悬浮背景色
-    ::v-deep(.submenu-title-noDropdown),
-    ::v-deep(.el-submenu__title) {
+    .submenu-title-noDropdown,
+    .el-submenu__title {
       &:hover {
         background-color: $menuBg!important;
         color: $menuActiveText!important;
       }
     }
 
-    ::v-deep(.el-menu-item) {
+    .el-menu-item {
       &:hover {
         background-color: $menuBg!important;
         color: $menuActiveText!important;
@@ -89,7 +88,7 @@
     }
 
     // 高亮父节点菜单标题和当前节点背景颜色
-    ::v-deep(.is-active) {
+    .is-active {
       background-color: rgba($menuActiveText, 0.2)!important;
       border-right: 4px solid $menuActiveText;
       transition: all 280ms;
@@ -108,7 +107,7 @@
 
     // 包含 logo 调整侧边栏高度
     &.has-logo {
-      ::v-deep(.aside-scrollbar) {
+      .aside-scrollbar {
         height: calc(100% - 50px);
       }
     }
@@ -148,7 +147,7 @@
       margin-left: $hideSideBarWidth;
     }
 
-    ::v-deep(.el-submenu) {
+    .el-submenu {
       overflow: hidden;
 
       & > .el-submenu__title {
@@ -168,7 +167,7 @@
       }
     }
 
-    ::v-deep(.el-submenu) {
+    .el-submenu {
       overflow: hidden;
 
       &>.el-submenu__title {
@@ -188,7 +187,7 @@
       }
     }
 
-    ::v-deep(.el-menu--collapse) {
+    .el-menu--collapse {
       // 修复收缩侧边栏宽度过大导致菜单预览错位
       width: $hideSideBarWidth;
 
@@ -256,7 +255,7 @@
   }
 
   // 顶部 logo
-  ::v-deep(.sidebar-logo-container) {
+  .sidebar-logo-container {
     position: relative;
     width: 100%;
     height: 50px;
@@ -291,6 +290,49 @@
     &.collapse {
       .sidebar-logo {
         margin-right: 0;
+      }
+    }
+  }
+}
+
+// 收缩侧边栏展开菜单样式
+.body-popper-el-submenu {
+  .el-menu--vertical {
+    &>.el-menu {
+      .svg-icon {
+        margin-right: 16px;
+      }
+      .sub-el-icon {
+        margin-right: 12px;
+        margin-left: -2px;
+      }
+    }
+
+    .nest-menu .el-submenu>.el-submenu__title,
+    .el-menu-item {
+      &:hover {
+        // you can use $subMenuHover
+        background-color: $menuBg !important;
+        color: $menuActiveText!important;
+      }
+    }
+
+    // the scroll bar appears when the subMenu is too long
+    >.el-menu--popup {
+      max-height: 100vh;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar-track-piece {
+        background: #d3dce6;
+      }
+
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #99a9bf;
+        border-radius: 20px;
       }
     }
   }

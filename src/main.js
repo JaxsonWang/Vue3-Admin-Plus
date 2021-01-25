@@ -13,14 +13,18 @@ import router from './router'
 import store from './store'
 
 // 注册图标组件
-import icon from '@/icons'
+import SvgIcon from '@/icons'
 
+// 实例化 Vue App 对象
 const app = createApp(App)
 
+// 挂载全局组件
+app.component('svg-icon', SvgIcon)
+
+// 注册插件
 app.use(store)
 app.use(router)
 app.use(ElementPlus)
 
-icon(app)
-
+// 挂载节点
 app.mount('#app')

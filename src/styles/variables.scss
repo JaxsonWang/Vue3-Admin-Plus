@@ -3,7 +3,7 @@
 // 侧边栏 - 菜单字体颜色
 $menuText: rgba(0, 0, 0, .85);
 // 侧边栏 - 菜单选中字体颜色
-$menuActiveText: $colorPrimary;
+$menuActiveText: $--color-primary;
 // 侧边栏 - 菜单选中父节点字体颜色
 $subMenuActiveText: rgba(0, 0, 0, .7);
 
@@ -24,6 +24,9 @@ $hideSideBarWidth: 54px;
 
 // 导航栏高度
 $navbarHeight: 50px;
+
+// 主色调
+$colorPrimary: $--color-primary;
 
 // the :export directive is the magic sauce for webpack
 // https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass
