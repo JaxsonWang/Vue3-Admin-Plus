@@ -1,8 +1,9 @@
-import { showSettings, fixedHeader, sidebarLogo, tagsView } from '@/settings'
+import { showSettings, fixedHeader, fixedFooter, sidebarLogo, tagsView } from '@/settings'
 
 const state = {
   showSettings: showSettings,
   fixedHeader: fixedHeader,
+  fixedFooter: fixedFooter,
   sidebarLogo: sidebarLogo,
   tagsView: tagsView
 }

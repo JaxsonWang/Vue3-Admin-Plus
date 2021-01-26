@@ -34,25 +34,45 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 // navbar 置顶
-.fixed-header + .app-main {
-  // el-header 50px + main padding-top 20px
+.app-main.is-fixed-header {
+  // navbar 50px + main padding-top 20px
   padding-top: calc(50px + 20px);
-  // el-footer = 50px
-  min-height: calc(100vh - 50px);
-}
-
-// navbar 置顶 + 有 tagsView
-.fixed-header.show-tags-view + .app-main {
-  // el-header 50px + main padding-top 20px + tags-view = 40px
-  padding-top: calc(50px + 20px + 40px);
-  // el-footer = 50px
+  // el-footer 50px
   min-height: calc(100vh - 50px);
 }
 
 // 有 tagsView
-.show-tags-view + .app-main {
-  // el-footer 50px + el-footer 50px + tags-view 40px
+.app-main.is-show-tags-view {
+  // navbar 50px + el-footer 50px + tags-view 40px
   min-height: calc(100vh - 50px - 50px - 40px);
+}
+
+// fixed-footer 悬浮
+.app-main.is-fixed-footer {
+}
+
+// navbar 置顶 + 有 tagsView
+.app-main.is-fixed-header.is-show-tags-view {
+  // navbar 50px + tags-view 40px + main padding-top 20px
+  padding-top: calc(50px + 40px + 20px);
+  // footer 50px
+  min-height: calc(100vh - 50px);
+}
+
+// navbar 置顶 + footer 悬浮
+.app-main.is-fixed-header.is-fixed-footer {
+  // navbar 50px + main padding-top 20px
+  padding-top: calc(50px + 20px);
+  // footer 50px
+  min-height: calc(100vh - 50px);
+}
+
+// navbar 置顶 + footer 悬浮 + 有 tagsView
+.app-main.is-fixed-header.is-show-tags-view.is-fixed-footer {
+  // navbar 50px + main padding-top 20px + tags-view 40px
+  padding-top: calc(50px + 20px + 40px);
+  // footer 50px
+  min-height: calc(100vh - 50px);
 }
 
 .app-main {

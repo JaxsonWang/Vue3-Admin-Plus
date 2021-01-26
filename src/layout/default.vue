@@ -3,12 +3,12 @@
     <div v-if="device === 'mobile' && sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
     <sidebar class="sidebar-container" />
     <el-container class="main-container">
-      <el-header class="navbar-wrapper" :class="fixedHeader" :height="showTagsView ? '90px' : '50px'">
+      <el-header :class="navbarWrapper" :height="showTagsView ? '90px' : '50px'" class="navbar-wrapper">
         <navbar :height="showTagsView ? '50px' : '100%'" />
         <tags-view v-if="showTagsView" />
       </el-header>
-      <app-main />
-      <app-footer />
+      <app-main :class="mainWrapper" />
+      <app-footer :class="footerWrapper" />
     </el-container>
   </el-container>
 </template>
@@ -36,10 +36,22 @@ export default defineComponent({
     const sidebar = computed(() => store.state.app.sidebar)
     const device = computed(() => store.state.app.device)
     const showTagsView = computed(() => store.state.settings.tagsView)
-    const fixedHeader = computed(() => {
+    const navbarWrapper = computed(() => {
       return {
         'fixed-header': store.state.settings.fixedHeader,
         'show-tags-view': showTagsView.value
+      }
+    })
+    const mainWrapper = computed(() => {
+      return {
+        'is-fixed-header': store.state.settings.fixedHeader,
+        'is-show-tags-view': showTagsView.value,
+        'is-fixed-footer': store.state.settings.fixedFooter
+      }
+    })
+    const footerWrapper = computed(() => {
+      return {
+        'fixed-footer': store.state.settings.fixedFooter
       }
     })
     const appWrapper = computed(() => {
@@ -99,7 +111,9 @@ export default defineComponent({
     return {
       sidebar,
       device,
-      fixedHeader,
+      navbarWrapper,
+      mainWrapper,
+      footerWrapper,
       appWrapper,
       showTagsView,
       handleClickOutside

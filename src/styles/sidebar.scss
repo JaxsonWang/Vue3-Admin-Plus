@@ -72,7 +72,7 @@
     }
 
     // 鼠标菜单悬浮背景色
-    .submenu-title-noDropdown,
+    .submenu-title-no-dropdown,
     .el-submenu__title {
       &:hover {
         background-color: $menuBg!important;
@@ -134,12 +134,27 @@
       background-color: #fff;
       box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
     }
+
+    // footer 悬浮
+    .fixed-footer {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      width: calc(100% - #{$sideBarWidth});
+      transition: width 280ms;
+    }
   }
 
   &.hide-sidebar {
     // navbar 置顶
     .fixed-header {
-      width: calc(100% - 54px)
+      width: calc(100% - #{$hideSideBarWidth})
+    }
+
+    // footer 悬浮
+    .footer-wrapper {
+      width: calc(100% - #{$hideSideBarWidth});
     }
 
     // 关闭侧边栏 右侧主页内容

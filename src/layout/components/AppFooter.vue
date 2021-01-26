@@ -8,7 +8,7 @@
 
 <template>
   <el-footer class="footer-wrapper" height="50px">
-    Vue3 Element Plus &copy; 2021 Created by 淮城一只猫
+    Vue3 Admin Plus &copy; 2021 Created by 淮城一只猫
   </el-footer>
 </template>
 
@@ -27,5 +27,6 @@ export default defineComponent({
   align-items: center;
   font-size: 14px;
   color: #999;
+  background-color: #fff;
 }
 </style>

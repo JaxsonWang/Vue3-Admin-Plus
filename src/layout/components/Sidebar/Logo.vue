@@ -24,7 +24,7 @@ export default defineComponent({
     }
   },
   setup() {
-    const title = ref('Vue3 Element Plus')
+    const title = ref('Vue3 Admin Plus')
     const logo = ref('https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png')
 
     return {

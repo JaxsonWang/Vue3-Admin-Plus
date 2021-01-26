@@ -2,7 +2,11 @@
   <div v-if="!item.hidden">
     <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children || onlyOneChild.noShowingChildren) && !item.alwaysShow">
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
-        <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-no-dropdown': !isNest}">
+        <el-menu-item
+          :index="resolvePath(onlyOneChild.path)"
+          :class="{
+            'submenu-title-no-dropdown': !isNest
+          }">
           <template v-if="onlyOneChild.meta.icon || (item.meta && item.meta.icon)">
             <template v-if="(onlyOneChild.meta.icon || (item.meta && item.meta.icon)).includes('el-icon')">
               <i :class="onlyOneChild.meta.icon || (item.meta && item.meta.icon)" class="sub-el-icon" />

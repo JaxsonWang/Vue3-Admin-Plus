@@ -15,6 +15,9 @@ import store from './store'
 // 注册图标组件
 import SvgIcon from '@/icons'
 
+// 加载路由鉴权
+import '@/utils/routeAuth'
+
 // 实例化 Vue App 对象
 const app = createApp(App)
 
