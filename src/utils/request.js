@@ -13,7 +13,7 @@ import store from '@/store'
 const service = axios.create({
   baseURL: process.env.NODE_ENV === 'development' ? process.env.VUE_APP_BASE_API + process.env.VUE_APP_URI : window.app.VUE_APP_BASE_API + window.app.VUE_APP_URI,
   withCredentials: false,
-  timeout: 5 * 1000
+  timeout: 10 * 1000
 })
 
 service.interceptors.request.use(

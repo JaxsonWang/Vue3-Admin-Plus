@@ -8,12 +8,15 @@
 
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { login, getInfo, logout } from '@/api/login'
+import { asyncRoutes, constantRoutes } from '@/router'
+import dataToRoutes from '@/utils/toRoutes'
 
 const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
-    avatar: ''
+    avatar: '',
+    routes: []
   }
 }
 
@@ -31,17 +34,29 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
+  },
+  SET_ROUTES: (state, routes) => {
+    state.routes = asyncRoutes.concat(routes)
   }
 }
 
 const actions = {
+  /**
+   * 用户登录
+   * @param commit
+   * @param userInfo
+   * @returns {Promise<*>}
+   */
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
+      login({
+        username: username.trim(),
+        password: password
+      }).then(response => {
         const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
+        commit('SET_TOKEN', data)
+        setToken(data)
         resolve()
       }).catch(error => {
         reject(error)
@@ -49,20 +64,21 @@ const actions = {
     })
   },
 
+  /**
+   * 获取用户信息
+   * @param commit
+   * @param state
+   * @returns {Promise<{UserInfo}>}
+   */
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
+      getInfo().then(response => {
         const { data } = response
-
-        if (!data) {
-          return reject(new Error('Verification failed, please Login again.'))
-        }
-
-        const { name, avatar } = data
-
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        resolve(data)
+        const formatRoutes = dataToRoutes(data.routes)
+        commit('SET_NAME', data.user.name)
+        commit('SET_AVATAR', data.user.avatar)
+        commit('SET_ROUTES', [...formatRoutes, ...constantRoutes])
+        resolve()
       }).catch(error => {
         reject(error)
       })
@@ -78,6 +94,19 @@ const actions = {
       }).catch(error => {
         reject(error)
       })
+    })
+  },
+
+  /**
+   * 清除用户信息
+   * @param commit
+   * @returns {Promise<*>}
+   */
+  resetToken({ commit }) {
+    return new Promise(resolve => {
+      removeToken() // must remove  token  first
+      commit('RESET_STATE')
+      resolve()
     })
   }
 }

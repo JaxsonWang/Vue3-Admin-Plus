@@ -10,7 +10,7 @@ import request from '@/utils/request'
 
 export const login = data => {
   return request({
-    url: '/vue-admin-template/user/login',
+    url: '/user/login',
     method: 'post',
     data: data
   })
@@ -18,15 +18,15 @@ export const login = data => {
 
 export const getInfo = data => {
   return request({
-    url: '/vue-admin-template/user/login',
-    method: 'post',
-    data: data
+    url: '/user/getInfo',
+    method: 'get',
+    params: data
   })
 }
 
 export const logout = data => {
   return request({
-    url: '/vue-admin-template/user/login',
+    url: '/user/login',
     method: 'post',
     data: data
   })
