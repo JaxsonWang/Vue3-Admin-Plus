@@ -3,7 +3,7 @@
   - 项目名称：Vue3-Admin-Plus
   - 文件名称：ScrollPane.vue
   - 创建日期：2021/1/24 下午12:40
-  - 创建作者：jaxson
+  - 创建作者：Jaxson
   -->
 
 <template>

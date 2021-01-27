@@ -14,7 +14,7 @@ TODO 清单
 - [x] Dynamic Route 动态路由
 - [x] Nested Route 嵌套路由
 - [x] Breadcrumb 面包屑
-- [ ] Route Auth 路由鉴权
+- [x] Route Auth 路由鉴权
 - [ ] Permission 权限验证
 
 ---

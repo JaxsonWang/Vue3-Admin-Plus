@@ -3,7 +3,7 @@
  * 项目名称：Vue3-Admin-Plus
  * 文件名称：routeAuth.js
  * 创建日期：2021/1/26 下午2:59
- * 创建作者：jaxson
+ * 创建作者：Jaxson
  */
 import { ElMessage } from 'element-plus'
 import NProgress from 'nprogress'

@@ -3,7 +3,7 @@
  * 项目名称：Vue3-Admin-Plus
  * 文件名称：SvgIcon.spec.js
  * 创建日期：2021/1/25 下午5:07
- * 创建作者：jaxson
+ * 创建作者：Jaxson
  */
 
 import { shallowMount } from '@vue/test-utils'

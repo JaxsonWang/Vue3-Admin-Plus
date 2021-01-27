@@ -5,14 +5,14 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml",
+    "svgo": "svgo -f src/icons/svg --config=svgo.yml",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.8.3",
-    "element-plus": "^1.0.2-beta.28",
+    "element-plus": "^1.0.2-beta.30",
     "js-cookie": "^2.2.1",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",

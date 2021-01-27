@@ -3,7 +3,7 @@
  * 项目名称：Vue3-Admin-Plus
  * 文件名称：toRoutes.js
  * 创建日期：2021/1/27 下午4:24
- * 创建作者：jaxson
+ * 创建作者：Jaxson
  */
 const dataToRoutes = data => {
   const res = []

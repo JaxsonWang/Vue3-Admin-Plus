@@ -3,7 +3,7 @@
  * 项目名称：Vue3-Admin-Plus
  * 文件名称：request.js
  * 创建日期：2021/1/26 下午5:49
- * 创建作者：jaxson
+ * 创建作者：Jaxson
  */
 
 import axios from 'axios'

@@ -22,7 +22,7 @@
 </template>
 <script>
 import { defineComponent, computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import store from '@/store'
 import Logo from './Logo'
 import SidebarItem from './SidebarItem'
@@ -37,7 +37,8 @@ export default defineComponent({
   setup() {
     const route = useRoute()
     const sidebar = computed(() => store.state.app.sidebar)
-    const routes = computed(() => useRouter().options.routes)
+    // const routes = computed(() => useRouter().options.routes)
+    const routes = computed(() => store.state.user.routes)
     const showLogo = computed(() => store.state.settings.sidebarLogo)
     const variables = computed(() => variable)
     const isCollapse = computed(() => sidebar.value.opened)
