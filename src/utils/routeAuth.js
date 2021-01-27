@@ -42,7 +42,8 @@ router.beforeEach(async(to, from, next) => {
       } else {
         try {
           // 获取用户信息
-          await store.dispatch('user/getInfo')
+          const addRoutes = await store.dispatch('user/getInfo')
+          for (const route of addRoutes) router.addRoute(route)
           next()
         } catch (error) {
           // 触发触发器并重定向到登录页

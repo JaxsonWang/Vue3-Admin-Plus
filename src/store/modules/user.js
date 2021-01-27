@@ -16,7 +16,8 @@ const getDefaultState = () => {
     token: getToken(),
     name: '',
     avatar: '',
-    routes: []
+    routes: [],
+    addRoutes: []
   }
 }
 
@@ -36,7 +37,8 @@ const mutations = {
     state.avatar = avatar
   },
   SET_ROUTES: (state, routes) => {
-    state.routes = asyncRoutes.concat(routes)
+    state.addRoutes = routes
+    state.routes = [...asyncRoutes, ...routes, ...constantRoutes]
   }
 }
 
@@ -75,10 +77,11 @@ const actions = {
       getInfo().then(response => {
         const { data } = response
         const formatRoutes = dataToRoutes(data.routes)
+        console.log(formatRoutes)
         commit('SET_NAME', data.user.name)
         commit('SET_AVATAR', data.user.avatar)
-        commit('SET_ROUTES', [...formatRoutes, ...constantRoutes])
-        resolve()
+        commit('SET_ROUTES', formatRoutes)
+        resolve(formatRoutes)
       }).catch(error => {
         reject(error)
       })

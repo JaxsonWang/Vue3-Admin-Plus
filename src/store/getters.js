@@ -4,6 +4,7 @@ const getters = {
   // tagsView getter => 不需要删除
   visitedViews: state => state.tagsView.visitedViews,
   cachedViews: state => state.tagsView.cachedViews,
+  name: state => state.user.name,
   routes: state => state.user.routes
 }
 export default getters
