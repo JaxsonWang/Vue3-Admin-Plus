@@ -17,7 +17,7 @@ export const asyncRoutes = [
       {
         path: 'dashboard',
         name: 'Dashboard',
-        component: () => import('@/views/Home'),
+        component: () => import('@/views/Home/index'),
         meta: {
           title: '仪表盘',
           icon: 'el-icon-info',
