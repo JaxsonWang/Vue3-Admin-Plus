@@ -35,7 +35,7 @@ router.beforeEach(async(to, from, next) => {
       NProgress.done()
     } else {
       // 获取用户信息
-      const hasGetUserInfo = store.getters.name
+      const hasGetUserInfo = store.state.user.name
       // 如果存在跳转否则触发 store 触发器获取用户基本信息
       if (hasGetUserInfo) {
         next()

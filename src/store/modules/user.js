@@ -9,7 +9,7 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { login, getInfo, logout } from '@/api/login'
 import { asyncRoutes, constantRoutes } from '@/router'
-import dataToRoutes from '@/utils/toRoutes'
+import { dataToRoutes } from '@/utils/toRoutes'
 
 const getDefaultState = () => {
   return {
@@ -77,7 +77,6 @@ const actions = {
       getInfo().then(response => {
         const { data } = response
         const formatRoutes = dataToRoutes(data.routes)
-        console.log(formatRoutes)
         commit('SET_NAME', data.user.name)
         commit('SET_AVATAR', data.user.avatar)
         commit('SET_ROUTES', formatRoutes)
