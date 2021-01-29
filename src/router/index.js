@@ -25,6 +25,12 @@ export const asyncRoutes = [
         }
       }
     ]
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/login'),
+    hidden: true
   }
 ]
 
@@ -34,6 +40,7 @@ export const asyncRoutes = [
 export const constantRoutes = [
   {
     path: '/redirect',
+    name: 'redirect',
     component: Layout,
     hidden: true,
     children: [
@@ -44,27 +51,26 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/login',
-    component: () => import('@/views/login'),
-    hidden: true
-  },
-  {
     path: '/403',
+    name: '403',
     component: () => import('@/views/403'),
     hidden: true
   },
   {
     path: '/404',
+    name: '404',
     component: () => import('@/views/404'),
     hidden: true
   },
   {
     path: '/500',
+    name: '500',
     component: () => import('@/views/500'),
     hidden: true
   },
   {
     path: '/:pathMatch(.*)*',
+    name: 'pathMatch',
     redirect: '/404',
     hidden: true
   }
@@ -72,7 +78,7 @@ export const constantRoutes = [
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes: [...asyncRoutes, ...constantRoutes]
+  routes: asyncRoutes
 })
 
 export default router

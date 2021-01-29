@@ -16,6 +16,7 @@ TODO 清单
 - [x] Breadcrumb 面包屑
 - [x] Route Auth 路由鉴权
 - [ ] Permission 权限验证
+- [x] TypeScript IDE 语法完善
 
 ---
 

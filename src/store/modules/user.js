@@ -38,7 +38,7 @@ const mutations = {
   },
   SET_ROUTES: (state, routes) => {
     state.addRoutes = routes
-    state.routes = [...asyncRoutes, ...routes, ...constantRoutes]
+    state.routes = [...asyncRoutes, ...routes]
   }
 }
 
@@ -77,10 +77,12 @@ const actions = {
       getInfo().then(response => {
         const { data } = response
         const formatRoutes = dataToRoutes(data.routes)
+        const asyncRoutes = [...formatRoutes, ...constantRoutes]
         commit('SET_NAME', data.user.name)
         commit('SET_AVATAR', data.user.avatar)
-        commit('SET_ROUTES', formatRoutes)
-        resolve(formatRoutes)
+        // 合并路由
+        commit('SET_ROUTES', asyncRoutes)
+        resolve(asyncRoutes)
       }).catch(error => {
         reject(error)
       })

@@ -4,7 +4,7 @@ import { createApp } from 'vue'
 import 'normalize.css/normalize.css'
 // 载入 Element Plus
 import ElementPlus from 'element-plus'
-import 'element-plus/lib/theme-chalk/index.css'
+
 // 载入全局变量样式表
 import '@/styles/index.scss'
 
