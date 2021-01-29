@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    test
+    <el-button v-auth:add>dddd</el-button>
   </div>
 </template>
 

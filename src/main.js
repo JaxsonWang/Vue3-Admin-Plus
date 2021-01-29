@@ -15,6 +15,9 @@ import store from './store'
 // 注册图标组件
 import SvgIcon from '@/icons'
 
+// 注册权限指令
+import Auth from '@/directives/auth'
+
 // 加载路由鉴权
 import '@/utils/routeAuth'
 
@@ -23,6 +26,9 @@ const app = createApp(App)
 
 // 挂载全局组件
 app.component('svg-icon', SvgIcon)
+
+// 挂载指令
+app.directive('auth', Auth)
 
 // 注册插件
 app.use(store)
