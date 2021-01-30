@@ -8,7 +8,7 @@
 
 <template>
   <div ref="tagsViewContainerRef" class="tags-view-container">
-    <scroll-pane :ref="scrollPaneRef" class="tags-view-wrapper" @scroll="handleScroll">
+    <scroll-pane ref="scrollPaneRef" class="tags-view-wrapper" @scroll="handleScroll">
       <router-link
         v-for="tag in visitedViews"
         :ref="tagHandleNodes"
@@ -40,7 +40,7 @@
 <script>
 import path from 'path'
 import { defineComponent, ref, reactive, computed, watch, onMounted } from 'vue'
-import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import ScrollPane from './ScrollPane'
 
@@ -57,12 +57,13 @@ export default defineComponent({
     const top = ref(0)
     const left = ref(0)
     const tagsViewContainerRef = ref(null)
+    const scrollPaneRef = ref(null)
     const selectedTag = reactive({})
     const affixTags = reactive([])
-    const tagArrNodes = reactive([])
-    const scrollPaneRef = computed(() => ref(null))
     const visitedViews = computed(() => store.state.tagsView.visitedViews)
     const routes = computed(() => router.options.routes)
+
+    let tagArrNodes = reactive([])
 
     const isActive = $route => $route.path === route.path
     const isAffix = tag => tag && tag.meta && tag.meta.affix
@@ -106,7 +107,7 @@ export default defineComponent({
     const moveToCurrentTag = to => {
       for (const tag of tagArrNodes) {
         if (tag.to.path === to.path) {
-          scrollPaneRef.value.value.moveToTarget(tag)
+          scrollPaneRef.value.moveToTarget(tag)
           // when query is different then update
           if (tag.to.fullPath !== to.fullPath) {
             store.dispatch('tagsView/updateVisitedView', to)
@@ -191,15 +192,17 @@ export default defineComponent({
         document.body.removeEventListener('click', closeMenu)
       }
     })
+    // 监听路由回调
+    watch(() => route.path, () => {
+      // 清空 tag ref 数组对象
+      tagArrNodes = []
+      addTags(route)
+      moveToCurrentTag(route)
+    })
 
     onMounted(() => {
       initTags()
       addTags(route)
-    })
-    // 监听路由回调
-    onBeforeRouteUpdate(to => {
-      addTags(to)
-      moveToCurrentTag(to)
     })
 
     return {

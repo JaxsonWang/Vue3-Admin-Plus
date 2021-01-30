@@ -7,20 +7,20 @@
   -->
 
 <template>
-  <el-scrollbar :ref="scrollContainer" :vertical="false" class="scroll-container" view-class="scroll-container-view" @wheel.prevent="handleScroll">
+  <el-scrollbar ref="scrollContainer" :vertical="false" class="scroll-container" view-class="scroll-container-view" @wheel.prevent="handleScroll">
     <slot />
   </el-scrollbar>
 </template>
 
 <script>
-import { defineComponent, ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { defineComponent, ref, onMounted, onBeforeUnmount } from 'vue'
 
 const tagAndTagSpacing = 4 // tagAndTagSpacing
 
 export default defineComponent({
   name: 'ScrollPane',
   setup(props, { emit }) {
-    const scrollContainer = computed(() => ref(null))
+    const scrollContainer = ref(null)
     const scrollWrapper = ref(null)
     const emitScroll = () => emit('scroll')
     const handleScroll = event => {
@@ -29,10 +29,10 @@ export default defineComponent({
       $scrollWrapper.scrollLeft = $scrollWrapper.scrollLeft + eventDelta / 4
     }
     const moveToTarget = currentTag => {
-      const $container = scrollContainer.value.value.$el
+      const $container = scrollContainer.value.$el
       const $containerWidth = $container.offsetWidth
       const $scrollWrapper = scrollWrapper
-      const tagList = scrollContainer.value.value.$parent.$parent.tagArrNodes
+      const tagList = scrollContainer.value.$parent.$parent.tagArrNodes
 
       let firstTag = null
       let lastTag = null
@@ -68,7 +68,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      scrollWrapper.value = scrollContainer.value.value.$refs.wrap
+      scrollWrapper.value = scrollContainer.value.$refs.wrap
       scrollWrapper.value.addEventListener('scroll', emitScroll, true)
     })
     onBeforeUnmount(() => {
