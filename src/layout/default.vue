@@ -83,6 +83,8 @@ export default defineComponent({
         withoutAnimation: false
       })
     }
+    // 记录当前路由
+    const setCurrentRoute = () => store.dispatch('router/setCurrentRoute', route)
 
     // 路由更新回调
     watch(() => route.path, () => {
@@ -91,10 +93,12 @@ export default defineComponent({
           withoutAnimation: false
         })
       }
+      setCurrentRoute()
     })
 
     onBeforeMount(() => {
       window.addEventListener('resize', resizeHandler)
+      setCurrentRoute()
     })
     onMounted(() => {
       if (isMobile()) {
