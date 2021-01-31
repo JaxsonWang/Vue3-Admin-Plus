@@ -7,8 +7,8 @@
   <a href="https://github.com/ElemeFE/element">
     <img src="https://img.shields.io/badge/element--plus-1.0.2-brightgreen.svg" alt="element-ui">
   </a>
-  <a href="https://travis-ci.org/JaxsonWang/Vue3-Element-Admin" rel="nofollow">
-    <img src="https://travis-ci.org/JaxsonWang/Vue3-Element-Admin.svg?branch=master" alt="Build Status">
+  <a href="https://travis-ci.com/JaxsonWang/Vue3-Element-Admin" rel="nofollow">
+    <img src="https://travis-ci.com/JaxsonWang/Vue3-Element-Admin.svg?branch=master" alt="Build Status">
   </a>
   <a href="https://github.com/JaxsonWang/Vue3-Element-Admin/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/mashape/apistatus.svg" alt="license">
