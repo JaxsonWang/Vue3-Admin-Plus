@@ -43,6 +43,7 @@ import { defineComponent, ref, reactive, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import ScrollPane from './ScrollPane'
+import { constantRoutes } from '@/router'
 
 export default defineComponent({
   name: 'TagsView',
@@ -60,8 +61,9 @@ export default defineComponent({
     const scrollPaneRef = ref(null)
     const selectedTag = reactive({})
     const affixTags = reactive([])
-    const visitedViews = computed(() => store.state.tagsView.visitedViews)
-    const routes = computed(() => router.options.routes)
+    // 过滤路由 hidden = true 的 visitedViews
+    const visitedViews = computed(() => store.state.tagsView.visitedViews.filter(item => constantRoutes.map(i => i.path).indexOf(item.path) === -1))
+    const routes = computed(() => store.state.user.routes)
 
     let tagArrNodes = reactive([])
 
@@ -116,7 +118,9 @@ export default defineComponent({
         }
       }
     }
-    const tagHandleNodes = tag => tagArrNodes.push(tag)
+    const tagHandleNodes = tag => {
+      if (tag !== null && !tagArrNodes.some(i => i.to.path === tag.to.path)) tagArrNodes.push(tag)
+    }
     const refreshSelectedTag = view => {
       store.dispatch('tagsView/delCachedView', view).then(() => {
         const { fullPath } = view
@@ -201,6 +205,7 @@ export default defineComponent({
     })
 
     onMounted(() => {
+      // 清空 tag ref 数组对象
       initTags()
       addTags(route)
     })

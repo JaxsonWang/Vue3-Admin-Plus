@@ -1,4 +1,4 @@
-export const title = 'Vue Admin Template'
+export const title = 'Vue Admin Plus'
 
 /**
  * @type {boolean} true | false

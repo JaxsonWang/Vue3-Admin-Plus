@@ -51,7 +51,6 @@ export default defineComponent({
       return matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
     }
     const pathCompile = path => {
-      // To solve this problem https://github.com/PanJiaChen/vue-element-admin/issues/561
       const { params } = route
       const toPath = pathToRegexp.compile(path)
       return toPath(params)

@@ -25,12 +25,6 @@ export const asyncRoutes = [
         }
       }
     ]
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import('@/views/login'),
-    hidden: true
   }
 ]
 
@@ -38,6 +32,12 @@ export const asyncRoutes = [
  * constantRoutes 固定路由
  */
 export const constantRoutes = [
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/login'),
+    hidden: true
+  },
   {
     path: '/redirect',
     name: 'redirect',

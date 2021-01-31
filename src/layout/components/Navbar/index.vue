@@ -27,11 +27,8 @@
                 Home
               </el-dropdown-item>
             </router-link>
-            <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
+            <a target="_blank" href="https://github.com/JaxsonWang/Vue3-Element-Admin">
               <el-dropdown-item>Github</el-dropdown-item>
-            </a>
-            <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-              <el-dropdown-item>Docs</el-dropdown-item>
             </a>
             <el-dropdown-item divided @click="logout">
               <span>Log Out</span>
@@ -45,7 +42,7 @@
 
 <script>
 import { defineComponent, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import store from '@/store'
 import Breadcrumb from './Breadcrumb'
 import Hamburger from './Hamburger'
@@ -63,12 +60,14 @@ export default defineComponent({
     }
   },
   setup() {
+    const route = useRoute()
+    const router = useRouter()
     const avatar = 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
     const sidebar = computed(() => store.getters.sidebar)
     const toggleSideBar = () => store.dispatch('app/toggleSideBar')
-    const logout = () => {
-      store.dispatch('user/logout')
-      useRouter().push(`/login?redirect=${this.$route.fullPath}`)
+    const logout = async() => {
+      await store.dispatch('user/logout')
+      await router.push(`/login?redirect=${route.fullPath}`)
     }
 
     return {

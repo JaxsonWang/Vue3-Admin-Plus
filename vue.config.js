@@ -12,6 +12,10 @@ const resolve = dir => {
 }
 
 module.exports = {
+  publicPath: '',
+  outputDir: 'dist',
+  lintOnSave: process.env.NODE_ENV === 'development',
+  productionSourceMap: false,
   chainWebpack(config) {
     // set svg-sprite-loader
     config.module
