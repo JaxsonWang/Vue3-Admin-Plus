@@ -20,12 +20,12 @@
 
 ## 简介
 
-[Vue3-Admin-Plus](https://jaxsonwang.github.io/Vue3-Admin-Plus) 是一个后台前端解决方案，它基于 [vue](https://github.com/vuejs/vue) 和 [element-plus](https://element-plus.org)实现。它使用了最新的前端技术栈，内置了 i18n 国际化解决方案，动态路由，权限验证，提炼了典型的业务模型，提供了丰富的功能组件，它可以帮助你快速搭建企业级中后台产品原型。相信不管你的需求是什么，本项目都能帮助到你。
+[Vue3-Admin-Plus](http://vue3-element-admin-git-master.jaxson.vercel.app/) 是一个后台前端解决方案，它基于 [vue](https://github.com/vuejs/vue) 和 [element-plus](https://element-plus.org)实现。它使用了最新的前端技术栈，内置了 i18n 国际化解决方案，动态路由，权限验证，提炼了典型的业务模型，提供了丰富的功能组件，它可以帮助你快速搭建企业级中后台产品原型。相信不管你的需求是什么，本项目都能帮助到你。
 
 本项目基于 [PanJiaChen - vue-element-admin](https://github.com/PanJiaChen/vue-element-admin) 项目保留原来风格进行编写，页面全部使用 `Component Api` 重构！
 
 
-- [在线预览](https://jaxsonwang.github.io/Vue3-Admin-Plus)
+- [在线预览](http://vue3-element-admin-git-master.jaxson.vercel.app/)
 
 
 ## 前序准备
