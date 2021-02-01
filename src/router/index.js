@@ -27,6 +27,26 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/demo',
+    component: Layout,
+    redirect: '/demo/i18n',
+    meta: {
+      title: '例子展示',
+      icon: 'dashboard'
+    },
+    children: [
+      {
+        path: 'i18n',
+        name: 'I18nDemo',
+        component: () => import('@/views/i18n-demo'),
+        meta: {
+          title: '国际化',
+          icon: 'language'
+        }
+      }
+    ]
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('@/views/login'),

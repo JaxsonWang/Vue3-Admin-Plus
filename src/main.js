@@ -7,10 +7,11 @@ import ElementPlus from 'element-plus'
 
 // 载入全局变量样式表
 import '@/styles/index.scss'
-
-import App from './App.vue'
-import router from './router'
-import store from './store'
+// 国际化
+import i18n from '@/lang'
+import App from '@/App.vue'
+import router from '@/router'
+import store from '@/store'
 
 // 注册图标组件
 import SvgIcon from '@/icons'
@@ -33,7 +34,12 @@ app.directive('auth', Auth)
 // 注册插件
 app.use(store)
 app.use(router)
-app.use(ElementPlus)
+// app.use(ElementPlus)
+app.use(ElementPlus, {
+  i18n: i18n.global.t
+})
+
+app.use(i18n)
 
 // 挂载节点
 app.mount('#app')
