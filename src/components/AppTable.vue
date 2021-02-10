@@ -1,97 +1,104 @@
 <template>
   <div class="app-table-wrapper">
-    <el-form
-      v-if="appConfig.tableSearch.length !== 0"
-      :inline="true"
-      :model="tableSearchModel"
-      ref="tableSearchRef"
-      size="small"
-      class="app-table-search"
-    >
-      <el-form-item
-        v-for="(item, index) in appConfig.tableSearch"
-        :key="index"
-        :label="item.label"
+    <div class="table-header-wrapper">
+      <div class="table-header-actions">
+        <slot name="header-action" />
+      </div>
+      <el-form
+        v-if="appConfig.tableSearch.length !== 0"
+        :inline="true"
+        :model="tableSearchModel"
+        ref="tableSearchRef"
+        size="small"
+        class="app-table-search"
       >
-        <!-- 输入框 -->
-        <el-input
-          v-if="item.type === 'text'"
-          v-model="tableSearchModel[item.key]"
-          :type="item.type"
-          :name="item.key"
-          :placeholder="item.placeholder"
-          :clearable="item.clearable"
-          :class="item.class"
-          :disabled="loading"
-        />
-        <!-- 日期时间选择器 -->
-        <el-date-picker
-          v-if="item.type === 'daterange'"
-          v-model="tableSearchModel[item.key]"
-          :align="item.align"
-          :range-separator="item.rangeSeparator || '至'"
-          :start-placeholder="item.startPlaceholder || '开始时间'"
-          :end-placeholder="item.endPlaceholder || '结束时间'"
-          :name="item.key"
-          :picker-options="item.pickerOptions"
-          :class="item.class"
-          :disabled="loading"
-          type="daterange"
-        />
-        <!-- 日期选择器 -->
-        <el-date-picker
-          v-if="item.type === 'date'"
-          v-model="tableSearchModel[item.key]"
-          :name="item.key"
-          :value-format="item.format"
-          :placeholder="item.placeholder"
-          :class="item.class"
-          :disabled="loading"
-          type="date"
-        />
-        <!-- 下拉框 -->
-        <el-select
-          v-if="item.type === 'select'"
-          v-model="tableSearchModel[item.key]"
-          :name="item.key"
-          :placeholder="item.placeholder"
-          :clearable="item.clearable"
-          :class="item.class"
-          :disabled="loading"
+        <el-form-item
+          v-for="(item, index) in appConfig.tableSearch"
+          :key="index"
+          :label="item.label"
         >
-          <el-option
-            v-for="(option, indexItem) in item.options"
-            :key="indexItem"
-            :label="option.label"
-            :value="option.value"
+          <!-- 输入框 -->
+          <el-input
+            v-if="item.type === 'text'"
+            v-model="tableSearchModel[item.key]"
+            :type="item.type"
+            :name="item.key"
+            :placeholder="item.placeholder"
+            :clearable="item.clearable"
+            :class="item.class"
             :disabled="loading"
           />
-        </el-select>
-      </el-form-item>
-      <el-form-item>
-        <el-button
-          :loading="loading"
-          type="primary"
-          @click="onSearchSubmit"
-        >
-          {{ appConfig.tableSearchSubmitName }}
-        </el-button>
-        <el-button
-          v-if="appConfig.tableSearchResetName"
-          :loading="loading"
-          type="primary"
-          @click="onSearchReset"
-        >
-          {{ appConfig.tableSearchResetName }}
-        </el-button>
-      </el-form-item>
-    </el-form>
+          <!-- 日期时间选择器 -->
+          <el-date-picker
+            v-if="item.type === 'daterange'"
+            v-model="tableSearchModel[item.key]"
+            :align="item.align"
+            :range-separator="item.rangeSeparator || '至'"
+            :start-placeholder="item.startPlaceholder || '开始时间'"
+            :end-placeholder="item.endPlaceholder || '结束时间'"
+            :name="item.key"
+            :picker-options="item.pickerOptions"
+            :class="item.class"
+            :disabled="loading"
+            type="daterange"
+          />
+          <!-- 日期选择器 -->
+          <el-date-picker
+            v-if="item.type === 'date'"
+            v-model="tableSearchModel[item.key]"
+            :name="item.key"
+            :value-format="item.format"
+            :placeholder="item.placeholder"
+            :class="item.class"
+            :disabled="loading"
+            type="date"
+          />
+          <!-- 下拉框 -->
+          <el-select
+            v-if="item.type === 'select'"
+            v-model="tableSearchModel[item.key]"
+            :name="item.key"
+            :placeholder="item.placeholder"
+            :clearable="item.clearable"
+            :class="item.class"
+            :disabled="loading"
+          >
+            <el-option
+              v-for="(option, indexItem) in item.options"
+              :key="indexItem"
+              :label="option.label"
+              :value="option.value"
+              :disabled="loading"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button
+            :loading="loading"
+            type="primary"
+            @click="onSearchSubmit"
+          >
+            {{ appConfig.tableSearchSubmitName }}
+          </el-button>
+          <el-button
+            v-if="appConfig.tableSearchResetName"
+            :loading="loading"
+            type="primary"
+            @click="onSearchReset"
+          >
+            {{ appConfig.tableSearchResetName }}
+          </el-button>
+        </el-form-item>
+      </el-form>
+    </div>
     <el-table
       v-loading="loading"
       v-bind="appConfig.tableAttr"
       :data="tableData"
+      ref="tableRef"
       element-loading-text="加载数据中..."
       element-loading-spinner="el-icon-loading"
+      @selection-change="handleSelectionChange"
     >
       <template v-for="(item, index) in appConfig.tableColumn">
         <!--多选框-->
@@ -191,7 +198,7 @@ export default defineComponent({
       default: () => {}
     }
   },
-  setup(props) {
+  setup(props, { emit }) {
     const loading = ref(false)
     const appConfig = reactive(Object.assign({}, {
       tableAttr: {
@@ -219,6 +226,7 @@ export default defineComponent({
       pageCount: 1,
       pageSize: 10
     })
+    const selectionRow = reactive([])
 
     const handleEdit = () => {}
     const handleDelete = () => {}
@@ -236,7 +244,8 @@ export default defineComponent({
     const getTableListData = params => {
       loading.value = true
       appConfig.tableListApi(params).then(response => {
-        tableData.value = response.DataList
+        tableData.value = response.list
+        pagination.pageCount = response.pageCount
         loading.value = false
       })
     }
@@ -291,6 +300,14 @@ export default defineComponent({
     const onSearchReset = () => {
       initSearch()
     }
+    /**
+     * 勾选列表回调
+     * @param val
+     */
+    const handleSelectionChange = val => {
+      selectionRow.value = val
+      emit('selection-change', val)
+    }
 
     initSearch()
     onSearchSubmit()
@@ -307,7 +324,8 @@ export default defineComponent({
       handleCurrentChange,
       handleSizeChange,
       onSearchReset,
-      filterVal
+      filterVal,
+      handleSelectionChange
     }
   }
 })
@@ -316,6 +334,15 @@ export default defineComponent({
 <style lang="scss" scoped>
 .app-table-wrapper {
   width: 100%;
+  .table-header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    .app-table-search {
+      ::v-deep .el-form-item:last-child {
+        margin-right: 0;
+      }
+    }
+  }
   .app-pagination {
     text-align: right;
     margin-top: 20px;
