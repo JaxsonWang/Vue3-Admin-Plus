@@ -17,7 +17,7 @@ export const asyncRoutes = [
       {
         path: 'dashboard',
         name: 'Dashboard',
-        component: () => import('@/views/Home/index'),
+        component: () => import('@/views/home/index'),
         meta: {
           title: '仪表盘',
           icon: 'el-icon-info',
@@ -38,10 +38,19 @@ export const asyncRoutes = [
       {
         path: 'i18n',
         name: 'I18nDemo',
-        component: () => import('@/views/i18n-demo'),
+        component: () => import('@/views/demo-i18n'),
         meta: {
           title: '国际化',
           icon: 'language'
+        }
+      },
+      {
+        path: 'table',
+        name: 'tableDemo',
+        component: () => import('@/views/demo-table/demo'),
+        meta: {
+          title: '表格封装',
+          icon: 'table'
         }
       }
     ]

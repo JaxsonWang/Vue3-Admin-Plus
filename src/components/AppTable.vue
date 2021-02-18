@@ -78,15 +78,15 @@
             type="primary"
             @click="onSearchSubmit"
           >
-            {{ appConfig.tableSearchSubmitName }}
+            {{ appConfig.tableSearchBtnName.submit }}
           </el-button>
           <el-button
-            v-if="appConfig.tableSearchResetName"
+            v-if="appConfig.tableSearchBtnName.reset"
             :loading="loading"
             type="primary"
             @click="onSearchReset"
           >
-            {{ appConfig.tableSearchResetName }}
+            {{ appConfig.tableSearchBtnName.reset }}
           </el-button>
         </el-form-item>
       </el-form>
@@ -100,13 +100,12 @@
       element-loading-spinner="el-icon-loading"
       @selection-change="handleSelectionChange"
     >
-      <template v-for="(item, index) in appConfig.tableColumn">
+      <template v-for="(item, index) in appConfig.tableColumn" :key="index">
         <!--多选框-->
         <el-table-column
           v-if="item.type && item.type === 'selection'"
           :width="item.width"
           :align="item.align"
-          :key="index"
           type="selection"
         />
         <!--序列号-->
@@ -116,7 +115,6 @@
           :align="item.align"
           :fixed="item.fixed"
           :label="item.label"
-          :key="index"
           type="index"
         />
         <!--自定义列插槽-->
@@ -129,20 +127,9 @@
           :min-width="item.minWidth"
           :align="item.align"
           :fixed="item.fixed"
-          :key="index"
         >
           <template v-slot="scope">
-            <template v-if="item.isImage">
-              <el-image
-                v-if="item.isImage"
-                style="width: 100px; height: 100px; margin-top: 10px;"
-                lazy
-                fit="cover"
-                :src="scope.row[item.prop]"
-                :preview-src-list="[scope.row[item.prop]]"
-              />
-            </template>
-            <template v-else-if="item.action">
+            <template v-if="item.action">
               <slot name="action-before" :scope="scope.row" />
               <template v-for="(act, idx) in item.action">
                 <el-button
@@ -172,12 +159,10 @@
       </template>
     </el-table>
     <el-pagination
+      v-bind="appConfig.pagination"
       :current-page="pagination.currentPage"
       :page-count="pagination.pageCount"
       :page-size="pagination.pageSize"
-      :page-sizes="appConfig.pagination.pageSizes"
-      :layout="appConfig.pagination.layout"
-      :background="appConfig.pagination.background"
       :disabled="loading"
       class="app-pagination"
       @size-change="handleSizeChange"
@@ -216,8 +201,10 @@ export default defineComponent({
         background: true
       },
       tableSearch: [],
-      tableSearchSubmitName: '提交',
-      tableSearchResetName: '重置'
+      tableSearchBtnName: {
+        submit: '提交',
+        reset: '重置'
+      }
     }, props.config))
     const tableSearchModel = reactive({})
     const tableData = reactive([])

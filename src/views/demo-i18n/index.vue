@@ -33,6 +33,8 @@ export default defineComponent({
       locale.value = type
     }
 
+    changeLanguage('zh-cn')
+
     return {
       t,
       changeLanguage,
