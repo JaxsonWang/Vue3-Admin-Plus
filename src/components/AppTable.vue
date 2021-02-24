@@ -325,7 +325,7 @@ export default defineComponent({
     display: flex;
     justify-content: space-between;
     .app-table-search {
-      ::v-deep .el-form-item:last-child {
+      :deep .el-form-item:last-child {
         margin-right: 0;
       }
     }

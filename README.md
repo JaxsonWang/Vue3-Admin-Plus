@@ -7,14 +7,14 @@
   <a href="https://github.com/ElemeFE/element">
     <img src="https://img.shields.io/badge/element--plus-1.0.2-brightgreen.svg" alt="element-ui">
   </a>
-  <a href="https://travis-ci.com/JaxsonWang/Vue3-Element-Admin" rel="nofollow">
-    <img src="https://travis-ci.com/JaxsonWang/Vue3-Element-Admin.svg?branch=master" alt="Build Status">
+  <a href="https://travis-ci.com/JaxsonWang/Vue3-Admin-Plus" rel="nofollow">
+    <img src="https://travis-ci.com/JaxsonWang/Vue3-Admin-Plus.svg?branch=master" alt="Build Status">
   </a>
-  <a href="https://github.com/JaxsonWang/Vue3-Element-Admin/blob/master/LICENSE">
+  <a href="https://github.com/JaxsonWang/Vue3-Admin-Plus/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/mashape/apistatus.svg" alt="license">
   </a>
-  <a href="https://github.com/JaxsonWang/Vue3-Element-Admin/releases">
-    <img src="https://img.shields.io/github/release/JaxsonWang/Vue3-Element-Admin.svg" alt="GitHub release">
+  <a href="https://github.com/JaxsonWang/Vue3-Admin-Plus/releases">
+    <img src="https://img.shields.io/github/release/JaxsonWang/Vue3-Admin-Plus.svg" alt="GitHub release">
   </a>
 </p>
 
@@ -37,10 +37,10 @@
 
 ```bash
 # 克隆项目
-git clone https://github.com/JaxsonWang/Vue3-Element-Admin.git
+git clone https://github.com/JaxsonWang/Vue3-Admin-Plus.git
 
 # 进入项目目录
-cd Vue3-Element-Admin
+cd Vue3-Admin-Plus
 
 # 安装依赖
 npm install
@@ -87,4 +87,4 @@ Modern browsers and Internet Explorer 10+.
 
 ## License
 
-[MIT](https://github.com/JaxsonWang/Vue3-Element-Admin/blob/master/LICENSE)
+[MIT](https://github.com/JaxsonWang/Vue3-Admin-Plus/blob/master/LICENSE)

@@ -11,13 +11,14 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "core-js": "^3.8.3",
+    "core-js": "^3.9.0",
     "dayjs": "^1.10.4",
     "element-plus": "^1.0.2-beta.32",
     "js-cookie": "^2.2.1",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
     "path-to-regexp": "^6.2.0",
+    "qs": "^6.9.6",
     "vue": "^3.0.0",
     "vue-i18n": "^9.0.0-rc.4",
     "vue-router": "^4.0.0-0",
@@ -43,10 +44,10 @@
     "eslint-plugin-standard": "^4.1.0",
     "eslint-plugin-vue": "^7.6.0",
     "lint-staged": "^10.5.4",
-    "sass": "^1.32.7",
+    "sass": "^1.32.8",
     "sass-loader": "^10.1.1",
     "svg-sprite-loader": "^5.2.1",
-    "svgo": "^2.0.0",
+    "svgo": "^2.1.0",
     "vue-jest": "^5.0.0-0"
   },
   "gitHooks": {

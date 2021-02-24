@@ -10,13 +10,13 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import store from '@/store'
 
-const service = axios.create({
+export const request = axios.create({
   baseURL: process.env.NODE_ENV === 'development' ? process.env.VUE_APP_BASE_API + process.env.VUE_APP_URI : window.VUE_APP.VUE_APP_BASE_API + window.VUE_APP.VUE_APP_URI,
   withCredentials: false,
   timeout: 10 * 1000
 })
 
-service.interceptors.request.use(
+request.interceptors.request.use(
   config => {
     if (store.getters.token) {
       config.headers = {
@@ -30,7 +30,7 @@ service.interceptors.request.use(
   }
 )
 
-service.interceptors.response.use(
+request.interceptors.response.use(
   response => {
     const res = response.data
     if (res.code !== 200) {
@@ -53,5 +53,3 @@ service.interceptors.response.use(
     return Promise.reject(error)
   }
 )
-
-export default service

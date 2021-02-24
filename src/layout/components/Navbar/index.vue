@@ -27,7 +27,7 @@
                 Home
               </el-dropdown-item>
             </router-link>
-            <a target="_blank" href="https://github.com/JaxsonWang/Vue3-Element-Admin">
+            <a target="_blank" href="https://github.com/JaxsonWang/Vue3-Admin-Plus">
               <el-dropdown-item>Github</el-dropdown-item>
             </a>
             <el-dropdown-item divided @click="logout">
@@ -111,7 +111,7 @@ export default defineComponent({
     line-height: 50px;
 
     // 导航栏工具菜单
-    ::v-deep(.right-menu-item) {
+    :deep(.right-menu-item) {
       display: inline-block;
       padding: 0 8px;
       height: 100%;
@@ -130,7 +130,7 @@ export default defineComponent({
     }
 
     // 头像下拉菜单
-    ::v-deep(.avatar-container) {
+    :deep(.avatar-container) {
       display: block;
       margin-right: 30px;
       height: 100%;

@@ -85,7 +85,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 
 export default defineComponent({
-  name: 'login',
+  name: 'Login',
   setup() {
     const route = useRoute()
     const router = useRouter()
@@ -221,7 +221,7 @@ export default defineComponent({
       }
     }
 
-    ::v-deep(.login-right.login-form) {
+    :deep(.login-right.login-form) {
       position: absolute;
       top: 0;
       right: 0;
@@ -300,7 +300,7 @@ export default defineComponent({
     }
 
     &.open {
-      ::v-deep(.login-right.login-form) {
+      :deep(.login-right.login-form) {
         padding-left: 40px;
         padding-right: 40px;
       }

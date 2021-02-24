@@ -5,9 +5,10 @@
  * 创建日期：2021/1/26 下午5:44
  * 创建作者：Jaxson
  */
-
+import qs from 'qs'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { login, getInfo, logout } from '@/api/login'
+import { getInfo, logout } from '@/api/login'
+import { request } from '@/utils/request'
 import { asyncRoutes, constantRoutes } from '@/router'
 import { dataToRoutes } from '@/utils/toRoutes'
 
@@ -52,13 +53,17 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({
-        username: username.trim(),
-        password: password
+      request({
+        url: '/login',
+        method: 'post',
+        data: qs.stringify({
+          username: username.trim(),
+          password: password
+        })
       }).then(response => {
         const { data } = response
-        commit('SET_TOKEN', data)
-        setToken(data)
+        commit('SET_TOKEN', data.token)
+        setToken(data.token)
         resolve()
       }).catch(error => {
         reject(error)

@@ -6,7 +6,7 @@
  * 创建作者：Jaxson
  */
 
-import request from '@/utils/request'
+import { request } from '@/utils/request'
 
 export const login = data => {
   return request({
@@ -18,7 +18,7 @@ export const login = data => {
 
 export const getInfo = data => {
   return request({
-    url: '/user/getInfo',
+    url: 'https://www.fastmock.site/mock/d3314dccf01ea74f7c721f22de6600d6/vue3-admin-plus/api/user/getInfo',
     method: 'get',
     params: data
   })

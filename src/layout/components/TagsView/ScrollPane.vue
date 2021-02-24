@@ -90,10 +90,10 @@ export default defineComponent({
   position: relative;
   overflow: hidden;
   width: 100%;
-  ::v-deep(.el-scrollbar__bar) {
+  :deep(.el-scrollbar__bar) {
     bottom: 0;
   }
-  ::v-deep(.scroll-container-view) {
+  :deep(.scroll-container-view) {
     line-height: 40px;
   }
 }
