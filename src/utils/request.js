@@ -20,7 +20,7 @@ request.interceptors.request.use(
   config => {
     if (store.getters.token) {
       config.headers = {
-        Authorization: store.getters.token
+        Authorization: 'Bearer ' + store.getters.token
       }
     }
     return config
@@ -33,7 +33,7 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   response => {
     const res = response.data
-    if (res.code !== 200) {
+    if (res.statusCode !== 200) {
       ElMessage({
         message: res.message || 'Error',
         type: 'error',

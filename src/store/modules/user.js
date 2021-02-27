@@ -7,10 +7,10 @@
  */
 import qs from 'qs'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { getInfo, logout } from '@/api/login'
+import { logout } from '@/api/login'
 import { request } from '@/utils/request'
 import { asyncRoutes, constantRoutes } from '@/router'
-import { dataToRoutes } from '@/utils/toRoutes'
+// import { dataToRoutes } from '@/utils/toRoutes'
 
 const getDefaultState = () => {
   return {
@@ -79,12 +79,15 @@ const actions = {
    */
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo().then(response => {
+      request({
+        url: '/getInfo',
+        method: 'get'
+      }).then(response => {
         const { data } = response
-        const formatRoutes = dataToRoutes(data.routes)
+        const formatRoutes = []
         const asyncRoutes = [...formatRoutes, ...constantRoutes]
-        commit('SET_NAME', data.user.name)
-        commit('SET_AVATAR', data.user.avatar)
+        commit('SET_NAME', data.nickname)
+        commit('SET_AVATAR', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif')
         // 合并路由
         commit('SET_ROUTES', asyncRoutes)
         resolve(asyncRoutes)
