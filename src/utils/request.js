@@ -7,6 +7,7 @@
  */
 
 import axios from 'axios'
+// import qs from 'qs'
 import { ElMessage } from 'element-plus'
 import store from '@/store'
 
@@ -14,42 +15,54 @@ export const request = axios.create({
   baseURL: process.env.NODE_ENV === 'development' ? process.env.VUE_APP_BASE_API + process.env.VUE_APP_URI : window.VUE_APP.VUE_APP_BASE_API + window.VUE_APP.VUE_APP_URI,
   withCredentials: false,
   timeout: 10 * 1000
+  // headers: {
+  //   'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+  // }
 })
 
-request.interceptors.request.use(
-  config => {
-    if (store.getters.token) {
-      config.headers = {
-        Authorization: 'Bearer ' + store.getters.token
-      }
+request.interceptors.request.use(config => {
+  if (store.getters.token) {
+    config.headers = {
+      Authorization: 'Bearer ' + store.getters.token
     }
-    return config
-  },
-  error => {
-    return Promise.reject(error)
   }
-)
+  // if (config.data && config.headers['Content-Type'] === 'application/x-www-form-urlencoded;charset=UTF-8') {
+  //   config.data = qs.stringify(config.data)
+  // }
+  return config
+}, error => {
+  return Promise.reject(error)
+})
 
-request.interceptors.response.use(
-  response => {
-    const res = response.data
-    if (res.statusCode !== 200) {
-      ElMessage({
-        message: res.message || 'Error',
-        type: 'error',
-        duration: 5 * 1000
-      })
-      return Promise.reject(new Error(res.message || 'Error'))
-    } else {
-      return res
-    }
-  },
-  error => {
+request.interceptors.response.use(response => {
+  const { data } = response
+  if (data.statusCode !== 200) {
     ElMessage({
-      message: error.message,
+      message: data.message || 'Error',
       type: 'error',
       duration: 5 * 1000
     })
-    return Promise.reject(error)
+    return Promise.reject(new Error(data.message || 'Error'))
+  } else {
+    return data
   }
-)
+}, error => {
+  const { response } = error
+  console.log('xxx', response.data)
+  switch (response.data.statusCode) {
+    case 401:
+      ElMessage({
+        message: '用户 token 已失效，请重新登录！',
+        type: 'error',
+        duration: 5 * 1000
+      })
+      break
+    default:
+      ElMessage({
+        message: response.data.message,
+        type: 'error',
+        duration: 5 * 1000
+      })
+  }
+  return Promise.reject(response.data.message)
+})

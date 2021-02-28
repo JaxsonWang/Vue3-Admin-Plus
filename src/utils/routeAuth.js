@@ -5,7 +5,7 @@
  * 创建日期：2021/1/26 下午2:59
  * 创建作者：Jaxson
  */
-import { ElMessage, ElLoading } from 'element-plus'
+import { ElLoading } from 'element-plus'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import router from '@/router'
@@ -58,7 +58,6 @@ router.beforeEach(async(to, from, next) => {
         } catch (error) {
           // 触发触发器并重定向到登录页
           await store.dispatch('user/resetToken')
-          ElMessage.error(error || 'Has Error')
           next(`/login?redirect=${to.path}`)
           NProgress.done()
         } finally {

@@ -5,7 +5,6 @@
  * 创建日期：2021/1/26 下午5:44
  * 创建作者：Jaxson
  */
-import qs from 'qs'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { logout } from '@/api/login'
 import { request } from '@/utils/request'
@@ -56,10 +55,10 @@ const actions = {
       request({
         url: '/login',
         method: 'post',
-        data: qs.stringify({
+        data: {
           username: username.trim(),
           password: password
-        })
+        }
       }).then(response => {
         const { data } = response
         commit('SET_TOKEN', data.token)
