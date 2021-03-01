@@ -48,21 +48,32 @@ request.interceptors.response.use(response => {
   }
 }, error => {
   const { response } = error
-  console.log('xxx', response.data)
-  switch (response.data.statusCode) {
-    case 401:
-      ElMessage({
-        message: '用户 token 已失效，请重新登录！',
-        type: 'error',
-        duration: 5 * 1000
-      })
-      break
-    default:
-      ElMessage({
-        message: response.data.message,
-        type: 'error',
-        duration: 5 * 1000
-      })
+  let data = '未知错误'
+  if (response !== undefined) {
+    switch (response.data.statusCode) {
+      case 401:
+        ElMessage({
+          message: '用户 token 已失效，请重新登录！',
+          type: 'error',
+          duration: 5 * 1000
+        })
+        data = '用户 token 已失效，请重新登录！'
+        break
+      default:
+        ElMessage({
+          message: response.data.message,
+          type: 'error',
+          duration: 5 * 1000
+        })
+        data = response.data.message
+    }
+  } else {
+    ElMessage({
+      message: error.message,
+      type: 'error',
+      duration: 5 * 1000
+    })
+    data = error.message
   }
-  return Promise.reject(response.data.message)
+  return Promise.reject(data)
 })

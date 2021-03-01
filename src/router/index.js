@@ -56,6 +56,35 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/user',
+    component: Layout,
+    redirect: '/demo/center',
+    meta: {
+      title: '用户管理',
+      icon: 'dashboard'
+    },
+    children: [
+      {
+        path: 'center',
+        name: 'UserCenter',
+        component: () => import('@/views/user/center'),
+        meta: {
+          title: '用户中心',
+          icon: 'dashboard'
+        }
+      },
+      {
+        path: 'settings',
+        name: 'UserSettings',
+        component: () => import('@/views/user/settings'),
+        meta: {
+          title: '用户设置',
+          icon: 'dashboard'
+        }
+      }
+    ]
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('@/views/login'),

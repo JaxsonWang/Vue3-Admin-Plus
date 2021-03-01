@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "core-js": "^3.9.0",
+    "core-js": "^3.9.1",
     "dayjs": "^1.10.4",
     "element-plus": "^1.0.2-beta.32",
     "js-cookie": "^2.2.1",

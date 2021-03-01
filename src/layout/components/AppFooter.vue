@@ -27,6 +27,6 @@ export default defineComponent({
   align-items: center;
   font-size: 14px;
   color: #999;
-  background-color: #fff;
+  background-color: #f0f2f5;
 }
 </style>

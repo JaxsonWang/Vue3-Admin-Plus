@@ -155,7 +155,7 @@
 
     // footer 悬浮
     .footer-wrapper {
-      width: calc(100% - #{$hideSideBarWidth});
+      width: 100%;
     }
 
     // 关闭侧边栏 右侧主页内容
@@ -248,6 +248,11 @@
   &.mobile {
     // navbar 栏置顶
     .fixed-header {
+      width: 100%;
+    }
+
+    // footer
+    .fixed-footer {
       width: 100%;
     }
 
