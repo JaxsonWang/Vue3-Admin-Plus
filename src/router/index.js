@@ -58,7 +58,7 @@ export const asyncRoutes = [
   {
     path: '/user',
     component: Layout,
-    redirect: '/demo/center',
+    redirect: '/user/center',
     meta: {
       title: '用户管理',
       icon: 'dashboard'
@@ -79,6 +79,26 @@ export const asyncRoutes = [
         component: () => import('@/views/user/settings'),
         meta: {
           title: '用户设置',
+          icon: 'dashboard'
+        }
+      }
+    ]
+  },
+  {
+    path: '/system',
+    component: Layout,
+    redirect: '/system/user',
+    meta: {
+      title: '系统管理',
+      icon: 'dashboard'
+    },
+    children: [
+      {
+        path: 'user',
+        name: 'SystemUser',
+        component: () => import('@/views/system/user'),
+        meta: {
+          title: '用户管理',
           icon: 'dashboard'
         }
       }

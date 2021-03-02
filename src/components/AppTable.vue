@@ -173,6 +173,7 @@
 
 <script>
 import { defineComponent, ref, reactive } from 'vue'
+import { merge } from 'lodash'
 
 export default defineComponent({
   name: 'AppTable',
@@ -185,7 +186,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const loading = ref(false)
-    const appConfig = reactive(Object.assign({}, {
+    const appConfig = reactive(merge({}, {
       tableAttr: {
         stripe: true,
         border: true,
@@ -230,9 +231,9 @@ export default defineComponent({
      */
     const getTableListData = params => {
       loading.value = true
-      appConfig.tableListApi(params).then(response => {
-        tableData.value = response.list
-        pagination.pageCount = response.pageCount
+      appConfig.tableListApi(params).then(data => {
+        tableData.value = data.list
+        pagination.pageCount = data.pageCount
         loading.value = false
       })
     }

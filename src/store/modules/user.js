@@ -59,8 +59,7 @@ const actions = {
           username: username.trim(),
           password: password
         }
-      }).then(response => {
-        const { data } = response
+      }).then(data => {
         commit('SET_TOKEN', data.token)
         setToken(data.token)
         resolve()
@@ -81,8 +80,7 @@ const actions = {
       request({
         url: '/getInfo',
         method: 'get'
-      }).then(response => {
-        const { data } = response
+      }).then(data => {
         const formatRoutes = []
         const asyncRoutes = [...formatRoutes, ...constantRoutes]
         commit('SET_NAME', data.nickname)

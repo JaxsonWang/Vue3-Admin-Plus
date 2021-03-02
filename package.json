@@ -15,6 +15,7 @@
     "dayjs": "^1.10.4",
     "element-plus": "^1.0.2-beta.32",
     "js-cookie": "^2.2.1",
+    "lodash": "^4.17.21",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
     "path-to-regexp": "^6.2.0",
