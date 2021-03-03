@@ -25,9 +25,56 @@ export default defineComponent({
   },
   setup() {
     const tableConfig = reactive({
-      tableColumn: [],
-      tableListApi: params => request.get('/user', params),
-      tableListParams: {}, // tableListApi 所需要的参数
+      tableColumn: [
+        {
+          type: 'selection',
+          width: 50,
+          align: 'center'
+        },
+        {
+          label: '序号',
+          type: 'index',
+          width: 50,
+          align: 'center'
+        },
+        {
+          align: 'center',
+          label: '登录账号',
+          prop: 'username'
+        },
+        {
+          align: 'center',
+          label: '用户邮箱',
+          prop: 'email'
+        },
+        {
+          align: 'center',
+          label: '用户昵称',
+          prop: 'nickname'
+        },
+        {
+          align: 'center',
+          label: '创建时间',
+          prop: 'createdTime',
+          dateTimeFormat: 'YYYY-MM-DD HH:mm:ss'
+        },
+        {
+          align: 'center',
+          label: '更新时间',
+          prop: 'updatedTime',
+          dateTimeFormat: 'YYYY-MM-DD HH:mm:ss'
+        },
+        {
+          width: 120,
+          align: 'center',
+          label: '操作',
+          action: ['edit', 'delete']
+        }
+      ],
+      tableListApi: params => request.get('/user', { params }),
+      tableListParams: {},
+      tableDeleteApi: userId => request.delete(`/user/${userId}`),
+      tableDeleteParams: {},
       tableDelApi: null,
       tableSearch: []
     })

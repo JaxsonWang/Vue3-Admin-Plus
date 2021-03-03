@@ -49,6 +49,7 @@ export default defineComponent({
 
 // fixed-footer 悬浮
 .app-main.is-fixed-footer {
+  padding-bottom: 50px;
 }
 
 // navbar 置顶 + 有 tagsView

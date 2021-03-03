@@ -104,17 +104,17 @@
         <!--多选框-->
         <el-table-column
           v-if="item.type && item.type === 'selection'"
-          :width="item.width"
+          :width="item.width ? item.width : null"
           :align="item.align"
           type="selection"
         />
         <!--序列号-->
         <el-table-column
           v-else-if="item.type && item.type === 'index'"
-          :width="item.width"
+          :label="item.label"
+          :width="item.width ? item.width : null"
           :align="item.align"
           :fixed="item.fixed"
-          :label="item.label"
           type="index"
         />
         <!--自定义列插槽-->
@@ -123,8 +123,8 @@
         <el-table-column
           v-else
           :label="item.label"
-          :width="item.width"
-          :min-width="item.minWidth"
+          :width="item.width ? item.width : null"
+          :min-width="item.minWidth ? item.minWidth : null"
           :align="item.align"
           :fixed="item.fixed"
         >
@@ -141,18 +141,20 @@
                 >
                   编辑
                 </el-button>
-                <el-button
+                <el-popconfirm
                   v-if="act === 'delete'"
                   :key="idx"
-                  type="text"
-                  size="small"
-                  @click="handleDelete(scope.row)"
+                  title="这是一段内容确定删除吗？"
+                  @confirm="handleDelete(scope.row)"
                 >
-                  删除
-                </el-button>
+                  <template #reference>
+                    <el-button type="text" size="small">删除</el-button>
+                  </template>
+                </el-popconfirm>
               </template>
               <slot name="action-after" :scope="scope.row" />
             </template>
+            <template v-else-if="item.dateTimeFormat">{{ dayjs(scope.row[item.prop]).format(item.dateTimeFormat) }}</template>
             <template v-else>{{ filterVal(scope.row[item.prop]) }}</template>
           </template>
         </el-table-column>
@@ -163,6 +165,7 @@
       :current-page="pagination.currentPage"
       :page-count="pagination.pageCount"
       :page-size="pagination.pageSize"
+      :total="pagination.totalCount"
       :disabled="loading"
       class="app-pagination"
       @size-change="handleSizeChange"
@@ -173,7 +176,10 @@
 
 <script>
 import { defineComponent, ref, reactive } from 'vue'
+import { ElMessage } from 'element-plus'
 import { merge } from 'lodash'
+
+import dayjs from '@/utils/dayjs'
 
 export default defineComponent({
   name: 'AppTable',
@@ -186,16 +192,20 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const loading = ref(false)
-    const appConfig = reactive(merge({}, {
+    const tableData = ref([])
+    const selectionRow = ref([])
+    const appConfig = reactive(merge({
       tableAttr: {
         stripe: true,
         border: true,
-        fit: true
+        fit: true,
+        highlightCurrentRow: true
       },
       tableColumn: [],
       tableListApi: null,
       tableListParams: {}, // tableListApi 所需要的参数
-      tableDelApi: null,
+      tableDeleteApi: null,
+      tableDeleteParams: {},
       pagination: {
         pageSizes: [10, 20, 30, 40, 50, 100],
         layout: 'total, sizes, prev, pager, next, jumper',
@@ -208,16 +218,20 @@ export default defineComponent({
       }
     }, props.config))
     const tableSearchModel = reactive({})
-    const tableData = reactive([])
     const pagination = reactive({
       currentPage: 1,
       pageCount: 1,
-      pageSize: 10
+      pageSize: 10,
+      totalCount: 1
     })
-    const selectionRow = reactive([])
 
     const handleEdit = () => {}
-    const handleDelete = () => {}
+    const handleDelete = row => {
+      appConfig.tableDeleteApi(row.id).then(data => {
+        ElMessage.success('删除成功！')
+        onSearchSubmit()
+      })
+    }
     /**
      * 搜索条件初始化
      */
@@ -225,6 +239,7 @@ export default defineComponent({
       appConfig.tableSearch.forEach(item => {
         if (item.value !== undefined) tableSearchModel[item.key] = item.value
       })
+      onSearchSubmit()
     }
     /**
      * 获取列表数据
@@ -233,7 +248,8 @@ export default defineComponent({
       loading.value = true
       appConfig.tableListApi(params).then(data => {
         tableData.value = data.list
-        pagination.pageCount = data.pageCount
+        pagination.pageCount = data.totalPage
+        pagination.totalCount = data.totalCount
         loading.value = false
       })
     }
@@ -243,11 +259,10 @@ export default defineComponent({
      */
     const onSearchSubmit = () => {
       // 搜集所有搜索条件
-      const params = Object.assign(
-        {},
+      const params = merge(
         appConfig.tableListParams,
         {
-          pageNum: pagination.currentPage,
+          currentPage: pagination.currentPage,
           pageSize: pagination.pageSize
         },
         tableSearchModel
@@ -259,8 +274,11 @@ export default defineComponent({
      * @param val
      */
     const handleCurrentChange = val => {
-      pagination.currentPage = val
-      onSearchSubmit()
+      // todo
+      if (val !== null) {
+        pagination.currentPage = val
+        onSearchSubmit()
+      }
     }
     /**
      * 分页 - 当前条数
@@ -298,7 +316,6 @@ export default defineComponent({
     }
 
     initSearch()
-    onSearchSubmit()
 
     return {
       loading,
@@ -306,6 +323,7 @@ export default defineComponent({
       tableSearchModel,
       tableData,
       pagination,
+      dayjs,
       handleEdit,
       handleDelete,
       onSearchSubmit,
