@@ -6,7 +6,6 @@
  * 创建作者：Jaxson
  */
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { logout } from '@/api/login'
 import { request } from '@/utils/request'
 import { asyncRoutes, constantRoutes } from '@/router'
 // import { dataToRoutes } from '@/utils/toRoutes'
@@ -96,15 +95,11 @@ const actions = {
 
   logout({ commit, dispatch, state }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        removeToken()
-        commit('RESET_STATE')
-        // reset visited views and cached views
-        dispatch('tagsView/delAllViews', null, { root: true })
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      removeToken()
+      commit('RESET_STATE')
+      // reset visited views and cached views
+      dispatch('tagsView/delAllViews', null, { root: true })
+      resolve()
     })
   },
 

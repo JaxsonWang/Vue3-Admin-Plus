@@ -31,7 +31,7 @@
               <el-dropdown-item>Github</el-dropdown-item>
             </a>
             <el-dropdown-item divided @click="logout">
-              <span>Log Out</span>
+              <span>登出系统</span>
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -138,6 +138,8 @@ export default defineComponent({
       .avatar-wrapper {
         position: relative;
         height: 100%;
+        display: flex;
+        align-items: center;
 
         .user-avatar {
           cursor: pointer;

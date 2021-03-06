@@ -7,17 +7,15 @@
  */
 
 import axios from 'axios'
-// import qs from 'qs'
 import { ElMessage } from 'element-plus'
+
+import { setToken } from '@/utils/auth'
 import store from '@/store'
 
 export const request = axios.create({
   baseURL: process.env.NODE_ENV === 'development' ? process.env.VUE_APP_BASE_API + process.env.VUE_APP_URI : window.VUE_APP.VUE_APP_BASE_API + window.VUE_APP.VUE_APP_URI,
   withCredentials: false,
   timeout: 10 * 1000
-  // headers: {
-  //   'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-  // }
 })
 
 request.interceptors.request.use(config => {
@@ -26,9 +24,6 @@ request.interceptors.request.use(config => {
       Authorization: 'Bearer ' + store.getters.token
     }
   }
-  // if (config.data && config.headers['Content-Type'] === 'application/x-www-form-urlencoded;charset=UTF-8') {
-  //   config.data = qs.stringify(config.data)
-  // }
   return config
 }, error => {
   return Promise.reject(error)
@@ -44,6 +39,9 @@ request.interceptors.response.use(response => {
     })
     return Promise.reject(new Error(data.message || 'Error'))
   } else {
+    // 判断 token 是否存在，如果存在说明后台系统推送新的 token 信息
+    // 需要替换 cookie 里的 token
+    if (data.token) setToken(data.token)
     return data.data
   }
 }, error => {
