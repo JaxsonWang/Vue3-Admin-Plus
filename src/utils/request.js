@@ -8,9 +8,13 @@
 
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
+import { useRoute, useRouter } from 'vue-router'
 
 import { setToken } from '@/utils/auth'
 import store from '@/store'
+
+const route = useRoute()
+const router = useRouter()
 
 export const request = axios.create({
   baseURL: process.env.NODE_ENV === 'development' ? process.env.VUE_APP_BASE_API + process.env.VUE_APP_URI : window.VUE_APP.VUE_APP_BASE_API + window.VUE_APP.VUE_APP_URI,
@@ -44,18 +48,21 @@ request.interceptors.response.use(response => {
     if (data.token) setToken(data.token)
     return data.data
   }
-}, error => {
+}, async(error) => {
   const { response } = error
   let data = '未知错误'
   if (response !== undefined) {
     switch (response.data.statusCode) {
       case 401:
+        data = '用户 token 已失效，请重新登录！'
         ElMessage({
-          message: '用户 token 已失效，请重新登录！',
+          message: data,
           type: 'error',
           duration: 5 * 1000
         })
-        data = '用户 token 已失效，请重新登录！'
+        // 触发触发器并重定向到登录页
+        await store.dispatch('user/resetToken')
+        await router.push(`/login?redirect=${route.path}`)
         break
       default:
         ElMessage({

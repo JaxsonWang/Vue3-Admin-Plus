@@ -1,9 +1,6 @@
 <template>
   <div class="app-table-wrapper">
     <div class="table-header-wrapper">
-      <div class="table-header-actions">
-        <slot name="header-action" />
-      </div>
       <el-form
         v-if="appConfig.tableSearch.length !== 0"
         :inline="true"
@@ -21,41 +18,16 @@
           <el-input
             v-if="item.type === 'text'"
             v-model="tableSearchModel[item.key]"
-            :type="item.type"
+            :type="item.inputType ? item.inputType : 'text'"
             :name="item.key"
             :placeholder="item.placeholder"
             :clearable="item.clearable"
             :class="item.class"
             :disabled="loading"
           />
-          <!-- 日期时间选择器 -->
-          <el-date-picker
-            v-if="item.type === 'daterange'"
-            v-model="tableSearchModel[item.key]"
-            :align="item.align"
-            :range-separator="item.rangeSeparator || '至'"
-            :start-placeholder="item.startPlaceholder || '开始时间'"
-            :end-placeholder="item.endPlaceholder || '结束时间'"
-            :name="item.key"
-            :picker-options="item.pickerOptions"
-            :class="item.class"
-            :disabled="loading"
-            type="daterange"
-          />
-          <!-- 日期选择器 -->
-          <el-date-picker
-            v-if="item.type === 'date'"
-            v-model="tableSearchModel[item.key]"
-            :name="item.key"
-            :value-format="item.format"
-            :placeholder="item.placeholder"
-            :class="item.class"
-            :disabled="loading"
-            type="date"
-          />
           <!-- 下拉框 -->
           <el-select
-            v-if="item.type === 'select'"
+            v-else-if="item.type === 'select'"
             v-model="tableSearchModel[item.key]"
             :name="item.key"
             :placeholder="item.placeholder"
@@ -71,10 +43,36 @@
               :disabled="loading"
             />
           </el-select>
+          <!-- 日期时间选择器 -->
+          <el-date-picker
+            v-else-if="item.type === 'daterange'"
+            v-model="tableSearchModel[item.key]"
+            :align="item.align"
+            :range-separator="item.rangeSeparator || '至'"
+            :start-placeholder="item.startPlaceholder || '开始时间'"
+            :end-placeholder="item.endPlaceholder || '结束时间'"
+            :name="item.key"
+            :picker-options="item.pickerOptions"
+            :class="item.class"
+            :disabled="loading"
+            type="daterange"
+          />
+          <!-- 日期选择器 -->
+          <el-date-picker
+            v-else-if="item.type === 'date'"
+            v-model="tableSearchModel[item.key]"
+            :name="item.key"
+            :value-format="item.format"
+            :placeholder="item.placeholder"
+            :class="item.class"
+            :disabled="loading"
+            type="date"
+          />
         </el-form-item>
         <el-form-item>
           <el-button
             :loading="loading"
+            icon="el-icon-search"
             type="primary"
             @click="onSearchSubmit"
           >
@@ -83,6 +81,7 @@
           <el-button
             v-if="appConfig.tableSearchBtnName.reset"
             :loading="loading"
+            icon="el-icon-refresh-right"
             type="primary"
             @click="onSearchReset"
           >
@@ -90,6 +89,9 @@
           </el-button>
         </el-form-item>
       </el-form>
+      <div class="table-header-actions">
+        <slot name="header-action" :loading="loading" />
+      </div>
     </div>
     <el-table
       v-loading="loading"
@@ -213,7 +215,7 @@ export default defineComponent({
       },
       tableSearch: [],
       tableSearchBtnName: {
-        submit: '提交',
+        submit: '搜索',
         reset: '重置'
       }
     }, props.config))
@@ -237,7 +239,7 @@ export default defineComponent({
      */
     const initSearch = () => {
       appConfig.tableSearch.forEach(item => {
-        if (item.value !== undefined) tableSearchModel[item.key] = item.value
+        tableSearchModel[item.key] = item.value ? item.value : ''
       })
       onSearchSubmit()
     }
@@ -323,6 +325,7 @@ export default defineComponent({
       tableSearchModel,
       tableData,
       pagination,
+      selectionRow,
       dayjs,
       handleEdit,
       handleDelete,
