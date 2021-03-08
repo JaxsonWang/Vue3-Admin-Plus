@@ -39,7 +39,7 @@ request.interceptors.response.use(response => {
     ElMessage({
       message: data.message || 'Error',
       type: 'error',
-      duration: 5 * 1000
+      duration: 5 * 1000 * 100000
     })
     return Promise.reject(new Error(data.message || 'Error'))
   } else {

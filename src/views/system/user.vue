@@ -47,7 +47,7 @@
 
 <script>
 import { defineComponent, ref, reactive } from 'vue'
-import { ElNotification } from 'element-plus'
+import { ElNotification, ElMessageBox, ElMessage } from 'element-plus'
 
 import AppTable from '@/components/AppTable'
 import { request } from '@/utils/request'
@@ -168,6 +168,24 @@ export default defineComponent({
         })
         return false
       }
+      ElMessageBox.confirm('此操作将会永久删除数据，是否继续？', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        request.delete('/user/list', {
+          data: {
+            list: selectionRow.map(i => i.id)
+          }
+        }).then(() => {
+          appTableRef.value.onSearchSubmit()
+        })
+      }).catch(() => {
+        ElMessage({
+          type: 'info',
+          message: '取消操作！'
+        })
+      })
     }
 
     return {
