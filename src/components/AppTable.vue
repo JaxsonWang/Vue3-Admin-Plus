@@ -135,13 +135,21 @@
               <slot name="action-before" :scope="scope.row" />
               <template v-for="(act, idx) in item.action">
                 <el-button
-                  v-if="act === 'edit'"
+                  v-if="act === 'editBox'"
                   :key="idx"
                   type="text"
                   size="small"
                   @click="handleEdit(scope.row)"
                 >
                   编辑
+                </el-button>
+                <el-button
+                  v-if="act === 'editRoute'"
+                  :key="idx"
+                  type="text"
+                  size="small"
+                >
+                  <router-link to="https://baidu.com">编辑</router-link>
                 </el-button>
                 <el-popconfirm
                   v-if="act === 'delete'"
@@ -227,7 +235,8 @@ export default defineComponent({
       totalCount: 1
     })
 
-    const handleEdit = () => {}
+    const handleEdit = row => {
+    }
     const handleDelete = row => {
       appConfig.tableDeleteApi(row.id).then(data => {
         ElMessage.success('删除成功！')

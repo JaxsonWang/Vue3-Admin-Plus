@@ -38,7 +38,7 @@ export const asyncRoutes = [
       {
         path: 'i18n',
         name: 'I18nDemo',
-        component: () => import('@/views/demo-i18n'),
+        component: () => import('@/views/demo/i18n'),
         meta: {
           title: '国际化',
           icon: 'language'
@@ -47,9 +47,18 @@ export const asyncRoutes = [
       {
         path: 'table',
         name: 'tableDemo',
-        component: () => import('@/views/demo-table/demo'),
+        component: () => import('@/views/demo/table'),
         meta: {
           title: '表格封装',
+          icon: 'table'
+        }
+      },
+      {
+        path: 'form',
+        name: 'formDemo',
+        component: () => import('@/views/demo/form'),
+        meta: {
+          title: '表单封装',
           icon: 'table'
         }
       }

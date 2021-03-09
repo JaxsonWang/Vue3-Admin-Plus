@@ -105,7 +105,7 @@ export default defineComponent({
           width: 120,
           align: 'center',
           label: '操作',
-          action: ['edit', 'delete']
+          action: ['editBox', 'editRoute', 'delete']
         }
       ],
       tableListApi: params => request.get('/user', { params }),
@@ -127,7 +127,6 @@ export default defineComponent({
           key: 'isActive',
           value: 3,
           placeholder: '请选择用户状态',
-          clearable: true,
           options: [
             {
               label: '正常',
