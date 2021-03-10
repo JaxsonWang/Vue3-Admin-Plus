@@ -13,9 +13,6 @@ import { useRoute, useRouter } from 'vue-router'
 import { setToken } from '@/utils/auth'
 import store from '@/store'
 
-const route = useRoute()
-const router = useRouter()
-
 export const request = axios.create({
   baseURL: process.env.NODE_ENV === 'development' ? process.env.VUE_APP_BASE_API + process.env.VUE_APP_URI : window.VUE_APP.VUE_APP_BASE_API + window.VUE_APP.VUE_APP_URI,
   withCredentials: false,
@@ -62,7 +59,7 @@ request.interceptors.response.use(response => {
         })
         // 触发触发器并重定向到登录页
         await store.dispatch('user/resetToken')
-        await router.push(`/login?redirect=${route.path}`)
+        await useRouter().push(`/login?redirect=${useRoute().path}`)
         break
       default:
         ElMessage({
