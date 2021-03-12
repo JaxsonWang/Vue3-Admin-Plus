@@ -43,6 +43,67 @@ export default defineComponent({
             placeholder: '请输入用户名',
             clearable: true
           }
+        },
+        {
+          type: 'radio',
+          key: 'radio',
+          labelAttr: {
+            label: '单选集合'
+          },
+          formAttr: {
+            value: 1
+          },
+          options: [
+            {
+              title: '选项1',
+              attr: {
+                label: 0,
+                disabled: true
+              }
+            },
+            {
+              title: '选项2',
+              attr: {
+                label: 1
+              }
+            },
+            {
+              title: '选项3',
+              attr: {
+                label: 2
+              }
+            }
+          ]
+        },
+        {
+          type: 'checkbox',
+          key: 'checkbox',
+          labelAttr: {
+            label: '多选集合'
+          },
+          formAttr: {
+            value: [0, 1]
+          },
+          options: [
+            {
+              title: '选项1',
+              attr: {
+                label: 0
+              }
+            },
+            {
+              title: '选项2',
+              attr: {
+                label: 1
+              }
+            },
+            {
+              title: '选项3',
+              attr: {
+                label: 2
+              }
+            }
+          ]
         }
       ]
     })

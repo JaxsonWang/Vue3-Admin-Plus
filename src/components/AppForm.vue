@@ -23,6 +23,30 @@
         v-model="appForm[item.key]"
         v-bind="item.formAttr"
       />
+      <el-radio-group
+        v-else-if="item.type === 'radio'"
+        v-model="appForm[item.key]"
+      >
+        <el-radio
+          v-for="(rdo, rid) in item.options"
+          v-bind="rdo.attr"
+          :key="rid"
+        >
+          {{ rdo.title }}
+        </el-radio>
+      </el-radio-group>
+      <el-checkbox-group
+        v-else-if="item.type === 'checkbox'"
+        v-model="appForm[item.key]"
+      >
+        <el-checkbox
+          v-for="(cbx, cid) in item.options"
+          v-bind="cbx.attr"
+          :key="cid"
+        >
+          {{ cbx.title }}
+        </el-checkbox>
+      </el-checkbox-group>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onSubmit">立即创建</el-button>
