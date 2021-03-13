@@ -104,6 +104,44 @@ export default defineComponent({
               }
             }
           ]
+        },
+        {
+          type: 'input-number',
+          key: 'inputNumber',
+          labelAttr: {
+            label: '计数器'
+          },
+          formAttr: {
+            value: 1,
+            min: 1,
+            max: 10,
+            label: '描述说明'
+          }
+        },
+        {
+          type: 'select',
+          key: 'select',
+          labelAttr: {
+            label: '选择器'
+          },
+          formAttr: {
+            value: 0,
+            placeholder: '请选择选项'
+          },
+          options: [
+            {
+              label: '选项1',
+              value: 0
+            },
+            {
+              label: '选项2',
+              value: 1
+            },
+            {
+              label: '选项3',
+              value: 2
+            }
+          ]
         }
       ]
     })

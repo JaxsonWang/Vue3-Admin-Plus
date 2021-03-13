@@ -47,6 +47,22 @@
           {{ cbx.title }}
         </el-checkbox>
       </el-checkbox-group>
+      <el-input-number
+        v-else-if="item.type === 'input-number'"
+        v-model="appForm[item.key]"
+        v-bind="item.formAttr"
+      />
+      <el-select
+        v-else-if="item.type === 'select'"
+        v-model="appForm[item.key]"
+        v-bind="item.formAttr"
+      >
+        <el-option
+          v-for="slt in item.options"
+          v-bind="slt"
+          :key="slt.value"
+        />
+      </el-select>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onSubmit">立即创建</el-button>
