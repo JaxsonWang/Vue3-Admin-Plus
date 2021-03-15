@@ -26,6 +26,7 @@
       <el-radio-group
         v-else-if="item.type === 'radio'"
         v-model="appForm[item.key]"
+        v-bind="item.formAttr"
       >
         <el-radio
           v-for="(rdo, rid) in item.options"
@@ -63,6 +64,61 @@
           :key="slt.value"
         />
       </el-select>
+      <el-cascader
+        v-else-if="item.type === 'cascader'"
+        v-model="appForm[item.key]"
+        v-bind="item.formAttr"
+      />
+      <el-switch
+        v-else-if="item.type === 'switch'"
+        v-model="appForm[item.key]"
+        v-bind="item.formAttr"
+      />
+      <el-slider
+        v-else-if="item.type === 'slider'"
+        v-model="appForm[item.key]"
+        v-bind="item.formAttr"
+      />
+      <el-time-picker
+        v-else-if="item.type === 'timePicker'"
+        v-model="appForm[item.key]"
+        v-bind="item.formAttr"
+      />
+      <el-time-select
+        v-else-if="item.type === 'timeSelect'"
+        v-model="appForm[item.key]"
+        v-bind="item.formAttr"
+      />
+      <el-date-picker
+        v-else-if="item.type === 'datePicker'"
+        v-model="appForm[item.key]"
+        v-bind="item.formAttr"
+      />
+      <el-rate
+        v-else-if="item.type === 'rate'"
+        v-model="appForm[item.key]"
+        v-bind="item.formAttr"
+      />
+      <el-color-picker
+        v-else-if="item.type === 'colorPicker'"
+        v-model="appForm[item.key]"
+        v-bind="item.formAttr"
+      />
+      <el-transfer
+        v-else-if="item.type === 'transfer'"
+        v-model="appForm[item.key]"
+        v-bind="item.formAttr"
+      />
+      <el-upload
+        v-else-if="item.type === 'upload'"
+        v-model="appForm[item.key]"
+        v-bind="item.formAttr"
+      >
+        <slot name="upload" />
+        <template #tip>
+          <slot name="upload-tip" />
+        </template>
+      </el-upload>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onSubmit">立即创建</el-button>
@@ -93,7 +149,7 @@ export default defineComponent({
     }
 
     // 初始化表单 model
-    appConfig.formList.forEach(item => appForm[item.key] = item.formAttr.value)
+    appConfig.formList.forEach(item => appForm[item.key] = item.formAttr && item.formAttr.value ? item.formAttr.value : {})
 
     return {
       appConfig,

@@ -8,12 +8,20 @@
 
 <template>
   <div class="app-form-container">
-    <app-form :config="formConfig" />
+    <app-form :config="formConfig">
+      <template #upload>
+        <el-button size="small" type="primary">点击上传</el-button>
+      </template>
+      <template #upload-tip>
+        <div class="el-upload__tip">只能上传 jpg/png 文件，且不超过 500kb</div>
+      </template>
+    </app-form>
   </div>
 </template>
 
 <script>
 import { defineComponent, reactive } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import AppForm from '@/components/AppForm'
 
@@ -39,7 +47,7 @@ export default defineComponent({
           },
           formAttr: {
             type: 'text',
-            value: 'Jaxson',
+            modelValue: 'Jaxson',
             placeholder: '请输入用户名',
             clearable: true
           }
@@ -51,7 +59,7 @@ export default defineComponent({
             label: '单选集合'
           },
           formAttr: {
-            value: 1
+            modelValue: 1
           },
           options: [
             {
@@ -82,7 +90,7 @@ export default defineComponent({
             label: '多选集合'
           },
           formAttr: {
-            value: [0, 1]
+            modelValue: [0, 1]
           },
           options: [
             {
@@ -112,7 +120,7 @@ export default defineComponent({
             label: '计数器'
           },
           formAttr: {
-            value: 1,
+            modelValue: 1,
             min: 1,
             max: 10,
             label: '描述说明'
@@ -125,7 +133,7 @@ export default defineComponent({
             label: '选择器'
           },
           formAttr: {
-            value: 0,
+            modelValue: 0,
             placeholder: '请选择选项'
           },
           options: [
@@ -142,10 +150,428 @@ export default defineComponent({
               value: 2
             }
           ]
+        },
+        {
+          type: 'cascader',
+          key: 'cascader',
+          labelAttr: {
+            label: '联级选择器'
+          },
+          formAttr: {
+            modelValue: [],
+            placeholder: '请选择选项',
+            options: [
+              {
+                value: 'zhinan',
+                label: '指南',
+                children: [
+                  {
+                    value: 'shejiyuanze',
+                    label: '设计原则',
+                    children: [
+                      {
+                        value: 'yizhi',
+                        label: '一致'
+                      },
+                      {
+                        value: 'fankui',
+                        label: '反馈'
+                      },
+                      {
+                        value: 'xiaolv',
+                        label: '效率'
+                      },
+                      {
+                        value: 'kekong',
+                        label: '可控'
+                      }
+                    ]
+                  },
+                  {
+                    value: 'daohang',
+                    label: '导航',
+                    children: [
+                      {
+                        value: 'cexiangdaohang',
+                        label: '侧向导航'
+                      },
+                      {
+                        value: 'dingbudaohang',
+                        label: '顶部导航'
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                value: 'zujian',
+                label: '组件',
+                children: [
+                  {
+                    value: 'basic',
+                    label: 'Basic',
+                    children: [
+                      {
+                        value: 'layout',
+                        label: 'Layout 布局'
+                      },
+                      {
+                        value: 'color',
+                        label: 'Color 色彩'
+                      },
+                      {
+                        value: 'typography',
+                        label: 'Typography 字体'
+                      },
+                      {
+                        value: 'icon',
+                        label: 'Icon 图标'
+                      },
+                      {
+                        value: 'button',
+                        label: 'Button 按钮'
+                      }
+                    ]
+                  },
+                  {
+                    value: 'form',
+                    label: 'Form',
+                    children: [
+                      {
+                        value: 'radio',
+                        label: 'Radio 单选框'
+                      },
+                      {
+                        value: 'checkbox',
+                        label: 'Checkbox 多选框'
+                      },
+                      {
+                        value: 'input',
+                        label: 'Input 输入框'
+                      },
+                      {
+                        value: 'input-number',
+                        label: 'InputNumber 计数器'
+                      },
+                      {
+                        value: 'select',
+                        label: 'Select 选择器'
+                      },
+                      {
+                        value: 'cascader',
+                        label: 'Cascader 级联选择器'
+                      },
+                      {
+                        value: 'switch',
+                        label: 'Switch 开关'
+                      },
+                      {
+                        value: 'slider',
+                        label: 'Slider 滑块'
+                      },
+                      {
+                        value: 'time-picker',
+                        label: 'TimePicker 时间选择器'
+                      },
+                      {
+                        value: 'date-picker',
+                        label: 'DatePicker 日期选择器'
+                      },
+                      {
+                        value: 'datetime-picker',
+                        label: 'DateTimePicker 日期时间选择器'
+                      },
+                      {
+                        value: 'upload',
+                        label: 'Upload 上传'
+                      },
+                      {
+                        value: 'rate',
+                        label: 'Rate 评分'
+                      },
+                      {
+                        value: 'form',
+                        label: 'Form 表单'
+                      }
+                    ]
+                  },
+                  {
+                    value: 'data',
+                    label: 'Data',
+                    children: [
+                      {
+                        value: 'table',
+                        label: 'Table 表格'
+                      },
+                      {
+                        value: 'tag',
+                        label: 'Tag 标签'
+                      },
+                      {
+                        value: 'progress',
+                        label: 'Progress 进度条'
+                      },
+                      {
+                        value: 'tree',
+                        label: 'Tree 树形控件'
+                      },
+                      {
+                        value: 'pagination',
+                        label: 'Pagination 分页'
+                      },
+                      {
+                        value: 'badge',
+                        label: 'Badge 标记'
+                      }
+                    ]
+                  },
+                  {
+                    value: 'notice',
+                    label: 'Notice',
+                    children: [
+                      {
+                        value: 'alert',
+                        label: 'Alert 警告'
+                      },
+                      {
+                        value: 'loading',
+                        label: 'Loading 加载'
+                      },
+                      {
+                        value: 'message',
+                        label: 'Message 消息提示'
+                      },
+                      {
+                        value: 'message-box',
+                        label: 'MessageBox 弹框'
+                      },
+                      {
+                        value: 'notification',
+                        label: 'Notification 通知'
+                      }
+                    ]
+                  },
+                  {
+                    value: 'navigation',
+                    label: 'Navigation',
+                    children: [
+                      {
+                        value: 'menu',
+                        label: 'NavMenu 导航菜单'
+                      },
+                      {
+                        value: 'tabs',
+                        label: 'Tabs 标签页'
+                      },
+                      {
+                        value: 'breadcrumb',
+                        label: 'Breadcrumb 面包屑'
+                      },
+                      {
+                        value: 'dropdown',
+                        label: 'Dropdown 下拉菜单'
+                      },
+                      {
+                        value: 'steps',
+                        label: 'Steps 步骤条'
+                      }
+                    ]
+                  },
+                  {
+                    value: 'others',
+                    label: 'Others',
+                    children: [
+                      {
+                        value: 'dialog',
+                        label: 'Dialog 对话框'
+                      },
+                      {
+                        value: 'tooltip',
+                        label: 'Tooltip 文字提示'
+                      },
+                      {
+                        value: 'popover',
+                        label: 'Popover 弹出框'
+                      },
+                      {
+                        value: 'card',
+                        label: 'Card 卡片'
+                      },
+                      {
+                        value: 'carousel',
+                        label: 'Carousel 走马灯'
+                      },
+                      {
+                        value: 'collapse',
+                        label: 'Collapse 折叠面板'
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                value: 'ziyuan',
+                label: '资源',
+                children: [
+                  {
+                    value: 'axure',
+                    label: 'Axure Components'
+                  },
+                  {
+                    value: 'sketch',
+                    label: 'Sketch Templates'
+                  },
+                  {
+                    value: 'jiaohu',
+                    label: '组件交互文档'
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          type: 'switch',
+          key: 'switch',
+          labelAttr: {
+            label: '开关'
+          },
+          formAttr: {
+            modelValue: false
+          }
+        },
+        {
+          type: 'slider',
+          key: 'slider',
+          labelAttr: {
+            label: '滑块'
+          },
+          formAttr: {
+            modelValue: [30, 60],
+            marks: {
+              0: '0°C',
+              8: '8°C',
+              37: '37°C',
+              50: {
+                style: {
+                  color: '#1989FA'
+                },
+                label: '50%'
+              }
+            }
+          }
+        },
+        {
+          type: 'timePicker',
+          key: 'timePicker',
+          labelAttr: {
+            label: '时间选择器1'
+          },
+          formAttr: {
+            modelValue: new Date()
+          }
+        },
+        {
+          type: 'timeSelect',
+          key: 'timeSelect',
+          labelAttr: {
+            label: '时间选择器2'
+          },
+          formAttr: {
+            modelValue: '08:30',
+            start: '08:30',
+            step: '00:15',
+            end: '18:30',
+            placeholder: '选择时间'
+          }
+        },
+        {
+          type: 'datePicker',
+          key: 'datePicker1',
+          labelAttr: {
+            label: '日期选择器1'
+          },
+          formAttr: {
+            modelValue: '',
+            type: 'date',
+            placeholder: '选择日期'
+          }
+        },
+        {
+          type: 'datePicker',
+          key: 'datePicker2',
+          labelAttr: {
+            label: '日期选择器2'
+          },
+          formAttr: {
+            modelValue: '',
+            type: 'datetime',
+            placeholder: '选择日期'
+          }
+        },
+        {
+          type: 'rate',
+          key: 'rate',
+          labelAttr: {
+            label: '评分'
+          },
+          formAttr: {
+            modelValue: null
+          }
+        },
+        {
+          type: 'colorPicker',
+          key: 'colorPicker',
+          labelAttr: {
+            label: '颜色选择器'
+          },
+          formAttr: {
+            modelValue: ''
+          }
+        },
+        {
+          type: 'transfer',
+          key: 'transfer',
+          labelAttr: {
+            label: '穿梭框'
+          },
+          formAttr: {
+            modelValue: [],
+            data: [
+              {
+                key: 0,
+                label: '备选项1'
+              },
+              {
+                key: 1,
+                label: '备选项2'
+              },
+              {
+                key: 2,
+                label: '备选项3'
+              },
+              {
+                key: 3,
+                label: '备选项4'
+              }
+            ]
+          }
+        },
+        {
+          type: 'upload',
+          key: 'upload',
+          labelAttr: {
+            label: '上传文件'
+          },
+          formAttr: {
+            action: 'https://jsonplaceholder.typicode.com/posts/'
+          }
         }
       ]
     })
 
+    // todo: remove 初始化国际化
+    useI18n().locale.value = 'zh-cn'
     return {
       formConfig
     }
