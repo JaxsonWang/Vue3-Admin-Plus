@@ -7,7 +7,7 @@
  */
 
 window.VUE_APP = {
-  VUE_APP_BASE_API: 'https://www.fastmock.site/mock/d3314dccf01ea74f7c721f22de6600d6/vue3-admin-plus',
+  VUE_APP_BASE_API: 'https://admin.api.i95.me',
   VUE_APP_URI: '/api',
   VUE_APP_DATA: '/data'
 }
