@@ -29,6 +29,10 @@
 
 - [在线预览](https://admin-jaxson.vercel.app)
 
+登录用户：`admin`
+
+登录密码：`123456`
+
 
 ## 前序准备
 
