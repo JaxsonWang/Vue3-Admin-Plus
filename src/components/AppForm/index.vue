@@ -124,7 +124,7 @@
               />
             </el-option-group>
           </template>
-          <template>
+          <template v-else>
             <el-option
               v-for="(slt, sid) in item.options"
               v-bind="slt"
@@ -270,7 +270,7 @@ export default defineComponent({
       return item
     })
     // 初始化表单 model
-    appConfig.formList.forEach(item => appForm[item.key] = item.formAttrs && item.formAttrs.modelValue ? item.formAttrs.modelValue : null)
+    appConfig.formList.forEach(item => appForm[item.key] = item.value)
 
     return {
       appConfig,

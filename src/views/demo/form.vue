@@ -8,14 +8,7 @@
 
 <template>
   <div class="app-form-container">
-    <app-form :config="formConfig">
-      <template #upload>
-        <el-button size="small" type="primary">点击上传</el-button>
-      </template>
-      <template #upload-tip>
-        <div class="el-upload__tip">只能上传 jpg/png 文件，且不超过 500kb</div>
-      </template>
-    </app-form>
+    <app-form :config="formConfig" />
   </div>
 </template>
 
@@ -42,19 +35,17 @@ export default defineComponent({
         {
           type: 'radio',
           key: 'radio',
+          value: 1,
           labelAttrs: {
             label: '单选集合'
           },
-          formAttrs: {
-            modelValue: 1
-          },
+          formAttrs: {},
           formEvents: {},
           options: [
             {
               title: '选项1',
               attrs: {
-                label: 0,
-                disabled: true
+                label: 0
               },
               events: {}
             },
@@ -62,25 +53,26 @@ export default defineComponent({
               title: '选项2',
               attrs: {
                 label: 1
-              }
+              },
+              events: {}
             },
             {
               title: '选项3',
               attrs: {
                 label: 2
-              }
+              },
+              events: {}
             }
-          ],
-          isButton: true
+          ]
         },
         {
           type: 'checkbox',
           key: 'checkbox',
+          value: [0, 1],
           labelAttrs: {
             label: '多选集合'
           },
           formAttrs: {
-            modelValue: [0, 1]
           },
           formEvents: {},
           options: [
@@ -88,51 +80,47 @@ export default defineComponent({
               title: '选项1',
               attrs: {
                 label: 0
-              }
+              },
+              events: {}
             },
             {
               title: '选项2',
               attrs: {
                 label: 1
-              }
+              },
+              events: {}
             },
             {
               title: '选项3',
               attrs: {
                 label: 2
-              }
+              },
+              events: {}
             }
-          ],
-          isButton: true
+          ]
         },
         {
           type: 'input',
           key: 'username',
+          value: 'Jaxson',
           labelAttrs: {
             label: '用户名'
           },
           formAttrs: {
             type: 'text',
-            modelValue: 'Jaxson',
             placeholder: '请输入用户名',
             clearable: true
           },
-          formEvents: {},
-          formSlot: {
-            prefix: 'prefix',
-            suffix: 'suffix',
-            prepend: 'prepend',
-            append: 'append'
-          }
+          formEvents: {}
         },
         {
           type: 'input-number',
           key: 'inputNumber',
+          value: 1,
           labelAttrs: {
             label: '计数器'
           },
           formAttrs: {
-            modelValue: 1,
             min: 1,
             max: 10,
             label: '描述说明'
@@ -142,18 +130,14 @@ export default defineComponent({
         {
           type: 'select',
           key: 'select',
+          value: 0,
           labelAttrs: {
             label: '选择器'
           },
           formAttrs: {
-            modelValue: 0,
             placeholder: '请选择选项'
           },
           formEvents: {},
-          formSlot: {
-            prefix: 'prefix',
-            empty: 'empty'
-          },
           options: [
             {
               label: '选项1',
@@ -172,11 +156,11 @@ export default defineComponent({
         {
           type: 'select',
           key: 'selectGroup',
+          value: 'Shanghai',
           labelAttrs: {
             label: '选择器'
           },
           formAttrs: {
-            modelValue: 0,
             placeholder: '请选择选项'
           },
           formEvents: {},
@@ -221,11 +205,11 @@ export default defineComponent({
         {
           type: 'cascader',
           key: 'cascader',
+          value: [],
           labelAttrs: {
             label: '联级选择器'
           },
           formAttrs: {
-            modelValue: [],
             placeholder: '请选择选项',
             options: [
               {
@@ -501,11 +485,11 @@ export default defineComponent({
         {
           type: 'cascaderPanel',
           key: 'cascaderPanel',
+          value: [],
           labelAttrs: {
             label: '联级选择器'
           },
           formAttrs: {
-            modelValue: [],
             placeholder: '请选择选项',
             options: [
               {
@@ -781,22 +765,22 @@ export default defineComponent({
         {
           type: 'switch',
           key: 'switch',
+          value: false,
           labelAttrs: {
             label: '开关'
           },
           formAttrs: {
-            modelValue: false
           },
           formEvents: {}
         },
         {
           type: 'slider',
           key: 'slider',
+          value: [30, 60],
           labelAttrs: {
             label: '滑块'
           },
           formAttrs: {
-            modelValue: [30, 60],
             marks: {
               0: '0°C',
               8: '8°C',
@@ -814,22 +798,22 @@ export default defineComponent({
         {
           type: 'timePicker',
           key: 'timePicker',
+          value: new Date(),
           labelAttrs: {
             label: '时间选择器1'
           },
           formAttrs: {
-            modelValue: new Date()
           },
           formEvents: {}
         },
         {
           type: 'timeSelect',
           key: 'timeSelect',
+          value: '08:30',
           labelAttrs: {
             label: '时间选择器2'
           },
           formAttrs: {
-            modelValue: '08:30',
             start: '08:30',
             step: '00:15',
             end: '18:30',
@@ -840,11 +824,11 @@ export default defineComponent({
         {
           type: 'datePicker',
           key: 'datePicker1',
+          value: '',
           labelAttrs: {
             label: '日期选择器1'
           },
           formAttrs: {
-            modelValue: '',
             type: 'date',
             placeholder: '选择日期'
           },
@@ -853,11 +837,11 @@ export default defineComponent({
         {
           type: 'datePicker',
           key: 'datePicker2',
+          value: '',
           labelAttrs: {
             label: '日期选择器2'
           },
           formAttrs: {
-            modelValue: '',
             type: 'datetime',
             placeholder: '选择日期'
           },
@@ -866,33 +850,33 @@ export default defineComponent({
         {
           type: 'rate',
           key: 'rate',
+          value: null,
           labelAttrs: {
             label: '评分'
           },
           formAttrs: {
-            modelValue: null
           },
           formEvents: {}
         },
         {
           type: 'colorPicker',
           key: 'colorPicker',
+          value: '',
           labelAttrs: {
             label: '颜色选择器'
           },
           formAttrs: {
-            modelValue: ''
           },
           formEvents: {}
         },
         {
           type: 'transfer',
           key: 'transfer',
+          value: [],
           labelAttrs: {
             label: '穿梭框'
           },
           formAttrs: {
-            modelValue: [],
             data: [
               {
                 key: 0,
