@@ -8,12 +8,12 @@
 
 <template>
   <div class="app-form-container">
-    <app-form :config="formConfig" />
+    <app-form :config="formConfig" :model="formModel" ref="appFormRef" />
   </div>
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, ref, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import AppForm from '@/components/AppForm'
@@ -24,6 +24,7 @@ export default defineComponent({
     AppForm
   },
   setup() {
+    const appFormRef = ref()
     const formConfig = reactive({
       formAttrs: {
         inline: false,
@@ -908,14 +909,48 @@ export default defineComponent({
             action: 'https://jsonplaceholder.typicode.com/posts/'
           },
           formEvents: {}
+        },
+        {
+          type: 'submit',
+          submit: {
+            title: '保存',
+            attrs: {
+              type: 'primary'
+            }
+          },
+          reset: {
+            title: '重置'
+          }
         }
       ]
+    })
+    const formModel = reactive({
+      radio: 1,
+      checkbox: [0, 1],
+      username: 'Jaxson',
+      inputNumber: 1,
+      select: 0,
+      selectGroup: 'Shanghai',
+      cascader: [],
+      cascaderPanel: [],
+      switch: false,
+      slider: 0,
+      timePicker: new Date(),
+      timeSelect: '08:30',
+      datePicker1: '',
+      datePicker2: '',
+      rate: 0,
+      colorPicker: '',
+      transfer: [],
+      upload: ''
     })
 
     // todo: remove 初始化国际化
     useI18n().locale.value = 'zh-cn'
     return {
-      formConfig
+      appFormRef,
+      formConfig,
+      formModel
     }
   }
 })

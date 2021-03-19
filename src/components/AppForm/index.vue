@@ -235,16 +235,30 @@
           <slot :name="item.formSlot.trigger" />
         </template>
       </el-upload>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="onSubmit">立即创建</el-button>
-      <el-button>取消</el-button>
+      <template v-else-if="item.type === 'submit'">
+        <el-button
+          v-if="item.submit"
+          v-bind="item.submit.attrs"
+          v-on="item.submit.events"
+          @click="formSubmit"
+        >
+          {{ item.submit.title }}
+        </el-button>
+        <el-button
+          v-if="item.reset"
+          v-bind="item.reset.attrs"
+          v-on="item.reset.events"
+          @click="formReset"
+        >
+          {{ item.reset.title }}
+        </el-button>
+      </template>
     </el-form-item>
   </el-form>
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, ref, reactive } from 'vue'
 import { merge } from 'lodash'
 
 export default defineComponent({
@@ -254,28 +268,44 @@ export default defineComponent({
       require: true,
       type: Object,
       default: () => {}
+    },
+    model: {
+      require: true,
+      type: Object,
+      default: () => {}
     }
   },
   setup(props) {
+    const formRef = ref()
     const appConfig = merge({}, props.config)
-    const appForm = reactive({})
+    const appForm = reactive(props.model)
 
-    const onSubmit = () => {
+    const formSubmit = () => {
       console.log('submit!', appForm)
+    }
+
+    const formReset = () => {
+      formRef.value.resetFields()
     }
 
     // 初始化表单数据
     appConfig.formList = appConfig.formList.map(item => {
       if (!item.formEvents) item.formEvents = {}
+      if (item.type === 'submit') {
+        if (item.submit && !item.submit.attrs) item.submit.attrs = {}
+        if (item.submit && !item.submit.events) item.submit.events = {}
+        if (item.reset && !item.reset.attrs) item.reset.attrs = {}
+        if (item.reset && !item.reset.events) item.reset.events = {}
+      }
       return item
     })
-    // 初始化表单 model
-    appConfig.formList.forEach(item => appForm[item.key] = item.value)
 
     return {
+      formRef,
       appConfig,
       appForm,
-      onSubmit
+      formSubmit,
+      formReset
     }
   }
 })
