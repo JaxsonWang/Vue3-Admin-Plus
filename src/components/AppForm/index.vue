@@ -17,6 +17,7 @@
       v-for="(item, index) in appConfig.formList"
       v-bind="item.labelAttrs"
       :key="index"
+      :prop="item.key"
     >
       <el-radio-group
         v-if="item.type === 'radio'"
