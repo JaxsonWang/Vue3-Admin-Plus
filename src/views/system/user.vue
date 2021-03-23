@@ -112,37 +112,64 @@ export default defineComponent({
       tableListParams: {},
       tableDeleteApi: userId => request.delete(`/user/${userId}`),
       tableDeleteParams: {},
-      tableSearch: [
-        {
-          label: '登录账号',
-          type: 'text',
-          key: 'username',
-          inputType: 'text',
-          placeholder: '请输入登录账号',
-          clearable: true
+      tableSearch: {
+        formAttrs: {
+          inline: true,
+          size: 'small'
         },
-        {
-          label: '用户状态',
-          type: 'select',
-          key: 'isActive',
-          value: 3,
-          placeholder: '请选择用户状态',
-          options: [
-            {
-              label: '正常',
-              value: 1
+        formList: [
+          {
+            type: 'input',
+            key: 'username',
+            value: '',
+            labelAttrs: {
+              label: '登录账号'
             },
-            {
-              label: '禁用',
-              value: 0
-            },
-            {
-              label: '全部',
-              value: 3
+            formAttrs: {
+              type: 'text',
+              placeholder: '请输入登录账号',
+              clearable: true
             }
-          ]
-        }
-      ]
+          },
+          {
+            type: 'select',
+            key: 'isActive',
+            value: 3,
+            labelAttrs: {
+              label: '用户状态'
+            },
+            formAttrs: {
+              placeholder: '请选择用户状态'
+            },
+            options: [
+              {
+                label: '正常',
+                value: 1
+              },
+              {
+                label: '禁用',
+                value: 0
+              },
+              {
+                label: '全部',
+                value: 3
+              }
+            ]
+          },
+          {
+            type: 'submit',
+            submit: {
+              title: '搜索',
+              attrs: {
+                type: 'primary'
+              }
+            },
+            reset: {
+              title: '重置'
+            }
+          }
+        ]
+      }
     })
     const appTableRef = ref(null)
 

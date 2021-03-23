@@ -8,13 +8,16 @@
 
 <template>
   <div class="app-form-container">
-    <app-form :config="formConfig" :model="formModel" ref="appFormRef" />
+    <app-form :config="formConfig" :model="formModel" @submit="onFormSubmit">
+      <template #slot-demo>
+        <el-divider />
+      </template>
+    </app-form>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref, reactive } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { defineComponent, reactive } from 'vue'
 
 import AppForm from '@/components/AppForm'
 
@@ -24,7 +27,6 @@ export default defineComponent({
     AppForm
   },
   setup() {
-    const appFormRef = ref()
     const formConfig = reactive({
       formAttrs: {
         inline: false,
@@ -40,8 +42,6 @@ export default defineComponent({
           labelAttrs: {
             label: '单选集合'
           },
-          formAttrs: {},
-          formEvents: {},
           options: [
             {
               title: '选项1',
@@ -73,9 +73,6 @@ export default defineComponent({
           labelAttrs: {
             label: '多选集合'
           },
-          formAttrs: {
-          },
-          formEvents: {},
           options: [
             {
               title: '选项1',
@@ -105,17 +102,19 @@ export default defineComponent({
           key: 'username',
           value: 'Jaxson',
           labelAttrs: {
-            label: '用户名'
+            label: '用户名',
+            rules: [
+              { required: true, message: '请输入用户名', trigger: 'blur' }
+            ]
           },
           formAttrs: {
             type: 'text',
             placeholder: '请输入用户名',
             clearable: true
-          },
-          formEvents: {}
+          }
         },
         {
-          type: 'input-number',
+          type: 'inputNumber',
           key: 'inputNumber',
           value: 1,
           labelAttrs: {
@@ -125,8 +124,7 @@ export default defineComponent({
             min: 1,
             max: 10,
             label: '描述说明'
-          },
-          formEvents: {}
+          }
         },
         {
           type: 'select',
@@ -138,7 +136,6 @@ export default defineComponent({
           formAttrs: {
             placeholder: '请选择选项'
           },
-          formEvents: {},
           options: [
             {
               label: '选项1',
@@ -164,7 +161,6 @@ export default defineComponent({
           formAttrs: {
             placeholder: '请选择选项'
           },
-          formEvents: {},
           options: [
             {
               label: '热门城市',
@@ -480,8 +476,7 @@ export default defineComponent({
                 ]
               }
             ]
-          },
-          formEvents: {}
+          }
         },
         {
           type: 'cascaderPanel',
@@ -760,8 +755,7 @@ export default defineComponent({
                 ]
               }
             ]
-          },
-          formEvents: {}
+          }
         },
         {
           type: 'switch',
@@ -769,10 +763,7 @@ export default defineComponent({
           value: false,
           labelAttrs: {
             label: '开关'
-          },
-          formAttrs: {
-          },
-          formEvents: {}
+          }
         },
         {
           type: 'slider',
@@ -793,8 +784,7 @@ export default defineComponent({
                 label: '50%'
               }
             }
-          },
-          formEvents: {}
+          }
         },
         {
           type: 'timePicker',
@@ -802,10 +792,7 @@ export default defineComponent({
           value: new Date(),
           labelAttrs: {
             label: '时间选择器1'
-          },
-          formAttrs: {
-          },
-          formEvents: {}
+          }
         },
         {
           type: 'timeSelect',
@@ -819,8 +806,7 @@ export default defineComponent({
             step: '00:15',
             end: '18:30',
             placeholder: '选择时间'
-          },
-          formEvents: {}
+          }
         },
         {
           type: 'datePicker',
@@ -832,8 +818,7 @@ export default defineComponent({
           formAttrs: {
             type: 'date',
             placeholder: '选择日期'
-          },
-          formEvents: {}
+          }
         },
         {
           type: 'datePicker',
@@ -845,8 +830,11 @@ export default defineComponent({
           formAttrs: {
             type: 'datetime',
             placeholder: '选择日期'
-          },
-          formEvents: {}
+          }
+        },
+        {
+          type: 'slot',
+          name: 'slot-demo'
         },
         {
           type: 'rate',
@@ -854,10 +842,7 @@ export default defineComponent({
           value: null,
           labelAttrs: {
             label: '评分'
-          },
-          formAttrs: {
-          },
-          formEvents: {}
+          }
         },
         {
           type: 'colorPicker',
@@ -865,10 +850,7 @@ export default defineComponent({
           value: '',
           labelAttrs: {
             label: '颜色选择器'
-          },
-          formAttrs: {
-          },
-          formEvents: {}
+          }
         },
         {
           type: 'transfer',
@@ -896,8 +878,7 @@ export default defineComponent({
                 label: '备选项4'
               }
             ]
-          },
-          formEvents: {}
+          }
         },
         {
           type: 'upload',
@@ -907,8 +888,7 @@ export default defineComponent({
           },
           formAttrs: {
             action: 'https://jsonplaceholder.typicode.com/posts/'
-          },
-          formEvents: {}
+          }
         },
         {
           type: 'submit',
@@ -945,12 +925,14 @@ export default defineComponent({
       upload: ''
     })
 
-    // todo: remove 初始化国际化
-    useI18n().locale.value = 'zh-cn'
+    const onFormSubmit = model => {
+      console.log(model)
+    }
+
     return {
-      appFormRef,
       formConfig,
-      formModel
+      formModel,
+      onFormSubmit
     }
   }
 })

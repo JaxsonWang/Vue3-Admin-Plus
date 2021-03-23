@@ -1,13 +1,94 @@
 <template>
   <div class="app-table-wrapper">
     <div class="table-header-wrapper">
-      <app-form
-        v-if="appConfig.tableSearch"
-        :config="appConfig.tableSearch"
+      <el-form
+        v-if="appConfig.tableSearch.length !== 0"
+        :inline="true"
         :model="tableSearchModel"
-        @submit="onSearchSubmit"
+        ref="tableSearchRef"
+        size="small"
         class="app-table-search"
-      />
+      >
+        <el-form-item
+          v-for="(item, index) in appConfig.tableSearch"
+          :key="index"
+          :label="item.label"
+        >
+          <!-- 输入框 -->
+          <el-input
+            v-if="item.type === 'text'"
+            v-model="tableSearchModel[item.key]"
+            :type="item.inputType ? item.inputType : 'text'"
+            :name="item.key"
+            :placeholder="item.placeholder"
+            :clearable="item.clearable"
+            :class="item.class"
+            :disabled="loading"
+          />
+          <!-- 下拉框 -->
+          <el-select
+            v-else-if="item.type === 'select'"
+            v-model="tableSearchModel[item.key]"
+            :name="item.key"
+            :placeholder="item.placeholder"
+            :clearable="item.clearable"
+            :class="item.class"
+            :disabled="loading"
+          >
+            <el-option
+              v-for="(option, indexItem) in item.options"
+              :key="indexItem"
+              :label="option.label"
+              :value="option.value"
+              :disabled="loading"
+            />
+          </el-select>
+          <!-- 日期时间选择器 -->
+          <el-date-picker
+            v-else-if="item.type === 'daterange'"
+            v-model="tableSearchModel[item.key]"
+            :align="item.align"
+            :range-separator="item.rangeSeparator || '至'"
+            :start-placeholder="item.startPlaceholder || '开始时间'"
+            :end-placeholder="item.endPlaceholder || '结束时间'"
+            :name="item.key"
+            :picker-options="item.pickerOptions"
+            :class="item.class"
+            :disabled="loading"
+            type="daterange"
+          />
+          <!-- 日期选择器 -->
+          <el-date-picker
+            v-else-if="item.type === 'date'"
+            v-model="tableSearchModel[item.key]"
+            :name="item.key"
+            :value-format="item.format"
+            :placeholder="item.placeholder"
+            :class="item.class"
+            :disabled="loading"
+            type="date"
+          />
+        </el-form-item>
+        <el-form-item>
+          <el-button
+            :loading="loading"
+            icon="el-icon-search"
+            type="primary"
+            @click="onSearchSubmit"
+          >
+            {{ appConfig.tableSearchBtnName.submit }}
+          </el-button>
+          <el-button
+            v-if="appConfig.tableSearchBtnName.reset"
+            :loading="loading"
+            icon="el-icon-refresh-right"
+            type="primary"
+            @click="onSearchReset"
+          >
+            {{ appConfig.tableSearchBtnName.reset }}
+          </el-button>
+        </el-form-item>
+      </el-form>
       <div class="table-header-actions">
         <slot name="header-action" :loading="loading" />
       </div>
@@ -107,15 +188,11 @@
 import { defineComponent, ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { merge } from 'lodash'
-import AppForm from '@/components/AppForm'
 
 import dayjs from '@/utils/dayjs'
 
 export default defineComponent({
   name: 'AppTable',
-  components: {
-    AppForm
-  },
   props: {
     config: {
       require: true,
@@ -158,7 +235,8 @@ export default defineComponent({
       totalCount: 1
     })
 
-    const handleEdit = row => {}
+    const handleEdit = row => {
+    }
     const handleDelete = row => {
       appConfig.tableDeleteApi(row.id).then(data => {
         ElMessage.success('删除成功！')
@@ -169,7 +247,7 @@ export default defineComponent({
      * 搜索条件初始化
      */
     const initSearch = () => {
-      appConfig.tableSearch.formList.forEach(item => {
+      appConfig.tableSearch.forEach(item => {
         tableSearchModel[item.key] = item.value ? item.value : ''
       })
       onSearchSubmit()

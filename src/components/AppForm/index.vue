@@ -97,7 +97,7 @@
         v-on="item.formEvents"
       />
       <el-input-number
-        v-else-if="item.type === 'input-number'"
+        v-else-if="item.type === 'inputNumber'"
         v-model="appForm[item.key]"
         v-bind="item.formAttrs"
         v-on="item.formEvents"
@@ -196,6 +196,24 @@
           <slot :name="item.formSlot.rangeSeparator" />
         </template>
       </el-date-picker>
+      <el-upload
+        v-else-if="item.type === 'upload'"
+        v-model="appForm[item.key]"
+        v-bind="item.formAttrs"
+      >
+        <template v-if="item.formSlot && item.formSlot.default">
+          <slot :name="item.formSlot.default" />
+        </template>
+        <template v-else>
+          <el-button size="small" type="primary">点击上传</el-button>
+        </template>
+        <template v-if="item.formSlot && item.formSlot.tip" #tip>
+          <slot :name="item.formSlot.tip" />
+        </template>
+        <template v-if="item.formSlot && item.formSlot.trigger" #trigger>
+          <slot :name="item.formSlot.trigger" />
+        </template>
+      </el-upload>
       <el-rate
         v-else-if="item.type === 'rate'"
         v-model="appForm[item.key]"
@@ -218,25 +236,9 @@
           <slot :name="item.formSlot.default" :option="option" />
         </template>
       </el-transfer>
-      <el-upload
-        v-else-if="item.type === 'upload'"
-        v-model="appForm[item.key]"
-        v-bind="item.formAttrs"
+      <template
+        v-else-if="item.type === 'submit'"
       >
-        <template v-if="item.formSlot && item.formSlot.default">
-          <slot :name="item.formSlot.default" />
-        </template>
-        <template v-else>
-          <el-button size="small" type="primary">点击上传</el-button>
-        </template>
-        <template v-if="item.formSlot && item.formSlot.tip" #tip>
-          <slot :name="item.formSlot.tip" />
-        </template>
-        <template v-if="item.formSlot && item.formSlot.trigger" #trigger>
-          <slot :name="item.formSlot.trigger" />
-        </template>
-      </el-upload>
-      <template v-else-if="item.type === 'submit'">
         <el-button
           v-if="item.submit"
           v-bind="item.submit.attrs"
@@ -254,6 +256,10 @@
           {{ item.reset.title }}
         </el-button>
       </template>
+      <slot
+        v-else-if="item.type === 'slot'"
+        :name="item.name"
+      />
     </el-form-item>
   </el-form>
 </template>
@@ -276,18 +282,14 @@ export default defineComponent({
       default: () => {}
     }
   },
-  setup(props) {
+  setup(props, { emit }) {
     const formRef = ref()
     const appConfig = merge({}, props.config)
     const appForm = reactive(props.model)
 
-    const formSubmit = () => {
-      console.log('submit!', appForm)
-    }
+    const formSubmit = () => emit('submit', appForm)
 
-    const formReset = () => {
-      formRef.value.resetFields()
-    }
+    const formReset = () => formRef.value.resetFields()
 
     // 初始化表单数据
     appConfig.formList = appConfig.formList.map(item => {
