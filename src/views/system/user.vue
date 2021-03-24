@@ -48,6 +48,7 @@
 <script>
 import { defineComponent, ref, reactive } from 'vue'
 import { ElNotification, ElMessageBox, ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
 import AppTable from '@/components/AppTable'
 import { request } from '@/utils/request'
@@ -173,6 +174,9 @@ export default defineComponent({
     })
     const appTableRef = ref(null)
 
+    /**
+     * 新增资源
+     */
     const handleAdd = () => {
       const selectionRow = appTableRef.value.selectionRow
       if (selectionRow.length === 0) {
@@ -184,6 +188,10 @@ export default defineComponent({
         return false
       }
     }
+    /**
+     * 批量删除操作
+     * @returns {boolean}
+     */
     const handleDelete = () => {
       const selectionRow = appTableRef.value.selectionRow
       if (selectionRow.length === 0) {
@@ -207,12 +215,12 @@ export default defineComponent({
           appTableRef.value.onSearchSubmit()
         })
       }).catch(() => {
-        ElMessage({
-          type: 'info',
-          message: '取消操作！'
-        })
+        ElMessage.info('取消操作！')
       })
     }
+
+    // todo 国际化优化显示
+    useI18n().locale.value = 'zh-cn'
 
     return {
       tableConfig,

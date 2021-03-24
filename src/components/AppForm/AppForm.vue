@@ -9,7 +9,7 @@
 <template>
   <el-form
     v-bind="appConfig.formAttrs"
-    :model="appForm"
+    :model="appModel"
     ref="formRef"
     class="app-form-container"
   >
@@ -21,7 +21,7 @@
     >
       <el-radio-group
         v-if="item.type === 'radio'"
-        v-model="appForm[item.key]"
+        v-model="appModel[item.key]"
         v-bind="item.formAttrs"
         v-on="item.formEvents"
       >
@@ -48,7 +48,7 @@
       </el-radio-group>
       <el-checkbox-group
         v-else-if="item.type === 'checkbox'"
-        v-model="appForm[item.key]"
+        v-model="appModel[item.key]"
       >
         <template v-if="item.isButton">
           <el-checkbox-button
@@ -73,7 +73,7 @@
       </el-checkbox-group>
       <el-input
         v-else-if="item.type === 'input'"
-        v-model="appForm[item.key]"
+        v-model="appModel[item.key]"
         v-bind="item.formAttrs"
         v-on="item.formEvents"
       >
@@ -92,19 +92,19 @@
       </el-input>
       <el-autocomplete
         v-else-if="item.type === 'autocomplete'"
-        v-model="appForm[item.key]"
+        v-model="appModel[item.key]"
         v-bind="item.formAttrs"
         v-on="item.formEvents"
       />
       <el-input-number
         v-else-if="item.type === 'inputNumber'"
-        v-model="appForm[item.key]"
+        v-model="appModel[item.key]"
         v-bind="item.formAttrs"
         v-on="item.formEvents"
       />
       <el-select
         v-else-if="item.type === 'select'"
-        v-model="appForm[item.key]"
+        v-model="appModel[item.key]"
         v-bind="item.formAttrs"
       >
         <template v-if="item.formSlot && item.formSlot.default">
@@ -142,7 +142,7 @@
       </el-select>
       <el-cascader
         v-else-if="item.type === 'cascader'"
-        v-model="appForm[item.key]"
+        v-model="appModel[item.key]"
         v-bind="item.formAttrs"
         v-on="item.formEvents"
       >
@@ -155,7 +155,7 @@
       </el-cascader>
       <el-cascader-panel
         v-else-if="item.type === 'cascaderPanel'"
-        v-model="appForm[item.key]"
+        v-model="appModel[item.key]"
         v-bind="item.formAttrs"
         v-on="item.formEvents"
       >
@@ -165,30 +165,30 @@
       </el-cascader-panel>
       <el-switch
         v-else-if="item.type === 'switch'"
-        v-model="appForm[item.key]"
+        v-model="appModel[item.key]"
         v-bind="item.formAttrs"
         v-on="item.formEvents"
       />
       <el-slider
         v-else-if="item.type === 'slider'"
-        v-model="appForm[item.key]"
+        v-model="appModel[item.key]"
         v-bind="item.formAttrs"
         v-on="item.formEvents"
       />
       <el-time-picker
         v-else-if="item.type === 'timePicker'"
-        v-model="appForm[item.key]"
+        v-model="appModel[item.key]"
         v-bind="item.formAttrs"
       />
       <el-time-select
         v-else-if="item.type === 'timeSelect'"
-        v-model="appForm[item.key]"
+        v-model="appModel[item.key]"
         v-bind="item.formAttrs"
         v-on="item.formEvents"
       />
       <el-date-picker
         v-else-if="item.type === 'datePicker'"
-        v-model="appForm[item.key]"
+        v-model="appModel[item.key]"
         v-bind="item.formAttrs"
         v-on="item.formEvents"
       >
@@ -198,7 +198,7 @@
       </el-date-picker>
       <el-upload
         v-else-if="item.type === 'upload'"
-        v-model="appForm[item.key]"
+        v-model="appModel[item.key]"
         v-bind="item.formAttrs"
       >
         <template v-if="item.formSlot && item.formSlot.default">
@@ -216,19 +216,19 @@
       </el-upload>
       <el-rate
         v-else-if="item.type === 'rate'"
-        v-model="appForm[item.key]"
+        v-model="appModel[item.key]"
         v-bind="item.formAttrs"
         v-on="item.formEvents"
       />
       <el-color-picker
         v-else-if="item.type === 'colorPicker'"
-        v-model="appForm[item.key]"
+        v-model="appModel[item.key]"
         v-bind="item.formAttrs"
         v-on="item.formEvents"
       />
       <el-transfer
         v-else-if="item.type === 'transfer'"
-        v-model="appForm[item.key]"
+        v-model="appModel[item.key]"
         v-bind="item.formAttrs"
         v-on="item.formEvents"
       >
@@ -273,21 +273,21 @@ export default defineComponent({
   props: {
     config: {
       require: true,
-      type: Object,
+      type: [Object, Function],
       default: () => {}
     },
     model: {
-      require: true,
-      type: Object,
+      require: false,
+      type: [Object, Function],
       default: () => {}
     }
   },
   setup(props, { emit }) {
-    const formRef = ref()
+    const formRef = ref(null)
     const appConfig = merge({}, props.config)
-    const appForm = reactive(props.model)
+    let appModel = reactive({})
 
-    const formSubmit = () => emit('submit', appForm)
+    const formSubmit = () => emit('submit', appModel)
 
     const formReset = () => formRef.value.resetFields()
 
@@ -300,13 +300,18 @@ export default defineComponent({
         if (item.reset && !item.reset.attrs) item.reset.attrs = {}
         if (item.reset && !item.reset.events) item.reset.events = {}
       }
+      // 给 model 赋值默认值
+      if (item.value !== undefined) appModel[item.key] = item.value
+
       return item
     })
+    // 合并 props.model 数据
+    appModel = merge(appModel, props.model)
 
     return {
       formRef,
       appConfig,
-      appForm,
+      appModel,
       formSubmit,
       formReset
     }

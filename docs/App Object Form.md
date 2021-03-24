@@ -68,9 +68,8 @@
   - `upload`
   - `submit` 提交按钮
   - `slot` 自定义插槽
-
-- `key` 表单对象 `key` ，等同于组件的 `model` 的 `key` 键值
-- `value` 表单默认值
+- `key` 表单对象 `key` ，等同于组件的 `model` 的 `key` 键值，如果是表单类型组件该字段必须填写
+- `value` 表单默认值，如果是表单类型组件该字段必须填写
 - `labelAttrs` 等同于 [Form-Item Attributes](https://element-plus.org/#/zh-CN/component/form#form-item-attributes)
 - `formAttrs` 等同于表单的属性，下列展示
 - `formEvents` 等同于表单的事件，下列展示
@@ -221,8 +220,8 @@
 
 ### model
 
-表示表单数据对象，等价于 [Form Attributes 文档](https://element-plus.org/#/zh-CN/component/form#form-attributes) 中的 `model`，用于最终保存数据到数据库。
+表示表单数据对象，等价于 [Form Attributes 文档](https://element-plus.org/#/zh-CN/component/form#form-attributes) 中的 `model`，用于最终保存数据到数据库。如果需要覆盖表单数据请使用该属性进行操作。
 
 ### 事件
 
-- `@submit` 如果使用 `submit` 属性，则会出现这个时间，参数为表单的 `model` 对象。
+- `@submit` 如果使用 `submit` 属性，则会出现这个事件，返回的参数为表单的 `model` 对象。

@@ -5,8 +5,9 @@
         v-if="appConfig.tableSearch"
         :config="appConfig.tableSearch"
         :model="tableSearchModel"
-        @submit="onSearchSubmit"
+        ref="tableSearchRef"
         class="app-table-search"
+        @submit="onSearchSubmit"
       />
       <div class="table-header-actions">
         <slot name="header-action" :loading="loading" />
@@ -101,20 +102,23 @@
       @current-change="handleCurrentChange"
     />
   </div>
+  <edit-box ref="editBoxRef" />
 </template>
 
 <script>
-import { defineComponent, ref, reactive } from 'vue'
+import { defineComponent, ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { merge } from 'lodash'
-import AppForm from '@/components/AppForm'
 
+import EditBox from './EditBox'
+import AppForm from '@/components/AppForm'
 import dayjs from '@/utils/dayjs'
 
 export default defineComponent({
   name: 'AppTable',
   components: {
-    AppForm
+    AppForm,
+    EditBox
   },
   props: {
     config: {
@@ -127,6 +131,8 @@ export default defineComponent({
     const loading = ref(false)
     const tableData = ref([])
     const selectionRow = ref([])
+    const tableSearchRef = ref(null)
+    const editBoxRef = ref(null)
     const appConfig = reactive(merge({
       tableAttr: {
         stripe: true,
@@ -150,15 +156,18 @@ export default defineComponent({
         reset: '重置'
       }
     }, props.config))
-    const tableSearchModel = reactive({})
     const pagination = reactive({
       currentPage: 1,
       pageCount: 1,
       pageSize: 10,
       totalCount: 1
     })
+    let tableSearchModel = reactive({})
 
-    const handleEdit = row => {}
+    const handleEdit = row => {
+      console.log('点击的数据', row)
+      editBoxRef.value.toggleVisible()
+    }
     const handleDelete = row => {
       appConfig.tableDeleteApi(row.id).then(data => {
         ElMessage.success('删除成功！')
@@ -169,9 +178,7 @@ export default defineComponent({
      * 搜索条件初始化
      */
     const initSearch = () => {
-      appConfig.tableSearch.formList.forEach(item => {
-        tableSearchModel[item.key] = item.value ? item.value : ''
-      })
+      tableSearchModel = tableSearchRef.value.appModel
       onSearchSubmit()
     }
     /**
@@ -248,7 +255,9 @@ export default defineComponent({
       emit('selection-change', val)
     }
 
-    initSearch()
+    onMounted(() => {
+      initSearch()
+    })
 
     return {
       loading,
@@ -257,6 +266,8 @@ export default defineComponent({
       tableData,
       pagination,
       selectionRow,
+      tableSearchRef,
+      editBoxRef,
       dayjs,
       handleEdit,
       handleDelete,

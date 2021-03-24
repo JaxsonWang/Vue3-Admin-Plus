@@ -18,7 +18,8 @@
 
 <script>
 import { defineComponent, reactive } from 'vue'
-
+import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 import AppForm from '@/components/AppForm'
 
 export default defineComponent({
@@ -926,8 +927,12 @@ export default defineComponent({
     })
 
     const onFormSubmit = model => {
-      console.log(model)
+      console.log('提交表单数据', model)
+      ElMessage.info('请打开控制台查看打印数据')
     }
+
+    // todo 国际化优化显示
+    useI18n().locale.value = 'zh-cn'
 
     return {
       formConfig,
@@ -938,6 +943,6 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>

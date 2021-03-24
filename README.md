@@ -38,6 +38,11 @@
 
 你需要在本地安装 [node](http://nodejs.org/) 和 [git](https://git-scm.com/)。本项目技术栈基于 [ES2015+](http://es6.ruanyifeng.com/)、[vue](https://cn.vuejs.org/index.html)、[vuex](https://vuex.vuejs.org/zh-cn/)、[vue-router](https://router.vuejs.org/zh-cn/) 、[vue-cli](https://github.com/vuejs/vue-cli) 、[axios](https://github.com/axios/axios) 和 [element-plus](https://github.com/element-plus/element-plus)，提前了解和学习这些知识会对使用本项目有很大的帮助。
 
+## 文档
+
+对象列表使用手册：[正在编写...]()
+
+对象表单使用手册：[App Object Form](https://github.com/JaxsonWang/Vue3-Admin-Plus/blob/master/docs/App%20Object%20Form.md)
 
 ## 开发
 
