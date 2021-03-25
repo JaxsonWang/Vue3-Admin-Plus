@@ -170,6 +170,48 @@ export default defineComponent({
             }
           }
         ]
+      },
+      editBox: {
+        api: {
+          add: () => request.post('/user'),
+          update: () => request.put('/user')
+        },
+        form: {
+          formAttrs: {
+            inline: true,
+            size: 'small'
+          },
+          formList: [
+            {
+              type: 'input',
+              key: 'nickname',
+              value: '',
+              labelAttrs: {
+                label: '用户昵称'
+              },
+              formAttrs: {
+                type: 'text',
+                placeholder: '请输入用户昵称',
+                clearable: true
+              }
+            }
+          ]
+        },
+        footer: {
+          confirm: {
+            title: '确认',
+            attrs: {
+              type: 'primary',
+              size: 'small'
+            }
+          },
+          cancel: {
+            title: '取消',
+            attrs: {
+              size: 'small'
+            }
+          }
+        }
       }
     })
     const appTableRef = ref(null)

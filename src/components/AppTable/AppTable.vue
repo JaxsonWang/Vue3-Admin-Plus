@@ -102,7 +102,14 @@
       @current-change="handleCurrentChange"
     />
   </div>
-  <edit-box ref="editBoxRef" />
+  <edit-box
+    v-if="appConfig.editBox && editBoxVisible"
+    :visible="editBoxVisible"
+    :config="appConfig.editBox.form"
+    :model="editBoxRowTemp"
+    :footer="appConfig.editBox.footer"
+    @close="onEditBoxClose"
+  />
 </template>
 
 <script>
@@ -132,7 +139,8 @@ export default defineComponent({
     const tableData = ref([])
     const selectionRow = ref([])
     const tableSearchRef = ref(null)
-    const editBoxRef = ref(null)
+    const editBoxVisible = ref(false)
+    const editBoxRowTemp = ref({})
     const appConfig = reactive(merge({
       tableAttr: {
         stripe: true,
@@ -149,11 +157,6 @@ export default defineComponent({
         pageSizes: [10, 20, 30, 40, 50, 100],
         layout: 'total, sizes, prev, pager, next, jumper',
         background: true
-      },
-      tableSearch: [],
-      tableSearchBtnName: {
-        submit: '搜索',
-        reset: '重置'
       }
     }, props.config))
     const pagination = reactive({
@@ -164,10 +167,20 @@ export default defineComponent({
     })
     let tableSearchModel = reactive({})
 
+    /**
+     * Edit Box 弹窗关闭
+     */
+    const onEditBoxClose = () => setTimeout(() => editBoxVisible.value = false, 300)
+    /**
+     * Edit Box 打开
+     */
     const handleEdit = row => {
-      console.log('点击的数据', row)
-      editBoxRef.value.toggleVisible()
+      editBoxVisible.value = true
+      editBoxRowTemp.value = row
     }
+    /**
+     * 删除
+     */
     const handleDelete = row => {
       appConfig.tableDeleteApi(row.id).then(data => {
         ElMessage.success('删除成功！')
@@ -267,7 +280,8 @@ export default defineComponent({
       pagination,
       selectionRow,
       tableSearchRef,
-      editBoxRef,
+      editBoxVisible,
+      editBoxRowTemp,
       dayjs,
       handleEdit,
       handleDelete,
@@ -276,7 +290,8 @@ export default defineComponent({
       handleSizeChange,
       onSearchReset,
       filterVal,
-      handleSelectionChange
+      handleSelectionChange,
+      onEditBoxClose
     }
   }
 })

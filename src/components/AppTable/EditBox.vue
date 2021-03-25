@@ -9,48 +9,75 @@
 <template>
   <el-dialog
     v-model="dialogVisible"
-    ref="editBoxRef"
     title="编辑"
     width="960px"
   >
-    <span>这是一段信息</span>
-    <template #footer>
+    <app-form :config="config" :model="editModel" />
+    <template v-if="footer" #footer>
       <div class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button
+          v-if="footer.cancel"
+          v-bind="footer.cancel.attrs"
+          @click="dialogVisible = false">
+          {{ footer.cancel.title }}
+        </el-button>
+        <el-button
+          v-if="footer.confirm"
+          v-bind="footer.confirm.attrs"
+          @click="dialogVisible = false"
+        >
+          {{ footer.confirm.title }}
+        </el-button>
       </div>
     </template>
   </el-dialog>
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, reactive, ref, watch } from 'vue'
 import { ElDialog } from 'element-plus'
+
+import AppForm from '@/components/AppForm'
 
 export default defineComponent({
   name: 'EditBox',
   components: {
-    ElDialog
+    ElDialog,
+    AppForm
   },
   props: {
+    visible: {
+      require: true,
+      type: Boolean,
+      default: false
+    },
     config: {
       require: true,
       type: [Object, Function],
       default: () => {}
+    },
+    model: {
+      require: false,
+      type: [Object, Function],
+      default: () => {}
+    },
+    footer: {
+      require: false,
+      type: [Object, Function],
+      default: () => {}
     }
   },
-  setup() {
-    const editBoxRef = ref(null)
-    const dialogVisible = ref(false)
+  setup(props, { emit }) {
+    const dialogVisible = ref(props.visible)
+    const editModel = reactive(props.model)
 
-    const toggleVisible = () => {
-      dialogVisible.value = !dialogVisible.value
-    }
+    watch(dialogVisible, value => {
+      emit('close', value)
+    })
 
     return {
-      editBoxRef,
       dialogVisible,
-      toggleVisible
+      editModel
     }
   }
 })
