@@ -11,6 +11,18 @@
       />
       <div class="table-header-actions">
         <slot name="header-action" :loading="loading" />
+        <template
+          v-for="(action, index) in Object.keys(appConfig.headerActions)"
+          :key="index"
+        >
+          <el-button
+            v-bind="appConfig.headerActions[action].attrs"
+            :loading="loading"
+            @click="handleHeaderAction(action)"
+          >
+            {{ appConfig.headerActions[action].title }}
+          </el-button>
+        </template>
       </div>
     </div>
     <el-table
@@ -102,14 +114,34 @@
       @current-change="handleCurrentChange"
     />
   </div>
-  <edit-box
-    v-if="appConfig.editBox && editBoxVisible"
-    :visible="editBoxVisible"
-    :config="appConfig.editBox.form"
-    :model="editBoxRowTemp"
-    :footer="appConfig.editBox.footer"
-    @close="onEditBoxClose"
-  />
+  <el-dialog
+    v-if="appConfig.editBox"
+    v-model="editBoxVisible"
+    title="编辑"
+    v-bind="appConfig.editBox.dialog"
+  >
+    <app-form :config="appConfig.editBox.form" :model="editBoxRowTemp" />
+    <template v-if="appConfig.editBox.footer" #footer>
+      <div class="dialog-footer">
+        <slot name="dialog-footer-before" :model="editBoxRowTemp" />
+        <el-button
+          v-if="appConfig.editBox.footer.cancel"
+          v-bind="appConfig.editBox.footer.cancel.attrs"
+          @click="editBoxVisible = false"
+        >
+          {{ appConfig.editBox.footer.cancel.title }}
+        </el-button>
+        <el-button
+          v-if="appConfig.editBox.footer.confirm"
+          v-bind="appConfig.editBox.footer.confirm.attrs"
+          @click="editBoxVisible = false"
+        >
+          {{ appConfig.editBox.footer.confirm.title }}
+        </el-button>
+        <slot name="dialog-footer-after" :model="editBoxRowTemp" />
+      </div>
+    </template>
+  </el-dialog>
 </template>
 
 <script>
@@ -117,15 +149,13 @@ import { defineComponent, ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { merge } from 'lodash'
 
-import EditBox from './EditBox'
 import AppForm from '@/components/AppForm'
 import dayjs from '@/utils/dayjs'
 
 export default defineComponent({
   name: 'AppTable',
   components: {
-    AppForm,
-    EditBox
+    AppForm
   },
   props: {
     config: {
@@ -142,6 +172,24 @@ export default defineComponent({
     const editBoxVisible = ref(false)
     const editBoxRowTemp = ref({})
     const appConfig = reactive(merge({
+      headerActions: {
+        add: {
+          title: '新建',
+          attrs: {
+            type: 'primary',
+            size: 'small',
+            icon: 'el-icon-plus'
+          }
+        },
+        delete: {
+          title: '删除',
+          attrs: {
+            type: 'danger',
+            size: 'small',
+            icon: 'el-icon-delete'
+          }
+        }
+      },
       tableAttr: {
         stripe: true,
         border: true,
@@ -157,6 +205,52 @@ export default defineComponent({
         pageSizes: [10, 20, 30, 40, 50, 100],
         layout: 'total, sizes, prev, pager, next, jumper',
         background: true
+      },
+      editBox: {
+        api: {
+          add: null,
+          update: null
+        },
+        title: '系统',
+        dialog: {
+          width: '960px'
+        },
+        form: {
+          formAttrs: {
+            inline: true,
+            size: 'small'
+          },
+          formList: [
+            {
+              type: 'input',
+              key: 'nickname',
+              value: '',
+              labelAttrs: {
+                label: '用户昵称'
+              },
+              formAttrs: {
+                type: 'text',
+                placeholder: '请输入用户昵称',
+                clearable: true
+              }
+            }
+          ]
+        },
+        footer: {
+          confirm: {
+            title: '确认',
+            attrs: {
+              type: 'primary',
+              size: 'small'
+            }
+          },
+          cancel: {
+            title: '取消',
+            attrs: {
+              size: 'small'
+            }
+          }
+        }
       }
     }, props.config))
     const pagination = reactive({
@@ -167,10 +261,6 @@ export default defineComponent({
     })
     let tableSearchModel = reactive({})
 
-    /**
-     * Edit Box 弹窗关闭
-     */
-    const onEditBoxClose = () => setTimeout(() => editBoxVisible.value = false, 300)
     /**
      * Edit Box 打开
      */
@@ -268,6 +358,10 @@ export default defineComponent({
       emit('selection-change', val)
     }
 
+    const handleHeaderAction = type => {
+      console.log(type)
+    }
+
     onMounted(() => {
       initSearch()
     })
@@ -291,7 +385,7 @@ export default defineComponent({
       onSearchReset,
       filterVal,
       handleSelectionChange,
-      onEditBoxClose
+      handleHeaderAction
     }
   }
 })

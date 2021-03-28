@@ -9,26 +9,26 @@
 <template>
   <div class="system-user-container">
     <app-table :config="tableConfig" ref="appTableRef">
-      <template #header-action="{ loading }">
-        <el-button
-          :loading="loading"
-          type="primary"
-          icon="el-icon-plus"
-          size="small"
-          @click="handleAdd"
-        >
-          新增
-        </el-button>
-        <el-button
-          :loading="loading"
-          type="danger"
-          icon="el-icon-delete"
-          size="small"
-          @click="handleDelete"
-        >
-          删除
-        </el-button>
-      </template>
+<!--      <template #header-action="{ loading }">-->
+<!--        <el-button-->
+<!--          :loading="loading"-->
+<!--          type="primary"-->
+<!--          icon="el-icon-plus"-->
+<!--          size="small"-->
+<!--          @click="handleAdd"-->
+<!--        >-->
+<!--          新增-->
+<!--        </el-button>-->
+<!--        <el-button-->
+<!--          :loading="loading"-->
+<!--          type="danger"-->
+<!--          icon="el-icon-delete"-->
+<!--          size="small"-->
+<!--          @click="handleDelete"-->
+<!--        >-->
+<!--          删除-->
+<!--        </el-button>-->
+<!--      </template>-->
       <template #is-active>
         <el-table-column
           :width="100"
@@ -60,6 +60,24 @@ export default defineComponent({
   },
   setup() {
     const tableConfig = reactive({
+      headerActions: {
+        add: {
+          title: '新建',
+          attrs: {
+            type: 'primary',
+            size: 'small',
+            icon: 'el-icon-plus'
+          }
+        },
+        delete: {
+          title: '删除',
+          attrs: {
+            type: 'danger',
+            size: 'small',
+            icon: 'el-icon-delete'
+          }
+        }
+      },
       tableColumn: [
         {
           type: 'selection',
@@ -134,7 +152,7 @@ export default defineComponent({
           },
           {
             type: 'select',
-            key: 'isActive',
+            key: 'activeStatus',
             value: 3,
             labelAttrs: {
               label: '用户状态'
@@ -175,6 +193,10 @@ export default defineComponent({
         api: {
           add: () => request.post('/user'),
           update: () => request.put('/user')
+        },
+        title: '用户',
+        dialog: {
+          width: '960px'
         },
         form: {
           formAttrs: {

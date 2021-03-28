@@ -9,24 +9,26 @@
 <template>
   <el-dialog
     v-model="dialogVisible"
+    v-bind="config.dialog"
     title="编辑"
-    width="960px"
   >
-    <app-form :config="config" :model="editModel" />
-    <template v-if="footer" #footer>
+    <app-form :config="config.form" :model="editModel" />
+    <template v-if="config.footer" #footer>
       <div class="dialog-footer">
+        <slot name="dialog-footer" :model="editModel" />
         <el-button
-          v-if="footer.cancel"
-          v-bind="footer.cancel.attrs"
-          @click="dialogVisible = false">
-          {{ footer.cancel.title }}
-        </el-button>
-        <el-button
-          v-if="footer.confirm"
-          v-bind="footer.confirm.attrs"
+          v-if="config.footer.cancel"
+          v-bind="config.footer.cancel.attrs"
           @click="dialogVisible = false"
         >
-          {{ footer.confirm.title }}
+          {{ config.footer.cancel.title }}
+        </el-button>
+        <el-button
+          v-if="config.footer.confirm"
+          v-bind="config.footer.confirm.attrs"
+          @click="dialogVisible = false"
+        >
+          {{ config.footer.confirm.title }}
         </el-button>
       </div>
     </template>
@@ -57,11 +59,6 @@ export default defineComponent({
       default: () => {}
     },
     model: {
-      require: false,
-      type: [Object, Function],
-      default: () => {}
-    },
-    footer: {
       require: false,
       type: [Object, Function],
       default: () => {}

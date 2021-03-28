@@ -77,7 +77,7 @@ const actions = {
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       request({
-        url: '/getInfo',
+        url: '/user/getInfo',
         method: 'get'
       }).then(data => {
         const formatRoutes = []

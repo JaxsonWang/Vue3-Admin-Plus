@@ -7,7 +7,8 @@
  */
 
 /* 改变主题色变量 */
-$--color-primary: #009999;
+// $--color-primary: #009999 !default;
+$--color-primary: #409EFF !default;
 
 /* 改变 icon 字体路径变量，必需 */
 $--font-path: '~element-plus/lib/theme-chalk/fonts';
