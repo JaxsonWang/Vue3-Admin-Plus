@@ -10,19 +10,17 @@
         @submit="onSearchSubmit"
       />
       <div class="table-header-actions">
-        <slot name="header-action" :loading="loading" />
-        <template
-          v-for="(action, index) in Object.keys(appConfig.headerActions)"
+        <slot name="header-action-before" :loading="loading" />
+        <el-button
+          v-for="(action, index) in appConfig.headerActions"
           :key="index"
+          v-bind="action.attrs"
+          :loading="loading"
+          @click="handleHeaderAction(action)"
         >
-          <el-button
-            v-bind="appConfig.headerActions[action].attrs"
-            :loading="loading"
-            @click="handleHeaderAction(action)"
-          >
-            {{ appConfig.headerActions[action].title }}
-          </el-button>
-        </template>
+          {{ action.title }}
+        </el-button>
+        <slot name="header-action-after" :loading="loading" />
       </div>
     </div>
     <el-table
@@ -125,18 +123,12 @@
       <div class="dialog-footer">
         <slot name="dialog-footer-before" :model="editBoxRowTemp" />
         <el-button
-          v-if="appConfig.editBox.footer.cancel"
-          v-bind="appConfig.editBox.footer.cancel.attrs"
-          @click="editBoxVisible = false"
+          v-for="(action, index) in appConfig.editBox.footer"
+          v-bind="action.attrs"
+          :key="index"
+          @click="handleBox(action)"
         >
-          {{ appConfig.editBox.footer.cancel.title }}
-        </el-button>
-        <el-button
-          v-if="appConfig.editBox.footer.confirm"
-          v-bind="appConfig.editBox.footer.confirm.attrs"
-          @click="editBoxVisible = false"
-        >
-          {{ appConfig.editBox.footer.confirm.title }}
+          {{ action.title }}
         </el-button>
         <slot name="dialog-footer-after" :model="editBoxRowTemp" />
       </div>
@@ -145,8 +137,8 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive, onMounted } from 'vue'
-import { ElMessage } from 'element-plus'
+import { defineComponent, ref, reactive, toRefs, onMounted } from 'vue'
+import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
 import { merge } from 'lodash'
 
 import AppForm from '@/components/AppForm'
@@ -357,9 +349,62 @@ export default defineComponent({
       selectionRow.value = val
       emit('selection-change', val)
     }
-
-    const handleHeaderAction = type => {
-      console.log(type)
+    /**
+     * 页头按钮事件
+     * @param row
+     */
+    const handleHeaderAction = (row) => {
+      switch (row.action) {
+        case 'add':
+          if (row.event) {
+            emit(row.event, selectionRow.value)
+          } else {
+            if (row.type === 'editBox') {
+              handleEdit({})
+            } else if (row.type === 'editRoute') {
+              console.log('跳转到新建页面')
+            }
+          }
+          break
+        case 'delete':
+          if (row.event) {
+            emit(row.event, selectionRow.value)
+          } else {
+            if (selectionRow.value.length === 0) {
+              ElNotification({
+                title: '操作失败',
+                message: '请选择数据再进行操作！',
+                type: 'warning'
+              })
+              return
+            }
+            ElMessageBox.confirm('此操作将会永久删除数据，是否继续？', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              row.api(selectionRow.value).then(() => {
+                onSearchSubmit()
+              })
+            }).catch(() => {
+              ElMessage.info('取消操作！')
+            })
+          }
+          break
+        default:
+          emit(row.event, selectionRow.value)
+      }
+    }
+    /**
+     * EditBox 弹窗提交事件
+     */
+    const handleBox = () => {
+      if (Object.keys(toRefs(editBoxRowTemp.value)).length === 0) {
+        console.log('新建')
+      } else {
+        console.log('编辑')
+      }
+      editBoxVisible.value = false
     }
 
     onMounted(() => {
@@ -385,7 +430,8 @@ export default defineComponent({
       onSearchReset,
       filterVal,
       handleSelectionChange,
-      handleHeaderAction
+      handleHeaderAction,
+      handleBox
     }
   }
 })

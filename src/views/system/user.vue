@@ -47,7 +47,6 @@
 
 <script>
 import { defineComponent, ref, reactive } from 'vue'
-import { ElNotification, ElMessageBox, ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 
 import AppTable from '@/components/AppTable'
@@ -60,24 +59,32 @@ export default defineComponent({
   },
   setup() {
     const tableConfig = reactive({
-      headerActions: {
-        add: {
-          title: '新建',
-          attrs: {
-            type: 'primary',
-            size: 'small',
-            icon: 'el-icon-plus'
-          }
-        },
-        delete: {
+      headerActions: [
+        {
+          action: 'delete',
           title: '删除',
           attrs: {
             type: 'danger',
             size: 'small',
             icon: 'el-icon-delete'
-          }
+          },
+          api: row => request.delete('/user/list', {
+            data: {
+              list: row.map(i => i.id)
+            }
+          })
+        },
+        {
+          action: 'add',
+          title: '新建',
+          attrs: {
+            type: 'primary',
+            size: 'small',
+            icon: 'el-icon-plus'
+          },
+          type: 'editBox'
         }
-      },
+      ],
       tableColumn: [
         {
           type: 'selection',
@@ -131,6 +138,7 @@ export default defineComponent({
       tableListParams: {},
       tableDeleteApi: userId => request.delete(`/user/${userId}`),
       tableDeleteParams: {},
+      tableEditApi: userId => request.post(`/user/${userId}`),
       tableSearch: {
         formAttrs: {
           inline: true,
@@ -196,7 +204,9 @@ export default defineComponent({
         },
         title: '用户',
         dialog: {
-          width: '960px'
+          width: '960px',
+          appendToBody: true,
+          destroyOnClose: true
         },
         form: {
           formAttrs: {
@@ -219,78 +229,33 @@ export default defineComponent({
             }
           ]
         },
-        footer: {
-          confirm: {
-            title: '确认',
-            attrs: {
-              type: 'primary',
-              size: 'small'
-            }
-          },
-          cancel: {
+        footer: [
+          {
+            action: 'cancel',
             title: '取消',
             attrs: {
               size: 'small'
             }
+          },
+          {
+            action: 'confirm',
+            title: '确定',
+            attrs: {
+              type: 'primary',
+              size: 'small'
+            }
           }
-        }
+        ]
       }
     })
     const appTableRef = ref(null)
-
-    /**
-     * 新增资源
-     */
-    const handleAdd = () => {
-      const selectionRow = appTableRef.value.selectionRow
-      if (selectionRow.length === 0) {
-        ElNotification({
-          title: '操作失败',
-          message: '请选择数据再进行操作！',
-          type: 'warning'
-        })
-        return false
-      }
-    }
-    /**
-     * 批量删除操作
-     * @returns {boolean}
-     */
-    const handleDelete = () => {
-      const selectionRow = appTableRef.value.selectionRow
-      if (selectionRow.length === 0) {
-        ElNotification({
-          title: '操作失败',
-          message: '请选择数据再进行操作！',
-          type: 'warning'
-        })
-        return false
-      }
-      ElMessageBox.confirm('此操作将会永久删除数据，是否继续？', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        request.delete('/user/list', {
-          data: {
-            list: selectionRow.map(i => i.id)
-          }
-        }).then(() => {
-          appTableRef.value.onSearchSubmit()
-        })
-      }).catch(() => {
-        ElMessage.info('取消操作！')
-      })
-    }
 
     // todo 国际化优化显示
     useI18n().locale.value = 'zh-cn'
 
     return {
       tableConfig,
-      appTableRef,
-      handleAdd,
-      handleDelete
+      appTableRef
     }
   }
 })
