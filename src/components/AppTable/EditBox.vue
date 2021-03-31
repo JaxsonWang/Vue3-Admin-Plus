@@ -12,7 +12,7 @@
     v-bind="config.dialog"
     title="编辑"
   >
-    <app-form :config="config.form" :model="editModel" />
+    <app-form v-model="editModel" :config="config.form" />
     <template v-if="config.footer" #footer>
       <div class="dialog-footer">
         <slot name="dialog-footer" :model="editModel" />

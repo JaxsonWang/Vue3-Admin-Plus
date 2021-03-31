@@ -11,8 +11,8 @@
     <div class="table-header-wrapper">
       <app-form
         v-if="appConfig.tableSearch"
+        v-model="tableSearchModel"
         :config="appConfig.tableSearch"
-        ref="tableSearchRef"
         class="app-table-search"
         @reset="onSearchReset"
         @submit="onSearchSubmit"
@@ -126,7 +126,7 @@
     v-bind="appConfig.editBox.dialog"
     :title="editBoxTitle"
   >
-    <app-form :config="appConfig.editBox.form" :model="editBoxRowTemp" />
+    <app-form v-model="editBoxRowTemp" :config="appConfig.editBox.form" />
     <template v-if="appConfig.editBox.footer" #footer>
       <div class="dialog-footer">
         <slot name="dialog-footer-before" :model="editBoxRowTemp" />
@@ -168,7 +168,7 @@ export default defineComponent({
     const loading = ref(false)
     const tableData = ref([])
     const selectionRow = ref([])
-    const tableSearchRef = ref(null)
+    const tableSearchModel = ref({})
     const editBoxTitle = ref('')
     const editBoxRowType = ref('add')
     const editBoxVisible = ref(false)
@@ -289,10 +289,10 @@ export default defineComponent({
     /**
      * 提交搜索
      */
-    const onSearchSubmit = model => {
+    const onSearchSubmit = () => {
       pagination.currentPage = 1
       pagination.pageSize = appConfig.pagination.pageSizes[0]
-      getList(model)
+      getList(tableSearchModel.value)
     }
     /**
      * 分页 - 当前页码
@@ -431,7 +431,7 @@ export default defineComponent({
       tableData,
       pagination,
       selectionRow,
-      tableSearchRef,
+      tableSearchModel,
       editBoxTitle,
       editBoxVisible,
       editBoxRowTemp,

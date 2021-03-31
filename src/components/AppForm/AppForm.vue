@@ -265,19 +265,19 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import { merge } from 'lodash'
 
 export default defineComponent({
   name: 'AppForm',
   props: {
-    config: {
+    modelValue: {
       require: true,
       type: [Object, Function],
       default: () => {}
     },
-    model: {
-      require: false,
+    config: {
+      require: true,
       type: [Object, Function],
       default: () => {}
     }
@@ -285,17 +285,33 @@ export default defineComponent({
   setup(props, { emit }) {
     const formRef = ref(null)
     const appConfig = merge({}, props.config)
-    let appModel = reactive({})
+    const appModel = computed({
+      get: () => {
+        if (props.modelValue) {
+          return props.modelValue
+        } else {
+          const appModel = {}
+          appConfig.formList.forEach(item => {
+            if (item.value !== undefined) appModel[item.key] = item.value
+          })
+          console.warn('App Form Warn: 请填写 v-model 作为默认表单数据')
+          return appModel
+        }
+      },
+      set: value => {
+        emit('update:modelValue', value)
+      }
+    })
     /**
      * 表单提交
      */
-    const formSubmit = () => emit('submit', appModel)
+    const formSubmit = () => emit('submit', props.modelValue)
     /**
      * 清除表单
      */
     const formReset = () => {
       formRef.value.resetFields()
-      emit('reset', appModel)
+      emit('reset', props.modelValue)
     }
 
     // 初始化表单数据
@@ -307,13 +323,8 @@ export default defineComponent({
         if (item.reset && !item.reset.attrs) item.reset.attrs = {}
         if (item.reset && !item.reset.events) item.reset.events = {}
       }
-      // 给 model 赋值默认值
-      if (item.value !== undefined) appModel[item.key] = item.value
-
       return item
     })
-    // 合并 props.model 数据
-    appModel = merge(appModel, props.model)
 
     return {
       formRef,

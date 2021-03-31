@@ -8,7 +8,7 @@
 
 <template>
   <div class="app-form-container">
-    <app-form :config="formConfig" :model="formModel" @submit="onFormSubmit">
+    <app-form v-model="formModel" :config="formConfig" @submit="onFormSubmit">
       <template #slot-demo>
         <el-divider />
       </template>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import AppForm from '@/components/AppForm'
@@ -28,6 +28,26 @@ export default defineComponent({
     AppForm
   },
   setup() {
+    const formModel = ref({
+      radio: 1,
+      checkbox: [0, 1],
+      username: 'Jaxson',
+      inputNumber: 1,
+      select: 0,
+      selectGroup: 'Shanghai',
+      cascader: [],
+      cascaderPanel: [],
+      switch: false,
+      slider: 0,
+      timePicker: new Date(),
+      timeSelect: '08:30',
+      datePicker1: '',
+      datePicker2: '',
+      rate: 0,
+      colorPicker: '',
+      transfer: [],
+      upload: ''
+    })
     const formConfig = reactive({
       formAttrs: {
         inline: false,
@@ -905,29 +925,9 @@ export default defineComponent({
         }
       ]
     })
-    const formModel = reactive({
-      radio: 1,
-      checkbox: [0, 1],
-      username: 'Jaxson',
-      inputNumber: 1,
-      select: 0,
-      selectGroup: 'Shanghai',
-      cascader: [],
-      cascaderPanel: [],
-      switch: false,
-      slider: 0,
-      timePicker: new Date(),
-      timeSelect: '08:30',
-      datePicker1: '',
-      datePicker2: '',
-      rate: 0,
-      colorPicker: '',
-      transfer: [],
-      upload: ''
-    })
 
     const onFormSubmit = model => {
-      console.log('提交表单数据', model)
+      console.log('提交表单数据 model', model)
       ElMessage.info('请打开控制台查看打印数据')
     }
 

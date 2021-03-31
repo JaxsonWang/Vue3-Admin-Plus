@@ -5,15 +5,15 @@
 ## 使用
 
 ```html
-<app-form :config="formConfig" :model="formModel" ref="appFormRef" />
+<app-form v-model="formModel" :config="formConfig" ref="appFormRef" />
 ```
 
 引入组件声明声明对应属性：
 
-| 参数   | 说明       | 类型   | 默认值 | 是否必填 |
-| :----- | :--------- | ------ | ------ | -------- |
-| config | 表单表示层 | Object | {}     | 是       |
-| model  | 表单数据层 | Object | {}     | 是       |
+| 参数    | 说明       | 类型   | 默认值 | 是否必填 |
+| :------ | :--------- | ------ | ------ | -------- |
+| v-model | 表单数据层 | Object | {}     | 是       |
+| config  | 表单表示层 | Object | {}     | 是       |
 
 ### config
 
@@ -69,7 +69,7 @@
   - `submit` 提交按钮
   - `slot` 自定义插槽
 - `key` 表单对象 `key` ，等同于组件的 `model` 的 `key` 键值，如果是表单类型组件该字段必须填写
-- `value` 表单默认值，如果是表单类型组件该字段必须填写
+- `value` 表单默认值，如果 `v-model` 缺失则从该字段作为默认值
 - `labelAttrs` 等同于 [Form-Item Attributes](https://element-plus.org/#/zh-CN/component/form#form-item-attributes)
 - `formAttrs` 等同于表单的属性，下列展示
 - `formEvents` 等同于表单的事件，下列展示
@@ -225,3 +225,4 @@
 ### 事件
 
 - `@submit` 如果使用 `submit` 属性，则会出现这个事件，返回的参数为表单的 `model` 对象。
+
