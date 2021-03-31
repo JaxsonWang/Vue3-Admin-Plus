@@ -2,8 +2,8 @@
   - Copyright (c) 2021
   - 项目名称：Vue3-Admin-Plus
   - 文件名称：AppForm.vue
-  - 创建日期：2021/3/9 下午9:56
-  - 创建作者：jaxson
+  - 创建日期：2021/3/31 下午2:34
+  - 创建作者：Jaxson
   -->
 
 <template>
@@ -286,10 +286,17 @@ export default defineComponent({
     const formRef = ref(null)
     const appConfig = merge({}, props.config)
     let appModel = reactive({})
-
+    /**
+     * 表单提交
+     */
     const formSubmit = () => emit('submit', appModel)
-
-    const formReset = () => formRef.value.resetFields()
+    /**
+     * 清除表单
+     */
+    const formReset = () => {
+      formRef.value.resetFields()
+      emit('reset', appModel)
+    }
 
     // 初始化表单数据
     appConfig.formList = appConfig.formList.map(item => {

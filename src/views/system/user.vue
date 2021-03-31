@@ -2,33 +2,13 @@
   - Copyright (c) 2021
   - 项目名称：Vue3-Admin-Plus
   - 文件名称：user.vue
-  - 创建日期：2021/3/2 下午8:34
-  - 创建作者：jaxson
+  - 创建日期：2021/3/31 下午2:34
+  - 创建作者：Jaxson
   -->
 
 <template>
   <div class="system-user-container">
-    <app-table :config="tableConfig" ref="appTableRef">
-<!--      <template #header-action="{ loading }">-->
-<!--        <el-button-->
-<!--          :loading="loading"-->
-<!--          type="primary"-->
-<!--          icon="el-icon-plus"-->
-<!--          size="small"-->
-<!--          @click="handleAdd"-->
-<!--        >-->
-<!--          新增-->
-<!--        </el-button>-->
-<!--        <el-button-->
-<!--          :loading="loading"-->
-<!--          type="danger"-->
-<!--          icon="el-icon-delete"-->
-<!--          size="small"-->
-<!--          @click="handleDelete"-->
-<!--        >-->
-<!--          删除-->
-<!--        </el-button>-->
-<!--      </template>-->
+    <app-table :config="tableConfig">
       <template #is-active>
         <el-table-column
           :width="100"
@@ -46,7 +26,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import AppTable from '@/components/AppTable'
@@ -99,7 +79,7 @@ export default defineComponent({
         },
         {
           align: 'center',
-          label: '登录账号',
+          label: '用户账号',
           prop: 'username'
         },
         {
@@ -136,9 +116,8 @@ export default defineComponent({
       ],
       tableListApi: params => request.get('/user', { params }),
       tableListParams: {},
-      tableDeleteApi: userId => request.delete(`/user/${userId}`),
+      tableDeleteApi: row => request.delete(`/user/${row.id}`),
       tableDeleteParams: {},
-      tableEditApi: userId => request.post(`/user/${userId}`),
       tableSearch: {
         formAttrs: {
           inline: true,
@@ -148,20 +127,18 @@ export default defineComponent({
           {
             type: 'input',
             key: 'username',
-            value: '',
             labelAttrs: {
-              label: '登录账号'
+              label: '用户账号'
             },
             formAttrs: {
               type: 'text',
-              placeholder: '请输入登录账号',
+              placeholder: '请输入用户账号',
               clearable: true
             }
           },
           {
             type: 'select',
-            key: 'activeStatus',
-            value: 3,
+            key: 'isActive',
             labelAttrs: {
               label: '用户状态'
             },
@@ -171,15 +148,11 @@ export default defineComponent({
             options: [
               {
                 label: '正常',
-                value: 1
+                value: true
               },
               {
                 label: '禁用',
-                value: 0
-              },
-              {
-                label: '全部',
-                value: 3
+                value: false
               }
             ]
           },
@@ -199,8 +172,8 @@ export default defineComponent({
       },
       editBox: {
         api: {
-          add: () => request.post('/user'),
-          update: () => request.put('/user')
+          add: data => request.post('/user', data),
+          update: data => request.put(`/user/${data.id}`, data)
         },
         title: '用户',
         dialog: {
@@ -210,16 +183,53 @@ export default defineComponent({
         },
         form: {
           formAttrs: {
-            inline: true,
-            size: 'small'
+            size: 'small',
+            labelPosition: 'left',
+            labelWidth: '80px'
           },
           formList: [
+            {
+              type: 'input',
+              key: 'username',
+              value: '',
+              labelAttrs: {
+                label: '用户账号',
+                rules: [
+                  { required: true, message: '请输入用户账号', trigger: 'blur' }
+                ]
+              },
+              formAttrs: {
+                type: 'text',
+                placeholder: '请输入用户账号',
+                clearable: true
+              }
+            },
+            {
+              type: 'input',
+              key: 'email',
+              value: '',
+              labelAttrs: {
+                label: '用户邮箱',
+                rules: [
+                  { required: true, message: '请输入用户邮箱', trigger: 'blur' },
+                  { type: 'email', message: '请输入正确的用户邮箱地址', trigger: ['blur', 'change'] }
+                ]
+              },
+              formAttrs: {
+                type: 'text',
+                placeholder: '请输入用户邮箱',
+                clearable: true
+              }
+            },
             {
               type: 'input',
               key: 'nickname',
               value: '',
               labelAttrs: {
-                label: '用户昵称'
+                label: '用户昵称',
+                rules: [
+                  { required: true, message: '请输入用户昵称', trigger: 'blur' }
+                ]
               },
               formAttrs: {
                 type: 'text',
@@ -248,14 +258,12 @@ export default defineComponent({
         ]
       }
     })
-    const appTableRef = ref(null)
 
     // todo 国际化优化显示
     useI18n().locale.value = 'zh-cn'
 
     return {
-      tableConfig,
-      appTableRef
+      tableConfig
     }
   }
 })

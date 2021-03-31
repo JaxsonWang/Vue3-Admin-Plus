@@ -1,20 +1,28 @@
+<!--
+  - Copyright (c) 2021
+  - 项目名称：Vue3-Admin-Plus
+  - 文件名称：AppTable.vue
+  - 创建日期：2021/3/31 下午2:34
+  - 创建作者：Jaxson
+  -->
+
 <template>
   <div class="app-table-wrapper">
     <div class="table-header-wrapper">
       <app-form
         v-if="appConfig.tableSearch"
         :config="appConfig.tableSearch"
-        :model="tableSearchModel"
         ref="tableSearchRef"
         class="app-table-search"
+        @reset="onSearchReset"
         @submit="onSearchSubmit"
       />
       <div class="table-header-actions">
         <slot name="header-action-before" :loading="loading" />
         <el-button
           v-for="(action, index) in appConfig.headerActions"
-          :key="index"
           v-bind="action.attrs"
+          :key="index"
           :loading="loading"
           @click="handleHeaderAction(action)"
         >
@@ -115,8 +123,8 @@
   <el-dialog
     v-if="appConfig.editBox"
     v-model="editBoxVisible"
-    title="编辑"
     v-bind="appConfig.editBox.dialog"
+    :title="editBoxTitle"
   >
     <app-form :config="appConfig.editBox.form" :model="editBoxRowTemp" />
     <template v-if="appConfig.editBox.footer" #footer>
@@ -126,7 +134,7 @@
           v-for="(action, index) in appConfig.editBox.footer"
           v-bind="action.attrs"
           :key="index"
-          @click="handleBox(action)"
+          @click="handleBox(action.action)"
         >
           {{ action.title }}
         </el-button>
@@ -137,7 +145,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive, toRefs, onMounted } from 'vue'
+import { defineComponent, ref, reactive, onBeforeMount } from 'vue'
 import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
 import { merge } from 'lodash'
 
@@ -161,6 +169,8 @@ export default defineComponent({
     const tableData = ref([])
     const selectionRow = ref([])
     const tableSearchRef = ref(null)
+    const editBoxTitle = ref('')
+    const editBoxRowType = ref('add')
     const editBoxVisible = ref(false)
     const editBoxRowTemp = ref({})
     const appConfig = reactive(merge({
@@ -209,23 +219,8 @@ export default defineComponent({
         },
         form: {
           formAttrs: {
-            inline: true,
-            size: 'small'
           },
           formList: [
-            {
-              type: 'input',
-              key: 'nickname',
-              value: '',
-              labelAttrs: {
-                label: '用户昵称'
-              },
-              formAttrs: {
-                type: 'text',
-                placeholder: '请输入用户昵称',
-                clearable: true
-              }
-            }
           ]
         },
         footer: {
@@ -248,33 +243,28 @@ export default defineComponent({
     const pagination = reactive({
       currentPage: 1,
       pageCount: 1,
-      pageSize: 10,
+      pageSize: appConfig.pagination.pageSizes[0],
       totalCount: 1
     })
-    let tableSearchModel = reactive({})
-
-    /**
-     * Edit Box 打开
-     */
-    const handleEdit = row => {
-      editBoxVisible.value = true
-      editBoxRowTemp.value = row
-    }
-    /**
-     * 删除
-     */
-    const handleDelete = row => {
-      appConfig.tableDeleteApi(row.id).then(data => {
-        ElMessage.success('删除成功！')
-        onSearchSubmit()
-      })
-    }
     /**
      * 搜索条件初始化
      */
-    const initSearch = () => {
-      tableSearchModel = tableSearchRef.value.appModel
-      onSearchSubmit()
+    const initSearch = () => getList()
+    /**
+     * 搜索按钮触发
+     * 所有的搜索条件都在这里触发
+     */
+    const getList = searchModel => {
+      // 搜集所有搜索条件
+      const params = merge(
+        {
+          currentPage: pagination.currentPage,
+          pageSize: pagination.pageSize
+        },
+        appConfig.tableListParams,
+        searchModel
+      )
+      getTableListData(params)
     }
     /**
      * 获取列表数据
@@ -289,31 +279,28 @@ export default defineComponent({
       })
     }
     /**
-     * 搜索按钮触发
-     * 所有的搜索条件都在这里触发
+     * 重置搜索
      */
-    const onSearchSubmit = () => {
-      // 搜集所有搜索条件
-      const params = merge(
-        appConfig.tableListParams,
-        {
-          currentPage: pagination.currentPage,
-          pageSize: pagination.pageSize
-        },
-        tableSearchModel
-      )
-      getTableListData(params)
+    const onSearchReset = () => {
+      pagination.currentPage = 1
+      pagination.pageSize = appConfig.pagination.pageSizes[0]
+      getList()
+    }
+    /**
+     * 提交搜索
+     */
+    const onSearchSubmit = model => {
+      pagination.currentPage = 1
+      pagination.pageSize = appConfig.pagination.pageSizes[0]
+      getList(model)
     }
     /**
      * 分页 - 当前页码
      * @param val
      */
     const handleCurrentChange = val => {
-      // todo
-      if (val !== null) {
-        pagination.currentPage = val
-        onSearchSubmit()
-      }
+      pagination.currentPage = val
+      getList()
     }
     /**
      * 分页 - 当前条数
@@ -321,7 +308,7 @@ export default defineComponent({
      */
     const handleSizeChange = val => {
       pagination.pageSize = val
-      onSearchSubmit()
+      getList()
     }
     /**
      * 过滤值
@@ -334,12 +321,6 @@ export default defineComponent({
       } else {
         return val
       }
-    }
-    /**
-     * 重置搜索
-     */
-    const onSearchReset = () => {
-      initSearch()
     }
     /**
      * 勾选列表回调
@@ -360,7 +341,7 @@ export default defineComponent({
             emit(row.event, selectionRow.value)
           } else {
             if (row.type === 'editBox') {
-              handleEdit({})
+              handleEdit()
             } else if (row.type === 'editRoute') {
               console.log('跳转到新建页面')
             }
@@ -384,7 +365,7 @@ export default defineComponent({
               type: 'warning'
             }).then(() => {
               row.api(selectionRow.value).then(() => {
-                onSearchSubmit()
+                getList()
               })
             }).catch(() => {
               ElMessage.info('取消操作！')
@@ -398,40 +379,73 @@ export default defineComponent({
     /**
      * EditBox 弹窗提交事件
      */
-    const handleBox = () => {
-      if (Object.keys(toRefs(editBoxRowTemp.value)).length === 0) {
-        console.log('新建')
-      } else {
-        console.log('编辑')
+    const handleBox = type => {
+      if (type === 'confirm') {
+        if (editBoxRowType.value === 'add') {
+          console.log('test', editBoxRowTemp.value)
+          appConfig.editBox.api.add(editBoxRowTemp.value).then(response => {
+            ElMessage.success('新建成功')
+          })
+        }
+        if (editBoxRowType.value === 'edit') {
+          appConfig.editBox.api.update(editBoxRowTemp.value).then(response => {
+            ElMessage.success('更新成功')
+          })
+        }
       }
-      editBoxVisible.value = false
+      if (type === 'cancel') editBoxVisible.value = false
+    }
+    /**
+     * Edit Box 打开
+     */
+    const handleEdit = row => {
+      editBoxVisible.value = true
+      if (row) {
+        editBoxRowTemp.value = row
+        editBoxTitle.value = '编辑' + appConfig.editBox.title
+        editBoxRowType.value = 'edit'
+      } else {
+        // 清空数据
+        editBoxRowTemp.value = {}
+        editBoxTitle.value = '新建' + appConfig.editBox.title
+        editBoxRowType.value = 'add'
+      }
+    }
+    /**
+     * 删除
+     */
+    const handleDelete = row => {
+      appConfig.tableDeleteApi(row).then(data => {
+        ElMessage.success('删除成功！')
+        getList()
+      })
     }
 
-    onMounted(() => {
+    onBeforeMount(() => {
       initSearch()
     })
 
     return {
       loading,
       appConfig,
-      tableSearchModel,
       tableData,
       pagination,
       selectionRow,
       tableSearchRef,
+      editBoxTitle,
       editBoxVisible,
       editBoxRowTemp,
       dayjs,
+      onSearchSubmit,
+      onSearchReset,
       handleEdit,
       handleDelete,
-      onSearchSubmit,
       handleCurrentChange,
       handleSizeChange,
-      onSearchReset,
-      filterVal,
       handleSelectionChange,
       handleHeaderAction,
-      handleBox
+      handleBox,
+      filterVal
     }
   }
 })

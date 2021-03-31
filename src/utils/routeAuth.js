@@ -2,7 +2,7 @@
  * Copyright (c) 2021
  * 项目名称：Vue3-Admin-Plus
  * 文件名称：routeAuth.js
- * 创建日期：2021/1/26 下午2:59
+ * 创建日期：2021/3/31 下午2:34
  * 创建作者：Jaxson
  */
 import { ElLoading } from 'element-plus'
@@ -12,8 +12,6 @@ import router from '@/router'
 import store from '@/store'
 import { getPageTitle } from '@/utils'
 import { getToken } from '@/utils/auth'
-
-// TODO: [Vue Router warn]: No match found for location with path
 
 // 路由白名单
 const whiteList = ['/login']
