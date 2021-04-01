@@ -39,136 +39,146 @@ export default defineComponent({
   },
   setup() {
     const tableConfig = reactive({
-      headerActions: [
-        {
-          action: 'delete',
-          title: '删除',
-          attrs: {
-            type: 'danger',
-            size: 'small',
-            icon: 'el-icon-delete'
+      header: {
+        search: {
+          formAttrs: {
+            inline: true,
+            size: 'small'
           },
-          api: row => request.delete('/user/list', {
-            data: {
-              list: row.map(i => i.id)
-            }
-          })
-        },
-        {
-          action: 'add',
-          title: '新建',
-          attrs: {
-            type: 'primary',
-            size: 'small',
-            icon: 'el-icon-plus'
-          },
-          type: 'editBox'
-        }
-      ],
-      tableColumn: [
-        {
-          type: 'selection',
-          width: 50,
-          align: 'center'
-        },
-        {
-          label: '序号',
-          type: 'index',
-          width: 50,
-          align: 'center'
-        },
-        {
-          align: 'center',
-          label: '用户账号',
-          prop: 'username'
-        },
-        {
-          align: 'center',
-          label: '用户邮箱',
-          prop: 'email'
-        },
-        {
-          align: 'center',
-          label: '用户昵称',
-          prop: 'nickname'
-        },
-        {
-          slot: 'is-active'
-        },
-        {
-          align: 'center',
-          label: '创建时间',
-          prop: 'createdTime',
-          dateTimeFormat: 'YYYY-MM-DD HH:mm:ss'
-        },
-        {
-          align: 'center',
-          label: '更新时间',
-          prop: 'updatedTime',
-          dateTimeFormat: 'YYYY-MM-DD HH:mm:ss'
-        },
-        {
-          width: 120,
-          align: 'center',
-          label: '操作',
-          action: ['editBox', 'editRoute', 'delete']
-        }
-      ],
-      tableListApi: params => request.get('/user', { params }),
-      tableListParams: {},
-      tableDeleteApi: row => request.delete(`/user/${row.id}`),
-      tableDeleteParams: {},
-      tableSearch: {
-        formAttrs: {
-          inline: true,
-          size: 'small'
-        },
-        formList: [
-          {
-            type: 'input',
-            key: 'username',
-            labelAttrs: {
-              label: '用户账号'
-            },
-            formAttrs: {
-              type: 'text',
-              placeholder: '请输入用户账号',
-              clearable: true
-            }
-          },
-          {
-            type: 'select',
-            key: 'isActive',
-            labelAttrs: {
-              label: '用户状态'
-            },
-            formAttrs: {
-              placeholder: '请选择用户状态'
-            },
-            options: [
-              {
-                label: '正常',
-                value: true
+          formList: [
+            {
+              type: 'input',
+              key: 'username',
+              labelAttrs: {
+                label: '用户账号'
               },
-              {
-                label: '禁用',
-                value: false
-              }
-            ]
-          },
-          {
-            type: 'submit',
-            submit: {
-              title: '搜索',
-              attrs: {
-                type: 'primary'
+              formAttrs: {
+                type: 'text',
+                placeholder: '请输入用户账号',
+                clearable: true
               }
             },
-            reset: {
-              title: '重置'
+            {
+              type: 'select',
+              key: 'isActive',
+              labelAttrs: {
+                label: '用户状态'
+              },
+              formAttrs: {
+                placeholder: '请选择用户状态'
+              },
+              options: [
+                {
+                  label: '正常',
+                  value: true
+                },
+                {
+                  label: '禁用',
+                  value: false
+                }
+              ]
+            },
+            {
+              type: 'submit',
+              submit: {
+                title: '搜索',
+                attrs: {
+                  type: 'primary'
+                }
+              },
+              reset: {
+                title: '重置'
+              }
             }
+          ]
+        },
+        actions: [
+          {
+            action: 'delete',
+            title: '删除',
+            attrs: {
+              type: 'danger',
+              size: 'small',
+              icon: 'el-icon-delete'
+            },
+            api: row => request.delete('/user/list', {
+              data: {
+                list: row.map(i => i.id)
+              }
+            })
+          },
+          {
+            action: 'add',
+            title: '新建',
+            attrs: {
+              type: 'primary',
+              size: 'small',
+              icon: 'el-icon-plus'
+            },
+            type: 'editBox'
           }
         ]
+      },
+      table: {
+        attr: {
+          stripe: true,
+          border: true,
+          fit: true,
+          highlightCurrentRow: true
+        },
+        column: [
+          {
+            type: 'selection',
+            width: 50,
+            align: 'center'
+          },
+          {
+            label: '序号',
+            type: 'index',
+            width: 50,
+            align: 'center'
+          },
+          {
+            align: 'center',
+            label: '用户账号',
+            prop: 'username'
+          },
+          {
+            align: 'center',
+            label: '用户邮箱',
+            prop: 'email'
+          },
+          {
+            align: 'center',
+            label: '用户昵称',
+            prop: 'nickname'
+          },
+          {
+            slot: 'is-active'
+          },
+          {
+            align: 'center',
+            label: '创建时间',
+            prop: 'createdTime',
+            dateTimeFormat: 'YYYY-MM-DD HH:mm:ss'
+          },
+          {
+            align: 'center',
+            label: '更新时间',
+            prop: 'updatedTime',
+            dateTimeFormat: 'YYYY-MM-DD HH:mm:ss'
+          },
+          {
+            width: 120,
+            align: 'center',
+            label: '操作',
+            action: ['editBox', 'delete']
+          }
+        ],
+        api: {
+          list: params => request.get('/user', { params }),
+          delete: row => request.delete(`/user/${row.id}`)
+        }
       },
       editBox: {
         api: {

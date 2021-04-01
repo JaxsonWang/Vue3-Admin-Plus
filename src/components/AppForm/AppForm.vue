@@ -49,6 +49,8 @@
       <el-checkbox-group
         v-else-if="item.type === 'checkbox'"
         v-model="appModel[item.key]"
+        v-bind="item.formAttrs"
+        v-on="item.formEvents"
       >
         <template v-if="item.isButton">
           <el-checkbox-button
@@ -286,18 +288,7 @@ export default defineComponent({
     const formRef = ref(null)
     const appConfig = merge({}, props.config)
     const appModel = computed({
-      get: () => {
-        if (props.modelValue) {
-          return props.modelValue
-        } else {
-          const appModel = {}
-          appConfig.formList.forEach(item => {
-            if (item.value !== undefined) appModel[item.key] = item.value
-          })
-          console.warn('App Form Warn: 请填写 v-model 作为默认表单数据')
-          return appModel
-        }
-      },
+      get: () => props.modelValue,
       set: value => {
         emit('update:modelValue', value)
       }

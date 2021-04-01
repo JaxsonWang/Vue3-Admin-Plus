@@ -8,47 +8,19 @@
 
 <template>
   <div class="table-demo-container">
-    <app-table
-      :config="tableConfig"
-    />
+    正在开发中...
   </div>
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue'
-import AppTable from '@/components/AppTable'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'TableDemo1',
   components: {
-    AppTable
   },
   setup() {
-    const tableConfig = reactive({
-      tableAttr: {
-        stripe: true,
-        border: true,
-        fit: true
-      },
-      tableColumn: [],
-      tableListApi: null,
-      tableListParams: {}, // tableListApi 所需要的参数
-      tableDelApi: null,
-      pagination: {
-        pageSizes: [10, 20, 30, 40, 50, 100],
-        layout: 'total, sizes, prev, pager, next, jumper',
-        background: true
-      },
-      tableSearch: [],
-      tableSearchBtnName: {
-        submit: '提交',
-        reset: '重置'
-      }
-    })
-
-    return {
-      tableConfig
-    }
+    return {}
   }
 })
 </script>

@@ -5,7 +5,7 @@
 ## 使用
 
 ```html
-<app-form v-model="formModel" :config="formConfig" ref="appFormRef" />
+<app-form v-model="formModel" :config="formConfig" />
 ```
 
 引入组件声明声明对应属性：
@@ -14,6 +14,12 @@
 | :------ | :--------- | ------ | ------ | -------- |
 | v-model | 表单数据层 | Object | {}     | 是       |
 | config  | 表单表示层 | Object | {}     | 是       |
+
+### v-model
+
+表示表单数据对象，等价于 [Form Attributes 文档](https://element-plus.org/#/zh-CN/component/form#form-attributes) 中的 `model`，用于最终保存数据到数据库。如果需要覆盖表单数据请使用该属性进行操作。
+
+> 对于 `对象` 类型的表单请填写默认值，否则加载表单失败！
 
 ### config
 
@@ -217,10 +223,6 @@
 ##### slot 自定义插槽
 
 - `name` 插槽名称
-
-### model
-
-表示表单数据对象，等价于 [Form Attributes 文档](https://element-plus.org/#/zh-CN/component/form#form-attributes) 中的 `model`，用于最终保存数据到数据库。如果需要覆盖表单数据请使用该属性进行操作。
 
 ### 事件
 

@@ -10,37 +10,39 @@
   <div class="app-table-wrapper">
     <div class="table-header-wrapper">
       <app-form
-        v-if="appConfig.tableSearch"
+        v-if="appConfig.header.search && Object.keys(appConfig.header.search).length !== 0"
         v-model="tableSearchModel"
-        :config="appConfig.tableSearch"
+        :config="appConfig.header.search"
         class="app-table-search"
         @reset="onSearchReset"
         @submit="onSearchSubmit"
       />
       <div class="table-header-actions">
         <slot name="header-action-before" :loading="loading" />
-        <el-button
-          v-for="(action, index) in appConfig.headerActions"
-          v-bind="action.attrs"
-          :key="index"
-          :loading="loading"
-          @click="handleHeaderAction(action)"
-        >
-          {{ action.title }}
-        </el-button>
+        <template v-if="appConfig.header.actions && Object.keys(appConfig.header.actions).length !== 0">
+          <el-button
+            v-for="(item, index) in appConfig.header.actions"
+            v-bind="item.attrs"
+            :key="index"
+            :loading="loading"
+            @click="handleHeaderAction(item)"
+          >
+            {{ item.title }}
+          </el-button>
+        </template>
         <slot name="header-action-after" :loading="loading" />
       </div>
     </div>
     <el-table
       v-loading="loading"
-      v-bind="appConfig.tableAttr"
+      v-bind="appConfig.table.attr"
       :data="tableData"
       ref="tableRef"
       element-loading-text="加载数据中..."
       element-loading-spinner="el-icon-loading"
       @selection-change="handleSelectionChange"
     >
-      <template v-for="(item, index) in appConfig.tableColumn" :key="index">
+      <template v-for="(item, index) in appConfig.table.column" :key="index">
         <!--多选框-->
         <el-table-column
           v-if="item.type && item.type === 'selection'"
@@ -122,14 +124,14 @@
   </div>
   <el-dialog
     v-if="appConfig.editBox"
-    v-model="editBoxVisible"
+    v-model="editBox.visible"
     v-bind="appConfig.editBox.dialog"
-    :title="editBoxTitle"
+    :title="editBox.title"
   >
-    <app-form v-model="editBoxRowTemp" :config="appConfig.editBox.form" />
+    <app-form v-model="editBox.row" :config="appConfig.editBox.form" />
     <template v-if="appConfig.editBox.footer" #footer>
       <div class="dialog-footer">
-        <slot name="dialog-footer-before" :model="editBoxRowTemp" />
+        <slot name="dialog-footer-before" :model="editBox.row" />
         <el-button
           v-for="(action, index) in appConfig.editBox.footer"
           v-bind="action.attrs"
@@ -138,7 +140,7 @@
         >
           {{ action.title }}
         </el-button>
-        <slot name="dialog-footer-after" :model="editBoxRowTemp" />
+        <slot name="dialog-footer-after" :model="editBox.row" />
       </div>
     </template>
   </el-dialog>
@@ -169,40 +171,30 @@ export default defineComponent({
     const tableData = ref([])
     const selectionRow = ref([])
     const tableSearchModel = ref({})
-    const editBoxTitle = ref('')
-    const editBoxRowType = ref('add')
-    const editBoxVisible = ref(false)
-    const editBoxRowTemp = ref({})
+    const editBox = reactive({
+      title: '',
+      type: 'add',
+      visible: false,
+      row: {}
+    })
     const appConfig = reactive(merge({
-      headerActions: {
-        add: {
-          title: '新建',
-          attrs: {
-            type: 'primary',
-            size: 'small',
-            icon: 'el-icon-plus'
-          }
+      header: {
+        search: {},
+        actions: {}
+      },
+      table: {
+        attr: {
+          stripe: true,
+          border: true,
+          fit: true,
+          highlightCurrentRow: true
         },
-        delete: {
-          title: '删除',
-          attrs: {
-            type: 'danger',
-            size: 'small',
-            icon: 'el-icon-delete'
-          }
+        column: [],
+        api: {
+          list: null,
+          delete: null
         }
       },
-      tableAttr: {
-        stripe: true,
-        border: true,
-        fit: true,
-        highlightCurrentRow: true
-      },
-      tableColumn: [],
-      tableListApi: null,
-      tableListParams: {}, // tableListApi 所需要的参数
-      tableDeleteApi: null,
-      tableDeleteParams: {},
       pagination: {
         pageSizes: [10, 20, 30, 40, 50, 100],
         layout: 'total, sizes, prev, pager, next, jumper',
@@ -213,31 +205,31 @@ export default defineComponent({
           add: null,
           update: null
         },
-        title: '系统',
+        title: '',
         dialog: {
           width: '960px'
         },
         form: {
-          formAttrs: {
-          },
-          formList: [
-          ]
+          formAttrs: {},
+          formList: []
         },
-        footer: {
-          confirm: {
-            title: '确认',
-            attrs: {
-              type: 'primary',
-              size: 'small'
-            }
-          },
-          cancel: {
+        footer: [
+          {
+            action: 'cancel',
             title: '取消',
             attrs: {
               size: 'small'
             }
+          },
+          {
+            action: 'confirm',
+            title: '确定',
+            attrs: {
+              type: 'primary',
+              size: 'small'
+            }
           }
-        }
+        ]
       }
     }, props.config))
     const pagination = reactive({
@@ -246,10 +238,6 @@ export default defineComponent({
       pageSize: appConfig.pagination.pageSizes[0],
       totalCount: 1
     })
-    /**
-     * 搜索条件初始化
-     */
-    const initSearch = () => getList()
     /**
      * 搜索按钮触发
      * 所有的搜索条件都在这里触发
@@ -261,7 +249,6 @@ export default defineComponent({
           currentPage: pagination.currentPage,
           pageSize: pagination.pageSize
         },
-        appConfig.tableListParams,
         searchModel
       )
       getTableListData(params)
@@ -271,7 +258,7 @@ export default defineComponent({
      */
     const getTableListData = params => {
       loading.value = true
-      appConfig.tableListApi(params).then(data => {
+      appConfig.table.api.list(params).then(data => {
         tableData.value = data.list
         pagination.pageCount = data.totalPage
         pagination.totalCount = data.totalCount
@@ -334,7 +321,7 @@ export default defineComponent({
      * 页头按钮事件
      * @param row
      */
-    const handleHeaderAction = (row) => {
+    const handleHeaderAction = row => {
       switch (row.action) {
         case 'add':
           if (row.event) {
@@ -381,48 +368,47 @@ export default defineComponent({
      */
     const handleBox = type => {
       if (type === 'confirm') {
-        if (editBoxRowType.value === 'add') {
-          console.log('test', editBoxRowTemp.value)
-          appConfig.editBox.api.add(editBoxRowTemp.value).then(response => {
+        if (editBox.type === 'add') {
+          appConfig.editBox.api.add(editBox.row).then(response => {
             ElMessage.success('新建成功')
           })
         }
-        if (editBoxRowType.value === 'edit') {
-          appConfig.editBox.api.update(editBoxRowTemp.value).then(response => {
+        if (editBox.type === 'edit') {
+          appConfig.editBox.api.update(editBox.row).then(response => {
             ElMessage.success('更新成功')
           })
         }
       }
-      if (type === 'cancel') editBoxVisible.value = false
+      if (type === 'cancel') editBox.visible = false
     }
     /**
      * Edit Box 打开
      */
     const handleEdit = row => {
-      editBoxVisible.value = true
       if (row) {
-        editBoxRowTemp.value = row
-        editBoxTitle.value = '编辑' + appConfig.editBox.title
-        editBoxRowType.value = 'edit'
+        editBox.row = row
+        editBox.title = '编辑' + appConfig.editBox.title
+        editBox.type = 'edit'
       } else {
         // 清空数据
-        editBoxRowTemp.value = {}
-        editBoxTitle.value = '新建' + appConfig.editBox.title
-        editBoxRowType.value = 'add'
+        editBox.row = {}
+        editBox.title = '新建' + appConfig.editBox.title
+        editBox.type = 'add'
       }
+      editBox.visible = true
     }
     /**
      * 删除
      */
     const handleDelete = row => {
-      appConfig.tableDeleteApi(row).then(data => {
+      appConfig.table.api.delete(row).then(data => {
         ElMessage.success('删除成功！')
         getList()
       })
     }
 
     onBeforeMount(() => {
-      initSearch()
+      getList()
     })
 
     return {
@@ -432,9 +418,7 @@ export default defineComponent({
       pagination,
       selectionRow,
       tableSearchModel,
-      editBoxTitle,
-      editBoxVisible,
-      editBoxRowTemp,
+      editBox,
       dayjs,
       onSearchSubmit,
       onSearchReset,
