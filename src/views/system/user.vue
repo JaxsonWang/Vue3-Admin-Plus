@@ -120,21 +120,21 @@ export default defineComponent({
         ]
       },
       table: {
-        attr: {
+        attrs: {
           stripe: true,
           border: true,
           fit: true,
           highlightCurrentRow: true
         },
-        column: [
+        columns: [
           {
             type: 'selection',
             width: 50,
             align: 'center'
           },
           {
-            label: '序号',
             type: 'index',
+            label: '序号',
             width: 50,
             align: 'center'
           },

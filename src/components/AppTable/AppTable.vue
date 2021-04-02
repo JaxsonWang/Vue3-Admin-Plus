@@ -35,28 +35,25 @@
     </div>
     <el-table
       v-loading="loading"
-      v-bind="appConfig.table.attr"
+      v-bind="appConfig.table.attrs"
+      v-on="appConfig.table.events"
       :data="tableData"
       ref="tableRef"
       element-loading-text="加载数据中..."
       element-loading-spinner="el-icon-loading"
       @selection-change="handleSelectionChange"
     >
-      <template v-for="(item, index) in appConfig.table.column" :key="index">
+      <template v-for="(item, index) in appConfig.table.columns" :key="index">
         <!--多选框-->
         <el-table-column
           v-if="item.type && item.type === 'selection'"
-          :width="item.width ? item.width : null"
-          :align="item.align"
+          v-bind="item"
           type="selection"
         />
         <!--序列号-->
         <el-table-column
           v-else-if="item.type && item.type === 'index'"
-          :label="item.label"
-          :width="item.width ? item.width : null"
-          :align="item.align"
-          :fixed="item.fixed"
+          v-bind="item"
           type="index"
         />
         <!--自定义列插槽-->
@@ -64,11 +61,7 @@
         <!--表格数据渲染-->
         <el-table-column
           v-else
-          :label="item.label"
-          :width="item.width ? item.width : null"
-          :min-width="item.minWidth ? item.minWidth : null"
-          :align="item.align"
-          :fixed="item.fixed"
+          v-bind="item"
         >
           <template v-slot="scope">
             <template v-if="item.action">
@@ -183,13 +176,14 @@ export default defineComponent({
         actions: {}
       },
       table: {
-        attr: {
+        attrs: {
           stripe: true,
           border: true,
           fit: true,
           highlightCurrentRow: true
         },
-        column: [],
+        events: {},
+        columns: [],
         api: {
           list: null,
           delete: null
