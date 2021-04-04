@@ -15,8 +15,11 @@
           label="用户状态"
           align="center"
         >
-          <template v-slot="scope">
-            <el-tag v-if="scope.row.isActive" type="success">正常</el-tag>
+          <template v-slot:header="{ column }">
+            {{ column.label }}
+          </template>
+          <template v-slot="{ row }">
+            <el-tag v-if="row.isActive" type="success">正常</el-tag>
             <el-tag v-else type="danger">禁用</el-tag>
           </template>
         </el-table-column>
