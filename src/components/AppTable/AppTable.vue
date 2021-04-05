@@ -365,11 +365,15 @@ export default defineComponent({
         if (editBox.type === 'add') {
           appConfig.editBox.api.add(editBox.row).then(response => {
             ElMessage.success('新建成功')
+            getList()
+            editBox.visible = false
           })
         }
         if (editBox.type === 'edit') {
           appConfig.editBox.api.update(editBox.row).then(response => {
             ElMessage.success('更新成功')
+            getList()
+            editBox.visible = false
           })
         }
       }
