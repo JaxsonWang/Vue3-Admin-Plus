@@ -65,7 +65,7 @@
         >
           <template v-slot="scope">
             <template v-if="item.action">
-              <slot name="action-before" :scope="scope.row" />
+              <slot name="action-before" :scope="scope" />
               <template v-for="(act, idx) in item.action">
                 <el-button
                   v-if="act === 'editBox'"
@@ -95,7 +95,7 @@
                   </template>
                 </el-popconfirm>
               </template>
-              <slot name="action-after" :scope="scope.row" />
+              <slot name="action-after" :scope="scope" />
             </template>
             <template v-else-if="item.dateTimeFormat">{{ dayjs(scope.row[item.prop]).format(item.dateTimeFormat) }}</template>
             <template v-else>{{ filterVal(scope.row[item.prop]) }}</template>
