@@ -110,6 +110,23 @@
 }
 ```
 
+**操作栏 slot 自定义插槽**
+
+- `action-before` 在 `action` 按钮`左侧`自定义展示内容，参数如下：
+  - `{ row, column, $index }`
+- `action-after` 在 `action` 按钮`右侧`自定义展示内容，参数如下：
+  - `{ row, column, $index }` 
+
+**个列 slot 自定义插槽**
+
+如果默认列展示不满足需求，可以定义 `slot` 字段即可，使用和[Table-column Scoped Slot](https://element-plus.gitee.io/#/zh-CN/component/table#table-column-scoped-slot)一样。
+
+```json
+{
+    "slot": "is-active"
+}
+```
+
 ##### api
 
 这边 `api` 默认只有俩个：获取列表和删除某行的接口
@@ -156,3 +173,13 @@
 此处接口主要有俩个：新增资源接口和全量更新接口。
 - `add` 新增接口，返回参数是当前弹窗表单对象
 - `delete` 更新结论，返回参数是当前弹窗表单对象
+
+**提交操作栏 slot 自定义插槽**
+
+- `dialog-footer-before` 在 `action` 按钮`左侧`自定义展示内容，参数如下：
+  - `row` 新建空对象，编辑选择当前行对象
+- `dialog-footer-after` 在 `action` 按钮`右侧`自定义展示内容，参数如下：
+  - `row` 新建空对象，编辑选择当前行对象
+
+### 自定义插槽
+
