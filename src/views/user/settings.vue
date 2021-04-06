@@ -44,7 +44,7 @@
                   action="https://jsonplaceholder.typicode.com/posts/"
                   class="avatar-uploader"
                 >
-                  <img v-if="userForm.avatar" :src="userForm.avatar" class="user-avatar" alt="用户头像">
+                  <img v-if="userForm.avatar" :src="userForm.avatar" class="user-avatar" alt="用户头像" />
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
               </el-col>
@@ -78,9 +78,7 @@ export default defineComponent({
         { required: true, message: '请输入用户昵称', trigger: 'blur' },
         { min: 2, max: 10, message: '昵称长度在 2 到 10 个字符', trigger: 'blur' }
       ],
-      email: [
-        { type: 'email', required: true, message: '请输入用户邮箱', trigger: 'blur' }
-      ]
+      email: [{ type: 'email', required: true, message: '请输入用户邮箱', trigger: 'blur' }]
     })
 
     const handleAvatarSuccess = (res, file) => {
@@ -146,7 +144,7 @@ export default defineComponent({
               position: relative;
               overflow: hidden;
               &:hover {
-                border-color: #409EFF;
+                border-color: #409eff;
               }
             }
             .avatar-uploader-icon {

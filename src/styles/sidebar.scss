@@ -6,8 +6,8 @@
  * 创建作者：Jaxson
  */
 
-@import "~@/styles/mixin.scss";
-@import "variables";
+@import '~@/styles/mixin.scss';
+@import 'variables';
 
 .app-wrapper {
   @include clearfix;
@@ -76,25 +76,25 @@
     .submenu-title-no-dropdown,
     .el-submenu__title {
       &:hover {
-        background-color: $menuBg!important;
-        color: $menuActiveText!important;
+        background-color: $menuBg !important;
+        color: $menuActiveText !important;
       }
     }
 
     .el-menu-item {
       &:hover {
-        background-color: $menuBg!important;
-        color: $menuActiveText!important;
+        background-color: $menuBg !important;
+        color: $menuActiveText !important;
       }
     }
 
     // 高亮父节点菜单标题和当前节点背景颜色
     .is-active {
-      background-color: rgba($menuActiveText, 0.2)!important;
+      background-color: rgba($menuActiveText, 0.2) !important;
       border-right: 4px solid $menuActiveText;
       transition: all 280ms;
       &:hover {
-        background-color: rgba($menuActiveText, 0.3)!important;
+        background-color: rgba($menuActiveText, 0.3) !important;
       }
       // 父节点菜单
       &.el-submenu {
@@ -133,7 +133,7 @@
 
     .navbar-wrapper {
       background-color: #fff;
-      box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
+      box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
     }
 
     // footer 悬浮
@@ -150,7 +150,7 @@
   &.hide-sidebar {
     // navbar 置顶
     .fixed-header {
-      width: calc(100% - #{$hideSideBarWidth})
+      width: calc(100% - #{$hideSideBarWidth});
     }
 
     // footer 悬浮
@@ -186,7 +186,7 @@
     .el-submenu {
       overflow: hidden;
 
-      &>.el-submenu__title {
+      & > .el-submenu__title {
         padding: 0 !important;
 
         .svg-icon {
@@ -226,21 +226,20 @@
         // 父节点菜单添加高亮样式
         &.is-active {
           .el-submenu__title {
-            color: $menuActiveText!important;
+            color: $menuActiveText !important;
           }
         }
       }
 
       // 修复收缩侧边栏有背景色的问题
       .is-active.submenu-title-no-dropdown {
-        background-color: $menuBg!important;
+        background-color: $menuBg !important;
       }
 
       // 收缩侧边栏移除 border-right 样式
       .is-active {
         border-right: none;
       }
-
     }
   }
 
@@ -331,7 +330,7 @@
 // 收缩侧边栏展开菜单样式
 .body-popper-el-submenu {
   .el-menu--vertical {
-    &>.el-menu {
+    & > .el-menu {
       .svg-icon {
         margin-right: 16px;
       }
@@ -341,17 +340,17 @@
       }
     }
 
-    .nest-menu .el-submenu>.el-submenu__title,
+    .nest-menu .el-submenu > .el-submenu__title,
     .el-menu-item {
       &:hover {
         // you can use $subMenuHover
         background-color: $menuBg !important;
-        color: $menuActiveText!important;
+        color: $menuActiveText !important;
       }
     }
 
     // the scroll bar appears when the subMenu is too long
-    >.el-menu--popup {
+    > .el-menu--popup {
       max-height: 100vh;
       overflow-y: auto;
 

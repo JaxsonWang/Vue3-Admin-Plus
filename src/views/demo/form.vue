@@ -124,9 +124,7 @@ export default defineComponent({
           value: 'Jaxson',
           labelAttrs: {
             label: '用户名',
-            rules: [
-              { required: true, message: '请输入用户名', trigger: 'blur' }
-            ]
+            rules: [{ required: true, message: '请输入用户名', trigger: 'blur' }]
           },
           formAttrs: {
             type: 'text',
@@ -943,6 +941,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

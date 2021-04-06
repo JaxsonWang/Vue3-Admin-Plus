@@ -7,9 +7,7 @@
   -->
 
 <template>
-  <div class="table-demo-container">
-    正在开发中...
-  </div>
+  <div class="table-demo-container">正在开发中...</div>
 </template>
 
 <script>
@@ -17,14 +15,11 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'TableDemo1',
-  components: {
-  },
+  components: {},
   setup() {
     return {}
   }
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

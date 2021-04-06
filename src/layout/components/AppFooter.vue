@@ -7,9 +7,7 @@
   -->
 
 <template>
-  <el-footer class="footer-wrapper" height="50px">
-    Vue3 Admin Plus &copy; 2021 Created by 淮城一只猫
-  </el-footer>
+  <el-footer class="footer-wrapper" height="50px"> Vue3 Admin Plus &copy; 2021 Created by 淮城一只猫 </el-footer>
 </template>
 
 <script>

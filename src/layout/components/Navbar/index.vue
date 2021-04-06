@@ -7,9 +7,12 @@
   -->
 
 <template>
-  <div class="navbar" :style="{
-    height: height
-  }">
+  <div
+    class="navbar"
+    :style="{
+      height: height
+    }"
+  >
     <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
     <breadcrumb class="breadcrumb-container" />
@@ -23,9 +26,7 @@
         <template #dropdown>
           <el-dropdown-menu class="user-dropdown">
             <router-link to="/">
-              <el-dropdown-item>
-                Home
-              </el-dropdown-item>
+              <el-dropdown-item> Home </el-dropdown-item>
             </router-link>
             <a target="_blank" href="https://github.com/JaxsonWang/Vue3-Admin-Plus">
               <el-dropdown-item>Github</el-dropdown-item>
@@ -65,7 +66,7 @@ export default defineComponent({
     const avatar = 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
     const sidebar = computed(() => store.getters.sidebar)
     const toggleSideBar = () => store.dispatch('app/toggleSideBar')
-    const logout = async() => {
+    const logout = async () => {
       await store.dispatch('user/logout')
       await router.push(`/login?redirect=${route.fullPath}`)
     }
@@ -81,7 +82,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "~@/styles/variables.scss";
+@import '~@/styles/variables.scss';
 
 .navbar {
   position: relative;
@@ -93,10 +94,10 @@ export default defineComponent({
     float: left;
     cursor: pointer;
     transition: color 280ms;
-    -webkit-tap-highlight-color:transparent;
+    -webkit-tap-highlight-color: transparent;
 
     &:hover {
-      color: $menuActiveText!important;
+      color: $menuActiveText !important;
       fill: currentColor;
     }
   }
@@ -124,7 +125,7 @@ export default defineComponent({
         transition: background 280ms;
 
         &:hover {
-          background: rgba(0, 0, 0, .025)
+          background: rgba(0, 0, 0, 0.025);
         }
       }
     }

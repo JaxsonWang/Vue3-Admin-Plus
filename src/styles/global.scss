@@ -12,7 +12,6 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-
 *,
 *:before,
 *:after {
@@ -41,7 +40,7 @@ div:focus {
     visibility: hidden;
     display: block;
     font-size: 0;
-    content: " ";
+    content: ' ';
     clear: both;
     height: 0;
   }

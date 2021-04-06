@@ -28,7 +28,7 @@
         <span v-if="!isAffix(tag)" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
       </router-link>
     </scroll-pane>
-    <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
+    <ul v-show="visible" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu">
       <li @click="refreshSelectedTag(selectedTag.value)">重新加载</li>
       <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag.value)">关闭当前</li>
       <li @click="closeOthersTags">关闭其它</li>
@@ -63,7 +63,15 @@ export default defineComponent({
     const routes = computed(() => store.state.user.routes)
     // 过滤路由 hidden = true 的 visitedViews
     // const visitedViews = computed(() => store.state.tagsView.visitedViews)
-    const visitedViews = computed(() => store.state.tagsView.visitedViews.filter(item => routes.value.filter(i => i.hidden).map(i => i.path).indexOf(item.path) === -1))
+    const visitedViews = computed(() =>
+      store.state.tagsView.visitedViews.filter(
+        item =>
+          routes.value
+            .filter(i => i.hidden)
+            .map(i => i.path)
+            .indexOf(item.path) === -1
+      )
+    )
 
     let tagArrNodes = reactive([])
 
@@ -91,7 +99,7 @@ export default defineComponent({
       return tags
     }
     const initTags = () => {
-      const affixTagsArr = affixTags.value = filterAffixTags(routes.value)
+      const affixTagsArr = (affixTags.value = filterAffixTags(routes.value))
       for (const tag of affixTagsArr) {
         // Must have tag name
         if (tag.name) {
@@ -189,20 +197,26 @@ export default defineComponent({
       closeMenu()
     }
 
-    watch(() => visible.value, value => {
-      if (value) {
-        document.body.addEventListener('click', closeMenu)
-      } else {
-        document.body.removeEventListener('click', closeMenu)
+    watch(
+      () => visible.value,
+      value => {
+        if (value) {
+          document.body.addEventListener('click', closeMenu)
+        } else {
+          document.body.removeEventListener('click', closeMenu)
+        }
       }
-    })
+    )
     // 监听路由回调
-    watch(() => route.path, () => {
-      // 清空 tag ref 数组对象
-      tagArrNodes = []
-      addTags(route)
-      moveToCurrentTag(route)
-    })
+    watch(
+      () => route.path,
+      () => {
+        // 清空 tag ref 数组对象
+        tagArrNodes = []
+        addTags(route)
+        moveToCurrentTag(route)
+      }
+    )
 
     onMounted(() => {
       // 清空 tag ref 数组对象
@@ -234,7 +248,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "~@/styles/variables.scss";
+@import '~@/styles/variables.scss';
 
 .tags-view-container {
   height: 40px;
@@ -280,10 +294,10 @@ export default defineComponent({
         vertical-align: 2px;
         border-radius: 50%;
         text-align: center;
-        transition: all 280ms cubic-bezier(.645, .045, .355, 1);
+        transition: all 280ms cubic-bezier(0.645, 0.045, 0.355, 1);
         transform-origin: 100% 50%;
         &:before {
-          transform: scale(.6);
+          transform: scale(0.6);
           display: inline-block;
           vertical-align: -3px;
         }
@@ -305,7 +319,7 @@ export default defineComponent({
     font-size: 12px;
     font-weight: 400;
     color: #333;
-    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, .3);
+    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
     li {
       margin: 0;
       padding: 7px 16px;

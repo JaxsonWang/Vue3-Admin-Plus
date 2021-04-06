@@ -23,9 +23,7 @@
         </el-card>
       </el-col>
       <el-col :sm="24" :md="18" :lg="18" class="user-center-col">
-        <el-card class="box-card">
-          正在开发...
-        </el-card>
+        <el-card class="box-card"> 正在开发... </el-card>
       </el-col>
     </el-row>
   </div>
@@ -47,7 +45,8 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: center;
-        .user-avatar {}
+        .user-avatar {
+        }
         .user-name {
           margin: 14px 0 0;
         }

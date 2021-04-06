@@ -45,43 +45,21 @@
     >
       <template v-for="(item, index) in appConfig.table.columns" :key="index">
         <!--多选框-->
-        <el-table-column
-          v-if="item.type && item.type === 'selection'"
-          v-bind="item"
-          type="selection"
-        />
+        <el-table-column v-if="item.type && item.type === 'selection'" v-bind="item" type="selection" />
         <!--序列号-->
-        <el-table-column
-          v-else-if="item.type && item.type === 'index'"
-          v-bind="item"
-          type="index"
-        />
+        <el-table-column v-else-if="item.type && item.type === 'index'" v-bind="item" type="index" />
         <!--自定义列插槽-->
         <slot v-else-if="item.slot" :name="item.slot" />
         <!--表格数据渲染-->
-        <el-table-column
-          v-else
-          v-bind="item"
-        >
+        <el-table-column v-else v-bind="item">
           <template v-slot="scope">
             <template v-if="item.action">
-              <slot name="action-before" :scope="scope.row" />
+              <slot name="action-before" :scope="scope" />
               <template v-for="(act, idx) in item.action">
-                <el-button
-                  v-if="act === 'editBox'"
-                  :key="idx"
-                  type="text"
-                  size="small"
-                  @click="handleEdit(scope.row)"
-                >
+                <el-button v-if="act === 'editBox'" :key="idx" type="text" size="small" @click="handleEdit(scope.row)">
                   编辑
                 </el-button>
-                <el-button
-                  v-if="act === 'editRoute'"
-                  :key="idx"
-                  type="text"
-                  size="small"
-                >
+                <el-button v-if="act === 'editRoute'" :key="idx" type="text" size="small">
                   <router-link to="https://baidu.com">编辑</router-link>
                 </el-button>
                 <el-popconfirm
@@ -95,9 +73,11 @@
                   </template>
                 </el-popconfirm>
               </template>
-              <slot name="action-after" :scope="scope.row" />
+              <slot name="action-after" :scope="scope" />
             </template>
-            <template v-else-if="item.dateTimeFormat">{{ dayjs(scope.row[item.prop]).format(item.dateTimeFormat) }}</template>
+            <template v-else-if="item.dateTimeFormat">
+              {{ dayjs(scope.row[item.prop]).format(item.dateTimeFormat) }}
+            </template>
             <template v-else>{{ filterVal(scope.row[item.prop]) }}</template>
           </template>
         </el-table-column>
@@ -170,62 +150,67 @@ export default defineComponent({
       visible: false,
       row: {}
     })
-    const appConfig = reactive(merge({
-      header: {
-        search: {},
-        actions: {}
-      },
-      table: {
-        attrs: {
-          stripe: true,
-          border: true,
-          fit: true,
-          highlightCurrentRow: true
-        },
-        events: {},
-        columns: [],
-        api: {
-          list: null,
-          delete: null
-        }
-      },
-      pagination: {
-        pageSizes: [10, 20, 30, 40, 50, 100],
-        layout: 'total, sizes, prev, pager, next, jumper',
-        background: true
-      },
-      editBox: {
-        api: {
-          add: null,
-          update: null
-        },
-        title: '',
-        dialog: {
-          width: '960px'
-        },
-        form: {
-          formAttrs: {},
-          formList: []
-        },
-        footer: [
-          {
-            action: 'cancel',
-            title: '取消',
+    const appConfig = reactive(
+      merge(
+        {
+          header: {
+            search: {},
+            actions: {}
+          },
+          table: {
             attrs: {
-              size: 'small'
+              stripe: true,
+              border: true,
+              fit: true,
+              highlightCurrentRow: true
+            },
+            events: {},
+            columns: [],
+            api: {
+              list: null,
+              delete: null
             }
           },
-          {
-            action: 'confirm',
-            title: '确定',
-            attrs: {
-              type: 'primary',
-              size: 'small'
-            }
+          pagination: {
+            pageSizes: [10, 20, 30, 40, 50, 100],
+            layout: 'total, sizes, prev, pager, next, jumper',
+            background: true
+          },
+          editBox: {
+            api: {
+              add: null,
+              update: null
+            },
+            title: '',
+            dialog: {
+              width: '960px'
+            },
+            form: {
+              formAttrs: {},
+              formList: []
+            },
+            footer: [
+              {
+                action: 'cancel',
+                title: '取消',
+                attrs: {
+                  size: 'small'
+                }
+              },
+              {
+                action: 'confirm',
+                title: '确定',
+                attrs: {
+                  type: 'primary',
+                  size: 'small'
+                }
+              }
+            ]
           }
-        ]
-      }
-    }, props.config))
+        },
+        props.config
+      )
+    )
     const pagination = reactive({
       currentPage: 1,
       pageCount: 1,
@@ -344,13 +329,15 @@ export default defineComponent({
               confirmButtonText: '确定',
               cancelButtonText: '取消',
               type: 'warning'
-            }).then(() => {
-              row.api(selectionRow.value).then(() => {
-                getList()
-              })
-            }).catch(() => {
-              ElMessage.info('取消操作！')
             })
+              .then(() => {
+                row.api(selectionRow.value).then(() => {
+                  getList()
+                })
+              })
+              .catch(() => {
+                ElMessage.info('取消操作！')
+              })
           }
           break
         default:

@@ -6,9 +6,7 @@
   - 创建作者：Jaxson
   -->
 
-<template>
-  403
-</template>
+<template>403</template>
 
 <script>
 export default {
@@ -16,6 +14,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

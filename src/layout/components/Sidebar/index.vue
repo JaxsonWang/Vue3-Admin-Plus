@@ -1,5 +1,5 @@
 <template>
-  <el-aside :width="sideBarWidth" :class="{'has-logo': showLogo}">
+  <el-aside :width="sideBarWidth" :class="{ 'has-logo': showLogo }">
     <logo v-if="showLogo" :collapse="!isCollapse" />
     <el-scrollbar wrap-class="scrollbar-wrapper" class="aside-scrollbar">
       <el-menu
@@ -42,7 +42,9 @@ export default defineComponent({
     const showLogo = computed(() => store.state.settings.sidebarLogo)
     const variables = computed(() => variable)
     const isCollapse = computed(() => sidebar.value.opened)
-    const sideBarWidth = computed(() => isCollapse.value ? variables.value.sideBarWidth : variables.value.hideSideBarWidth)
+    const sideBarWidth = computed(() =>
+      isCollapse.value ? variables.value.sideBarWidth : variables.value.hideSideBarWidth
+    )
 
     const activeMenu = computed(() => {
       const { meta, path } = route

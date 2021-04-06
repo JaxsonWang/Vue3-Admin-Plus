@@ -1,11 +1,11 @@
-@import "element-variables";
+@import 'element-variables';
 
 // 侧边栏 - 菜单字体颜色
-$menuText: rgba(0, 0, 0, .85);
+$menuText: rgba(0, 0, 0, 0.85);
 // 侧边栏 - 菜单选中字体颜色
 $menuActiveText: $--color-primary;
 // 侧边栏 - 菜单选中父节点字体颜色
-$subMenuActiveText: rgba(0, 0, 0, .7);
+$subMenuActiveText: rgba(0, 0, 0, 0.7);
 
 // 侧边栏 - 菜单背景颜色
 $menuBg: #fff;

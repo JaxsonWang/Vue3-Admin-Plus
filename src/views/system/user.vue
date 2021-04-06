@@ -10,11 +10,7 @@
   <div class="system-user-container">
     <app-table :config="tableConfig">
       <template #is-active>
-        <el-table-column
-          :width="100"
-          label="用户状态"
-          align="center"
-        >
+        <el-table-column :width="100" label="用户状态" align="center">
           <template v-slot:header="{ column }">
             {{ column.label }}
           </template>
@@ -104,11 +100,12 @@ export default defineComponent({
               size: 'small',
               icon: 'el-icon-delete'
             },
-            api: row => request.delete('/user/list', {
-              data: {
-                list: row.map(i => i.id)
-              }
-            })
+            api: row =>
+              request.delete('/user/list', {
+                data: {
+                  list: row.map(i => i.id)
+                }
+              })
           },
           {
             action: 'add',
@@ -207,9 +204,7 @@ export default defineComponent({
               value: '',
               labelAttrs: {
                 label: '用户账号',
-                rules: [
-                  { required: true, message: '请输入用户账号', trigger: 'blur' }
-                ]
+                rules: [{ required: true, message: '请输入用户账号', trigger: 'blur' }]
               },
               formAttrs: {
                 type: 'text',
@@ -240,9 +235,7 @@ export default defineComponent({
               value: '',
               labelAttrs: {
                 label: '用户昵称',
-                rules: [
-                  { required: true, message: '请输入用户昵称', trigger: 'blur' }
-                ]
+                rules: [{ required: true, message: '请输入用户昵称', trigger: 'blur' }]
               },
               formAttrs: {
                 type: 'text',

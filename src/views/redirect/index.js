@@ -16,10 +16,12 @@ export default defineComponent({
     const router = useRouter()
     const { params, query } = route
     const { path } = params
-    router.replace({
-      path: '/' + path,
-      query
-    }).then(() => {})
+    router
+      .replace({
+        path: '/' + path,
+        query
+      })
+      .then(() => {})
   },
   render() {
     return h('div')

@@ -7,7 +7,13 @@
   -->
 
 <template>
-  <el-scrollbar ref="scrollContainer" :vertical="false" class="scroll-container" view-class="scroll-container-view" @wheel.prevent="handleScroll">
+  <el-scrollbar
+    ref="scrollContainer"
+    :vertical="false"
+    class="scroll-container"
+    view-class="scroll-container-view"
+    @wheel.prevent="handleScroll"
+  >
     <slot />
   </el-scrollbar>
 </template>

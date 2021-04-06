@@ -87,14 +87,17 @@ export default defineComponent({
     const setCurrentRoute = () => store.dispatch('router/setCurrentRoute', route)
 
     // 路由更新回调
-    watch(() => route.path, () => {
-      if (store.getters.device === 'mobile' && store.getters.sidebar.opened) {
-        store.dispatch('app/closeSideBar', {
-          withoutAnimation: false
-        })
+    watch(
+      () => route.path,
+      () => {
+        if (store.getters.device === 'mobile' && store.getters.sidebar.opened) {
+          store.dispatch('app/closeSideBar', {
+            withoutAnimation: false
+          })
+        }
+        setCurrentRoute()
       }
-      setCurrentRoute()
-    })
+    )
 
     onBeforeMount(() => {
       window.addEventListener('resize', resizeHandler)

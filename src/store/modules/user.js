@@ -23,7 +23,7 @@ const getDefaultState = () => {
 const state = getDefaultState()
 
 const mutations = {
-  RESET_STATE: (state) => {
+  RESET_STATE: state => {
     Object.assign(state, getDefaultState())
   },
   SET_TOKEN: (state, token) => {
@@ -58,13 +58,15 @@ const actions = {
           username: username.trim(),
           password: password
         }
-      }).then(data => {
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
-        resolve()
-      }).catch(error => {
-        reject(error)
       })
+        .then(data => {
+          commit('SET_TOKEN', data.token)
+          setToken(data.token)
+          resolve()
+        })
+        .catch(error => {
+          reject(error)
+        })
     })
   },
 
@@ -79,17 +81,19 @@ const actions = {
       request({
         url: '/user/getInfo',
         method: 'get'
-      }).then(data => {
-        const formatRoutes = []
-        const asyncRoutes = [...formatRoutes, ...constantRoutes]
-        commit('SET_NAME', data.nickname)
-        commit('SET_AVATAR', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif')
-        // 合并路由
-        commit('SET_ROUTES', asyncRoutes)
-        resolve(asyncRoutes)
-      }).catch(error => {
-        reject(error)
       })
+        .then(data => {
+          const formatRoutes = []
+          const asyncRoutes = [...formatRoutes, ...constantRoutes]
+          commit('SET_NAME', data.nickname)
+          commit('SET_AVATAR', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif')
+          // 合并路由
+          commit('SET_ROUTES', asyncRoutes)
+          resolve(asyncRoutes)
+        })
+        .catch(error => {
+          reject(error)
+        })
     })
   },
 

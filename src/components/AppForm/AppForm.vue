@@ -7,18 +7,8 @@
   -->
 
 <template>
-  <el-form
-    v-bind="appConfig.formAttrs"
-    :model="appModel"
-    ref="formRef"
-    class="app-form-container"
-  >
-    <el-form-item
-      v-for="(item, index) in appConfig.formList"
-      v-bind="item.labelAttrs"
-      :key="index"
-      :prop="item.key"
-    >
+  <el-form v-bind="appConfig.formAttrs" :model="appModel" ref="formRef" class="app-form-container">
+    <el-form-item v-for="(item, index) in appConfig.formList" v-bind="item.labelAttrs" :key="index" :prop="item.key">
       <el-radio-group
         v-if="item.type === 'radio'"
         v-model="appModel[item.key]"
@@ -26,22 +16,12 @@
         v-on="item.formEvents"
       >
         <template v-if="item.isButton">
-          <el-radio-button
-            v-for="(rdo, rid) in item.options"
-            v-bind="rdo.attrs"
-            v-on="rdo.events"
-            :key="rid"
-          >
+          <el-radio-button v-for="(rdo, rid) in item.options" v-bind="rdo.attrs" v-on="rdo.events" :key="rid">
             {{ rdo.title }}
           </el-radio-button>
         </template>
         <template v-else>
-          <el-radio
-            v-for="(rdo, rid) in item.options"
-            v-bind="rdo.attrs"
-            v-on="rdo.events"
-            :key="rid"
-          >
+          <el-radio v-for="(rdo, rid) in item.options" v-bind="rdo.attrs" v-on="rdo.events" :key="rid">
             {{ rdo.title }}
           </el-radio>
         </template>
@@ -53,22 +33,12 @@
         v-on="item.formEvents"
       >
         <template v-if="item.isButton">
-          <el-checkbox-button
-            v-for="(cbx, cid) in item.options"
-            v-bind="cbx.attrs"
-            v-on="cbx.events"
-            :key="cid"
-          >
+          <el-checkbox-button v-for="(cbx, cid) in item.options" v-bind="cbx.attrs" v-on="cbx.events" :key="cid">
             {{ cbx.title }}
           </el-checkbox-button>
         </template>
         <template v-else>
-          <el-checkbox
-            v-for="(cbx, cid) in item.options"
-            v-bind="cbx.attrs"
-            v-on="cbx.events"
-            :key="cid"
-          >
+          <el-checkbox v-for="(cbx, cid) in item.options" v-bind="cbx.attrs" v-on="cbx.events" :key="cid">
             {{ cbx.title }}
           </el-checkbox>
         </template>
@@ -104,11 +74,7 @@
         v-bind="item.formAttrs"
         v-on="item.formEvents"
       />
-      <el-select
-        v-else-if="item.type === 'select'"
-        v-model="appModel[item.key]"
-        v-bind="item.formAttrs"
-      >
+      <el-select v-else-if="item.type === 'select'" v-model="appModel[item.key]" v-bind="item.formAttrs">
         <template v-if="item.formSlot && item.formSlot.default">
           <slot :name="item.formSlot.default" />
         </template>
@@ -120,19 +86,11 @@
               :label="group.label"
               :disabled="group.disabled"
             >
-              <el-option
-                v-for="(slt, sid) in group.options"
-                v-bind="slt"
-                :key="sid"
-              />
+              <el-option v-for="(slt, sid) in group.options" v-bind="slt" :key="sid" />
             </el-option-group>
           </template>
           <template v-else>
-            <el-option
-              v-for="(slt, sid) in item.options"
-              v-bind="slt"
-              :key="sid"
-            />
+            <el-option v-for="(slt, sid) in item.options" v-bind="slt" :key="sid" />
           </template>
         </template>
         <template v-if="item.formSlot && item.formSlot.prefix" #prefix>
@@ -177,11 +135,7 @@
         v-bind="item.formAttrs"
         v-on="item.formEvents"
       />
-      <el-time-picker
-        v-else-if="item.type === 'timePicker'"
-        v-model="appModel[item.key]"
-        v-bind="item.formAttrs"
-      />
+      <el-time-picker v-else-if="item.type === 'timePicker'" v-model="appModel[item.key]" v-bind="item.formAttrs" />
       <el-time-select
         v-else-if="item.type === 'timeSelect'"
         v-model="appModel[item.key]"
@@ -198,11 +152,7 @@
           <slot :name="item.formSlot.rangeSeparator" />
         </template>
       </el-date-picker>
-      <el-upload
-        v-else-if="item.type === 'upload'"
-        v-model="appModel[item.key]"
-        v-bind="item.formAttrs"
-      >
+      <el-upload v-else-if="item.type === 'upload'" v-model="appModel[item.key]" v-bind="item.formAttrs">
         <template v-if="item.formSlot && item.formSlot.default">
           <slot :name="item.formSlot.default" />
         </template>
@@ -238,30 +188,15 @@
           <slot :name="item.formSlot.default" :option="option" />
         </template>
       </el-transfer>
-      <template
-        v-else-if="item.type === 'submit'"
-      >
-        <el-button
-          v-if="item.submit"
-          v-bind="item.submit.attrs"
-          v-on="item.submit.events"
-          @click="formSubmit"
-        >
+      <template v-else-if="item.type === 'submit'">
+        <el-button v-if="item.submit" v-bind="item.submit.attrs" v-on="item.submit.events" @click="formSubmit">
           {{ item.submit.title }}
         </el-button>
-        <el-button
-          v-if="item.reset"
-          v-bind="item.reset.attrs"
-          v-on="item.reset.events"
-          @click="formReset"
-        >
+        <el-button v-if="item.reset" v-bind="item.reset.attrs" v-on="item.reset.events" @click="formReset">
           {{ item.reset.title }}
         </el-button>
       </template>
-      <slot
-        v-else-if="item.type === 'slot'"
-        :name="item.name"
-      />
+      <slot v-else-if="item.type === 'slot'" :name="item.name" />
     </el-form-item>
   </el-form>
 </template>
@@ -328,6 +263,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

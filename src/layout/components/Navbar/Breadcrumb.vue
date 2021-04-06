@@ -9,8 +9,10 @@
 <template>
   <el-breadcrumb class="app-breadcrumb" separator="/">
     <transition-group name="breadcrumb">
-      <el-breadcrumb-item v-for="(item,index) in getBreadcrumb()" :key="item.path">
-        <span v-if="item.redirect==='noRedirect' || index === getBreadcrumb().length - 1" class="no-redirect">{{ item.meta.title }}</span>
+      <el-breadcrumb-item v-for="(item, index) in getBreadcrumb()" :key="item.path">
+        <span v-if="item.redirect === 'noRedirect' || index === getBreadcrumb().length - 1" class="no-redirect">
+          {{ item.meta.title }}
+        </span>
         <a v-else @click.prevent="handleLink(item)">{{ item.meta.title }}</a>
       </el-breadcrumb-item>
     </transition-group>

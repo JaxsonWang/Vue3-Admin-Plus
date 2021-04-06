@@ -20,7 +20,7 @@ NProgress.configure({
   showSpinner: false
 })
 
-router.beforeEach(async(to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   // 进度加载
   NProgress.start()
   // 设置文档标题

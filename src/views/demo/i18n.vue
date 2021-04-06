@@ -13,10 +13,7 @@
       <el-button type="primary" size="mini" @click="changeLanguage('zh-cn')">中文</el-button>
     </el-button-group>
     <p>{{ t('message.hello') }}</p>
-    <el-date-picker
-      v-model="dateValue"
-      type="datetimerange"
-    />
+    <el-date-picker v-model="dateValue" type="datetimerange" />
   </div>
 </template>
 
@@ -44,6 +41,4 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

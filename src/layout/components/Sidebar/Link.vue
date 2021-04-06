@@ -18,7 +18,7 @@ export default defineComponent({
   },
   setup(props) {
     const isExt = computed(() => isExternal(props.to))
-    const type = computed(() => isExt.value ? 'a' : 'router-link')
+    const type = computed(() => (isExt.value ? 'a' : 'router-link'))
     const linkProps = to => {
       if (isExt.value) {
         return {

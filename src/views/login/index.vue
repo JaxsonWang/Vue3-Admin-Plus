@@ -11,14 +11,9 @@
     <div ref="loginWrapperRef" class="login-wrapper">
       <div class="login-left">
         <div class="login-left-logo">
-          <img
-            src="@/assets/images/logo.png"
-            alt="logo"
-          >
+          <img src="@/assets/images/logo.png" alt="logo" />
         </div>
-        <div class="login-left-name">
-          Vue3 Admin Plus
-        </div>
+        <div class="login-left-name">Vue3 Admin Plus</div>
       </div>
       <el-form
         :model="loginForm"
@@ -66,12 +61,7 @@
           </span>
         </el-form-item>
 
-        <el-button
-          :loading="loading"
-          type="primary"
-          class="login-submit"
-          @click.prevent="handleLogin"
-        >
+        <el-button :loading="loading" type="primary" class="login-submit" @click.prevent="handleLogin">
           登录
         </el-button>
       </el-form>
@@ -116,12 +106,8 @@ export default defineComponent({
       password: ''
     })
     const loginRules = reactive({
-      username: [
-        { required: true, trigger: 'blur', validator: validateUsername }
-      ],
-      password: [
-        { required: true, trigger: 'blur', validator: validatePassword }
-      ]
+      username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+      password: [{ required: true, trigger: 'blur', validator: validatePassword }]
     })
 
     const getOtherQuery = query => {
@@ -144,15 +130,18 @@ export default defineComponent({
       loginFormRef.value.validate(valid => {
         if (valid) {
           loading.value = true
-          store.dispatch('user/login', loginForm).then(() => {
-            const query = route.query
-            router.push({
-              path: query ? query.redirect : '/',
-              query: query ? getOtherQuery(query) : {}
+          store
+            .dispatch('user/login', loginForm)
+            .then(() => {
+              const query = route.query
+              router.push({
+                path: query ? query.redirect : '/',
+                query: query ? getOtherQuery(query) : {}
+              })
             })
-          }).finally(() => {
-            loading.value = false
-          })
+            .finally(() => {
+              loading.value = false
+            })
         }
       })
     }
@@ -186,7 +175,7 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("~@/assets/images/login-bg.jpg");
+  background-image: url('~@/assets/images/login-bg.jpg');
   background-position: 50%;
   background-size: cover;
 
