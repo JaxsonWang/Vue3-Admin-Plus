@@ -150,11 +150,15 @@
 
 弹窗显示的标题，只需要填写一个名称，例如 `用户`，在新建和编辑就会显示 `新建用户` 和 `编辑用户`。
 
-##### dialog
+##### dialogAttrs
 
 等价于 [Dialog Attributes](https://element-plus.org/#/zh-CN/component/dialog#attributes)
 
 > 如果填写 `title` 将会外部的 `title` 字段属性覆盖
+
+##### dialogEvents
+
+等价于 [Dialog Events](https://element-plus.gitee.io/#/zh-CN/component/dialog#events)
 
 ##### form
 

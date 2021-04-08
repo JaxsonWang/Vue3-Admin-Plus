@@ -8,7 +8,7 @@
 
 <template>
   <div class="system-user-container">
-    <app-table :config="tableConfig">
+    <app-table :config="tableConfig" ref="appTableRef">
       <template #is-active>
         <el-table-column :width="100" label="用户状态" align="center">
           <template v-slot:header="{ column }">
@@ -20,12 +20,17 @@
           </template>
         </el-table-column>
       </template>
+      <template #action-after="{ row }">
+        <el-button v-if="row.isActive" type="text" size="small" @click="setActiveAction(row, false)">停用</el-button>
+        <el-button v-else type="text" size="small" @click="setActiveAction(row, true)">启用</el-button>
+      </template>
     </app-table>
   </div>
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, ref, reactive } from 'vue'
+import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 
 import AppTable from '@/components/AppTable'
@@ -37,6 +42,7 @@ export default defineComponent({
     AppTable
   },
   setup() {
+    const appTableRef = ref(null)
     const tableConfig = reactive({
       header: {
         search: {
@@ -186,10 +192,17 @@ export default defineComponent({
           update: data => request.put(`/user/${data.id}`, data)
         },
         title: '用户',
-        dialog: {
+        dialogAttrs: {
           width: '960px',
           appendToBody: true,
           destroyOnClose: true
+        },
+        dialogEvents: {
+          open: () => {
+            // 新建和弹窗部分表单区分是否可编辑
+            appTableRef.value.appConfig.editBox.form.formList[0].formAttrs.disabled =
+              appTableRef.value.editBox.type !== 'add'
+          }
         },
         form: {
           formAttrs: {
@@ -209,7 +222,8 @@ export default defineComponent({
               formAttrs: {
                 type: 'text',
                 placeholder: '请输入用户账号',
-                clearable: true
+                clearable: true,
+                disabled: false
               }
             },
             {
@@ -265,11 +279,29 @@ export default defineComponent({
       }
     })
 
+    /**
+     * 设置用户状态
+     * @param row
+     * @param status
+     */
+    const setActiveAction = (row, status) => {
+      request
+        .patch(`/user/${row.id}`, {
+          isActive: status
+        })
+        .then(() => {
+          appTableRef.value.getTableList()
+          ElMessage.success('操作成功！')
+        })
+    }
+
     // todo 国际化优化显示
     useI18n().locale.value = 'zh-cn'
 
     return {
-      tableConfig
+      tableConfig,
+      appTableRef,
+      setActiveAction
     }
   }
 })

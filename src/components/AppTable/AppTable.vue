@@ -54,7 +54,7 @@
         <el-table-column v-else v-bind="item">
           <template v-slot="scope">
             <template v-if="item.action">
-              <slot name="action-before" :scope="scope" />
+              <slot name="action-before" :row="scope.row" :column="scope.column" :$index="scope.$index" />
               <template v-for="(act, idx) in item.action">
                 <el-button v-if="act === 'editBox'" :key="idx" type="text" size="small" @click="handleEdit(scope.row)">
                   编辑
@@ -73,7 +73,7 @@
                   </template>
                 </el-popconfirm>
               </template>
-              <slot name="action-after" :scope="scope" />
+              <slot name="action-after" :row="scope.row" :column="scope.column" :$index="scope.$index" />
             </template>
             <template v-else-if="item.dateTimeFormat">
               {{ dayjs(scope.row[item.prop]).format(item.dateTimeFormat) }}
@@ -98,7 +98,8 @@
   <el-dialog
     v-if="appConfig.editBox"
     v-model="editBox.visible"
-    v-bind="appConfig.editBox.dialog"
+    v-bind="appConfig.editBox.dialogAttrs"
+    v-on="appConfig.editBox.dialogEvents"
     :title="editBox.title"
   >
     <app-form v-model="editBox.row" :config="appConfig.editBox.form" />
@@ -182,9 +183,10 @@ export default defineComponent({
               update: null
             },
             title: '',
-            dialog: {
+            dialogAttrs: {
               width: '960px'
             },
+            dialogEvents: {},
             form: {
               formAttrs: {},
               formList: []
@@ -221,7 +223,7 @@ export default defineComponent({
      * 搜索按钮触发
      * 所有的搜索条件都在这里触发
      */
-    const getList = searchModel => {
+    const getTableList = searchModel => {
       // 搜集所有搜索条件
       const params = merge(
         {
@@ -250,7 +252,7 @@ export default defineComponent({
     const onSearchReset = () => {
       pagination.currentPage = 1
       pagination.pageSize = appConfig.pagination.pageSizes[0]
-      getList()
+      getTableList()
     }
     /**
      * 提交搜索
@@ -258,7 +260,7 @@ export default defineComponent({
     const onSearchSubmit = () => {
       pagination.currentPage = 1
       pagination.pageSize = appConfig.pagination.pageSizes[0]
-      getList(tableSearchModel.value)
+      getTableList(tableSearchModel.value)
     }
     /**
      * 分页 - 当前页码
@@ -266,7 +268,7 @@ export default defineComponent({
      */
     const handleCurrentChange = val => {
       pagination.currentPage = val
-      getList()
+      getTableList()
     }
     /**
      * 分页 - 当前条数
@@ -274,7 +276,7 @@ export default defineComponent({
      */
     const handleSizeChange = val => {
       pagination.pageSize = val
-      getList()
+      getTableList()
     }
     /**
      * 过滤值
@@ -332,7 +334,7 @@ export default defineComponent({
             })
               .then(() => {
                 row.api(selectionRow.value).then(() => {
-                  getList()
+                  getTableList()
                 })
               })
               .catch(() => {
@@ -352,14 +354,14 @@ export default defineComponent({
         if (editBox.type === 'add') {
           appConfig.editBox.api.add(editBox.row).then(response => {
             ElMessage.success('新建成功')
-            getList()
+            getTableList()
             editBox.visible = false
           })
         }
         if (editBox.type === 'edit') {
           appConfig.editBox.api.update(editBox.row).then(response => {
             ElMessage.success('更新成功')
-            getList()
+            getTableList()
             editBox.visible = false
           })
         }
@@ -386,14 +388,14 @@ export default defineComponent({
      * 删除
      */
     const handleDelete = row => {
-      appConfig.table.api.delete(row).then(data => {
+      appConfig.table.api.delete(row).then(response => {
         ElMessage.success('删除成功！')
-        getList()
+        getTableList()
       })
     }
 
     onBeforeMount(() => {
-      getList()
+      getTableList()
     })
 
     return {
@@ -414,7 +416,8 @@ export default defineComponent({
       handleSelectionChange,
       handleHeaderAction,
       handleBox,
-      filterVal
+      filterVal,
+      getTableList
     }
   }
 })
