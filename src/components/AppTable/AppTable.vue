@@ -102,18 +102,15 @@
     v-on="appConfig.editBox.dialogEvents"
     :title="editBox.title"
   >
-    <app-form v-model="editBox.row" :config="appConfig.editBox.form" />
+    <app-form v-model="editBox.row" :config="appConfig.editBox.form" ref="editBoxFormRef" />
     <template v-if="appConfig.editBox.footer" #footer>
       <div class="dialog-footer">
         <slot name="dialog-footer-before" :model="editBox.row" />
-        <el-button
-          v-for="(action, index) in appConfig.editBox.footer"
-          v-bind="action.attrs"
-          :key="index"
-          @click="handleBox(action.action)"
-        >
-          {{ action.title }}
-        </el-button>
+        <template v-for="(action, index) in appConfig.editBox.footer" :key="index">
+          <el-button v-bind="action.attrs" @click="handleBox(action.action)">
+            {{ action.title }}
+          </el-button>
+        </template>
         <slot name="dialog-footer-after" :model="editBox.row" />
       </div>
     </template>
@@ -145,6 +142,7 @@ export default defineComponent({
     const tableData = ref([])
     const selectionRow = ref([])
     const tableSearchModel = ref({})
+    const editBoxFormRef = ref(null)
     const editBox = reactive({
       title: '',
       type: 'add',
@@ -351,20 +349,27 @@ export default defineComponent({
      */
     const handleBox = type => {
       if (type === 'confirm') {
-        if (editBox.type === 'add') {
-          appConfig.editBox.api.add(editBox.row).then(response => {
-            ElMessage.success('新建成功')
-            getTableList()
-            editBox.visible = false
+        editBoxFormRef.value
+          .formValidate()
+          .then(() => {
+            if (editBox.type === 'add') {
+              appConfig.editBox.api.add(editBox.row).then(response => {
+                ElMessage.success('新建成功')
+                getTableList()
+                editBox.visible = false
+              })
+            }
+            if (editBox.type === 'edit') {
+              appConfig.editBox.api.update(editBox.row).then(response => {
+                ElMessage.success('更新成功')
+                getTableList()
+                editBox.visible = false
+              })
+            }
           })
-        }
-        if (editBox.type === 'edit') {
-          appConfig.editBox.api.update(editBox.row).then(response => {
-            ElMessage.success('更新成功')
-            getTableList()
-            editBox.visible = false
+          .catch(validError => {
+            ElMessage.error(validError)
           })
-        }
       }
       if (type === 'cancel') editBox.visible = false
     }
@@ -406,6 +411,7 @@ export default defineComponent({
       selectionRow,
       tableSearchModel,
       editBox,
+      editBoxFormRef,
       dayjs,
       onSearchSubmit,
       onSearchReset,

@@ -202,7 +202,8 @@
 </template>
 
 <script>
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, ref, reactive, computed } from 'vue'
+import { ElMessage } from 'element-plus'
 import { merge } from 'lodash'
 
 export default defineComponent({
@@ -221,7 +222,8 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const formRef = ref(null)
-    const appConfig = merge({}, props.config)
+    const validError = ref('请填写表单内容！')
+    const appConfig = reactive(merge({}, props.config))
     const appModel = computed({
       get: () => props.modelValue,
       set: value => {
@@ -229,9 +231,21 @@ export default defineComponent({
       }
     })
     /**
+     * 表单验证
+     */
+    const formValidate = () => {
+      return new Promise((resolve, reject) => {
+        formRef.value.validate(valid => (valid ? resolve() : reject(validError.value)))
+      })
+    }
+    /**
      * 表单提交
      */
-    const formSubmit = () => emit('submit', props.modelValue)
+    const formSubmit = () => {
+      formValidate()
+        .then(() => emit('submit', props.modelValue))
+        .catch(() => ElMessage.error(validError.value))
+    }
     /**
      * 清除表单
      */
@@ -257,7 +271,8 @@ export default defineComponent({
       appConfig,
       appModel,
       formSubmit,
-      formReset
+      formReset,
+      formValidate
     }
   }
 })
