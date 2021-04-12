@@ -8,13 +8,13 @@ import ElementPlus from 'element-plus'
 // 载入全局变量样式表
 import '@/styles/index.scss'
 // 国际化
-import i18n from '@/lang'
+import i18n from '@/lang/index'
 import App from '@/App.vue'
-import router from '@/router'
-import store from '@/store'
+import router from '@/router/index'
+import store from '@/store/index'
 
 // 注册图标组件
-import SvgIcon from '@/icons'
+import SvgIcon from '@/icons/index'
 
 // 注册权限指令
 import Auth from '@/directives/auth'

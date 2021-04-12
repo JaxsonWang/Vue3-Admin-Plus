@@ -16,7 +16,7 @@ import store from '@/store'
  *    <a v-action:edit @click="edit(record)">修改</a>
  *
  */
-const Auth = {
+export const Auth = {
   mounted: (el, binding) => {
     // 从 store 获取当前路由 auth 数组对象
     const authArr = store.getters.currentRoute.meta.auth ? store.getters.currentRoute.meta.auth : []
@@ -28,4 +28,3 @@ const Auth = {
   }
 }
 
-export default Auth
