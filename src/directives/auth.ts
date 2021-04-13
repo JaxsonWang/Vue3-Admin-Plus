@@ -5,6 +5,7 @@
  * 创建日期：2021/1/29 下午10:42
  * 创建作者：Jaxson
  */
+import { ObjectDirective } from 'vue'
 import store from '@/store'
 
 /**
@@ -16,15 +17,17 @@ import store from '@/store'
  *    <a v-action:edit @click="edit(record)">修改</a>
  *
  */
-export const Auth = {
-  mounted: (el, binding) => {
+const Auth: ObjectDirective = {
+  mounted: (el: HTMLButtonElement, binding) => {
     // 从 store 获取当前路由 auth 数组对象
     const authArr = store.getters.currentRoute.meta.auth ? store.getters.currentRoute.meta.auth : []
     const actionName = binding.arg
     // 遍历权限颗粒是否存在，不存在则删除节点
     if (authArr.indexOf(actionName) === -1) {
-      (el.parentNode && el.parentNode.removeChild(el)) || (el.style.display = 'none')
+      el.parentNode && el.parentNode.removeChild(el)
+      // (el.parentNode && el.parentNode.removeChild(el)) || (el.style.display = 'none')
     }
   }
 }
 
+export default Auth

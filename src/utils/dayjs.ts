@@ -11,7 +11,7 @@ import dayjs from 'dayjs'
 import dayjsEN from 'dayjs/locale/en'
 import dayjsZhCn from 'dayjs/locale/zh-cn'
 
-export const setDayLocale = lang => {
+export const setDayLocale = (lang: string): void => {
   switch (lang) {
     case 'en':
       dayjs.locale(dayjsEN)

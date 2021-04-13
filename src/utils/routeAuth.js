@@ -12,6 +12,7 @@ import router from '@/router'
 import store from '@/store'
 import { getPageTitle } from '@/utils'
 import { getToken } from '@/utils/auth'
+import { UserActionTypes } from '@/store/modules/user/actions'
 
 // 路由白名单
 const whiteList = ['/login']
@@ -49,7 +50,7 @@ router.beforeEach(async (to, from, next) => {
         })
         try {
           // 获取用户信息
-          const addRoutes = await store.dispatch('user/getInfo')
+          const addRoutes = await store.dispatch(UserActionTypes.getInfo)
           // 添加服务器返回的路由
           for (const route of addRoutes) router.addRoute(route)
           next({ ...to, replace: true })

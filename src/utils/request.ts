@@ -6,18 +6,18 @@
  * 创建作者：Jaxson
  */
 
-import axios from 'axios'
+import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios'
 import { ElMessage } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router'
 
-import { setToken } from '@/utils/auth'
+import { setToken } from '@/utils/cookie'
 import store from '@/store'
 
-export const request = axios.create({
-  baseURL:
-    process.env.NODE_ENV === 'development'
-      ? process.env.VUE_APP_BASE_API + process.env.VUE_APP_URI
-      : window.VUE_APP.VUE_APP_BASE_API + window.VUE_APP.VUE_APP_URI,
+const baseURL: any = process.env.VUE_APP_BASE_API
+const baseApi: any = process.env.VUE_APP_URI
+
+export const request: AxiosInstance = axios.create({
+  baseURL: baseURL + baseApi,
   withCredentials: false,
   timeout: 10 * 1000
 })
@@ -37,7 +37,7 @@ request.interceptors.request.use(
 )
 
 request.interceptors.response.use(
-  response => {
+  (response: AxiosResponse) => {
     const { data } = response
     if (data.statusCode !== 200) {
       ElMessage({
@@ -53,7 +53,7 @@ request.interceptors.response.use(
       return data.data
     }
   },
-  async error => {
+  async (error: AxiosError) => {
     const { response } = error
     let data = '未知错误'
     if (response !== undefined) {

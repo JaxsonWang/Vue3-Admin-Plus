@@ -69,10 +69,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+
+import { UserActionTypes } from '@/store/modules/user/actions'
 
 export default defineComponent({
   name: 'Login',
@@ -131,7 +133,7 @@ export default defineComponent({
         if (valid) {
           loading.value = true
           store
-            .dispatch('user/login', loginForm)
+            .dispatch(UserActionTypes.login, loginForm)
             .then(() => {
               const query = route.query
               router.push({

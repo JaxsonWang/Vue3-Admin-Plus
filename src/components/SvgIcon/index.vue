@@ -5,7 +5,7 @@
   </svg>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { isExternal } from '@/utils/validate'
 

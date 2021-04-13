@@ -1,10 +1,10 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import Layout from '@/layout/default'
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+import { Layout } from '@/layout'
 
 /**
  * asyncRoutes 异步路由
  */
-export const asyncRoutes = [
+export const asyncRoutes: Array<RouteRecordRaw> = [
   {
     path: '/',
     component: Layout,
@@ -17,7 +17,7 @@ export const asyncRoutes = [
       {
         path: 'dashboard',
         name: 'Dashboard',
-        component: () => import('@/views/home/index'),
+        component: () => import('@/views/home/index.vue'),
         meta: {
           title: '仪表盘',
           icon: 'el-icon-info',
@@ -38,7 +38,7 @@ export const asyncRoutes = [
       {
         path: 'i18n',
         name: 'I18nDemo',
-        component: () => import('@/views/demo/i18n'),
+        component: () => import('@/views/demo/i18n.vue'),
         meta: {
           title: '国际化',
           icon: 'language'
@@ -47,7 +47,7 @@ export const asyncRoutes = [
       {
         path: 'table',
         name: 'tableDemo',
-        component: () => import('@/views/demo/table'),
+        component: () => import('@/views/demo/table.vue'),
         meta: {
           title: '表格封装',
           icon: 'table'
@@ -56,7 +56,7 @@ export const asyncRoutes = [
       {
         path: 'form',
         name: 'formDemo',
-        component: () => import('@/views/demo/form'),
+        component: () => import('@/views/demo/form.vue'),
         meta: {
           title: '表单封装',
           icon: 'table'
@@ -76,7 +76,7 @@ export const asyncRoutes = [
       {
         path: 'center',
         name: 'UserCenter',
-        component: () => import('@/views/user/center'),
+        component: () => import('@/views/user/center.vue'),
         meta: {
           title: '用户中心',
           icon: 'dashboard'
@@ -85,7 +85,7 @@ export const asyncRoutes = [
       {
         path: 'settings',
         name: 'UserSettings',
-        component: () => import('@/views/user/settings'),
+        component: () => import('@/views/user/settings.vue'),
         meta: {
           title: '用户设置',
           icon: 'dashboard'
@@ -105,7 +105,7 @@ export const asyncRoutes = [
       {
         path: 'user',
         name: 'SystemUser',
-        component: () => import('@/views/system/user'),
+        component: () => import('@/views/system/user.vue'),
         meta: {
           title: '用户管理',
           icon: 'dashboard'
@@ -116,50 +116,62 @@ export const asyncRoutes = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('@/views/login'),
-    hidden: true
+    component: () => import('@/views/login/index.vue'),
+    meta: {
+      hidden: true
+    }
   }
 ]
 
 /**
  * constantRoutes 固定路由
  */
-export const constantRoutes = [
+export const constantRoutes: Array<RouteRecordRaw> = [
   {
     path: '/redirect',
     name: 'redirect',
     component: Layout,
-    hidden: true,
     children: [
       {
         path: '/redirect/:path(.*)',
-        component: () => import('@/views/redirect')
+        component: () => import('@/views/redirect/index')
       }
-    ]
+    ],
+    meta: {
+      hidden: true
+    }
   },
   {
     path: '/403',
     name: '403',
-    component: () => import('@/views/403'),
-    hidden: true
+    component: () => import('@/views/403/index.vue'),
+    meta: {
+      hidden: true
+    }
   },
   {
     path: '/404',
     name: '404',
-    component: () => import('@/views/404'),
-    hidden: true
+    component: () => import('@/views/404/index.vue'),
+    meta: {
+      hidden: true
+    }
   },
   {
     path: '/500',
     name: '500',
-    component: () => import('@/views/500'),
-    hidden: true
+    component: () => import('@/views/500/index.vue'),
+    meta: {
+      hidden: true
+    }
   },
   {
     path: '/:pathMatch(.*)*',
     name: 'pathMatch',
     redirect: '/404',
-    hidden: true
+    meta: {
+      hidden: true
+    }
   }
 ]
 
