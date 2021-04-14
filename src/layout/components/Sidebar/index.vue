@@ -1,3 +1,11 @@
+<!--
+  - Copyright (c) 2021 Jaxson
+  - 项目名称：Vue3-Admin-Plus
+  - 文件名称：index.vue
+  - 创建日期：2021年04月14日
+  - 创建作者：Jaxson
+  -->
+
 <template>
   <el-aside :width="sideBarWidth" :class="{ 'has-logo': showLogo }">
     <logo v-if="showLogo" :collapse="!isCollapse" />
@@ -20,13 +28,13 @@
     </el-scrollbar>
   </el-aside>
 </template>
-<script>
+<script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import store from '@/store'
-import Logo from './Logo'
-import SidebarItem from './SidebarItem'
-import variable from '@/styles/variables.scss'
+import { useStore } from 'vuex'
+import Logo from './Logo.vue'
+import SidebarItem from './SidebarItem.vue'
+import variable from '@/styles/variables.module.scss'
 
 export default defineComponent({
   name: 'Sidebar',
@@ -36,6 +44,7 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute()
+    const store = useStore()
     const sidebar = computed(() => store.state.app.sidebar)
     // const routes = computed(() => useRouter().options.routes)
     const routes = computed(() => store.state.user.routes)

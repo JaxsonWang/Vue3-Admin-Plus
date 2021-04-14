@@ -1,8 +1,8 @@
 <!--
-  - Copyright (c) 2021
+  - Copyright (c) 2021 Jaxson
   - 项目名称：Vue3-Admin-Plus
   - 文件名称：user.vue
-  - 创建日期：2021/3/31 下午2:34
+  - 创建日期：2021年04月14日
   - 创建作者：Jaxson
   -->
 
@@ -28,7 +28,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
@@ -42,7 +42,7 @@ export default defineComponent({
     AppTable
   },
   setup() {
-    const appTableRef = ref(null)
+    const appTableRef = ref<any>(null)
     const tableConfig = reactive({
       header: {
         search: {
@@ -106,10 +106,10 @@ export default defineComponent({
               size: 'small',
               icon: 'el-icon-delete'
             },
-            api: row =>
+            api: (row: any) =>
               request.delete('/user/list', {
                 data: {
-                  list: row.map(i => i.id)
+                  list: row.map((i: any) => i.id)
                 }
               })
           },
@@ -182,14 +182,14 @@ export default defineComponent({
           }
         ],
         api: {
-          list: params => request.get('/user', { params }),
-          delete: row => request.delete(`/user/${row.id}`)
+          list: (params: any) => request.get('/user', { params }),
+          delete: (row: any) => request.delete(`/user/${row.id}`)
         }
       },
       editBox: {
         api: {
-          add: data => request.post('/user', data),
-          update: data => request.put(`/user/${data.id}`, data)
+          add: (data: any) => request.post('/user', data),
+          update: (data: any) => request.put(`/user/${data.id}`, data)
         },
         title: '用户',
         dialogAttrs: {
@@ -284,7 +284,7 @@ export default defineComponent({
      * @param row
      * @param status
      */
-    const setActiveAction = (row, status) => {
+    const setActiveAction = (row: any, status: boolean) => {
       request
         .patch(`/user/${row.id}`, {
           isActive: status

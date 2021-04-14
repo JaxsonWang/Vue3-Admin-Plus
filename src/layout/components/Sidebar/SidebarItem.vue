@@ -1,5 +1,13 @@
+<!--
+  - Copyright (c) 2021 Jaxson
+  - 项目名称：Vue3-Admin-Plus
+  - 文件名称：SidebarItem.vue
+  - 创建日期：2021年04月14日
+  - 创建作者：Jaxson
+  -->
+
 <template>
-  <div v-if="!item.hidden">
+  <div v-if="!item.meta.hidden">
     <template
       v-if="
         hasOneShowingChild(item.children, item) &&
@@ -57,10 +65,10 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import path from 'path'
 import { defineComponent, ref } from 'vue'
-import AppLink from './Link'
+import AppLink from './Link.vue'
 import { isExternal } from '@/utils/validate'
 
 export default defineComponent({
@@ -84,9 +92,9 @@ export default defineComponent({
   },
   setup(props) {
     const onlyOneChild = ref(null)
-    const hasOneShowingChild = (children = [], parent) => {
-      const showingChildren = children.filter(item => {
-        if (item.hidden) {
+    const hasOneShowingChild = (children = [], parent: any) => {
+      const showingChildren = children.filter((item: any) => {
+        if (item.meta.hidden) {
           return false
         } else {
           // Temp set(will be used if only has one showing child)
@@ -109,7 +117,7 @@ export default defineComponent({
       return false
     }
 
-    const resolvePath = routePath => {
+    const resolvePath = (routePath: any) => {
       if (isExternal(routePath)) {
         return routePath
       }

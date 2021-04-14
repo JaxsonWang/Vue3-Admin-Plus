@@ -1,8 +1,8 @@
 /*
- * Copyright (c) 2021
+ * Copyright (c) 2021 Jaxson
  * 项目名称：Vue3-Admin-Plus
- * 文件名称：routeAuth.js
- * 创建日期：2021/3/31 下午2:34
+ * 文件名称：routeAuth.ts
+ * 创建日期：2021年04月14日
  * 创建作者：Jaxson
  */
 import { ElLoading } from 'element-plus'
@@ -11,7 +11,7 @@ import 'nprogress/nprogress.css'
 import router from '@/router'
 import store from '@/store'
 import { getPageTitle } from '@/utils'
-import { getToken } from '@/utils/auth'
+import { getToken } from '@/utils/cookie'
 import { UserActionTypes } from '@/store/modules/user/actions'
 
 // 路由白名单
@@ -25,7 +25,7 @@ router.beforeEach(async (to, from, next) => {
   // 进度加载
   NProgress.start()
   // 设置文档标题
-  document.title = getPageTitle(to.meta.title)
+  document.title = getPageTitle(to.meta.title as string)
   // 获取用户 token
   const hasToken = getToken()
   // 判断是否有 token
@@ -56,7 +56,7 @@ router.beforeEach(async (to, from, next) => {
           next({ ...to, replace: true })
         } catch (error) {
           // 触发触发器并重定向到登录页
-          await store.dispatch('user/resetToken')
+          await store.dispatch(UserActionTypes.resetToken)
           next(`/login?redirect=${to.path}`)
           NProgress.done()
         } finally {

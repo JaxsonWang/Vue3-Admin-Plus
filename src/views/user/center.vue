@@ -1,9 +1,9 @@
 <!--
-  - Copyright (c) 2021
+  - Copyright (c) 2021 Jaxson
   - 项目名称：Vue3-Admin-Plus
   - 文件名称：center.vue
-  - 创建日期：2021/3/1 下午8:39
-  - 创建作者：jaxson
+  - 创建日期：2021年04月14日
+  - 创建作者：Jaxson
   -->
 
 <template>
@@ -29,7 +29,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'UserCenter'
 }

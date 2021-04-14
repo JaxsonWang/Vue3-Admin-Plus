@@ -1,8 +1,8 @@
 <!--
-  - Copyright (c) 2021
+  - Copyright (c) 2021 Jaxson
   - 项目名称：Vue3-Admin-Plus
-  - 文件名称：index.vue
-  - 创建日期：2021/2/1 下午1:17
+  - 文件名称：i18n.vue
+  - 创建日期：2021年04月14日
   - 创建作者：Jaxson
   -->
 
@@ -17,7 +17,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -26,7 +26,7 @@ export default defineComponent({
   setup() {
     const dateValue = reactive([new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)])
     const { t, locale } = useI18n()
-    const changeLanguage = type => {
+    const changeLanguage = (type: string) => {
       locale.value = type
     }
 

@@ -1,9 +1,9 @@
 <!--
-  - Copyright (c) 2021
+  - Copyright (c) 2021 Jaxson
   - 项目名称：Vue3-Admin-Plus
   - 文件名称：form.vue
-  - 创建日期：2021/3/9 下午10:02
-  - 创建作者：jaxson
+  - 创建日期：2021年04月14日
+  - 创建作者：Jaxson
   -->
 
 <template>
@@ -16,7 +16,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
@@ -924,7 +924,7 @@ export default defineComponent({
       ]
     })
 
-    const onFormSubmit = model => {
+    const onFormSubmit = (model: any) => {
       console.log('提交表单数据 model', model)
       ElMessage.info('请打开控制台查看打印数据')
     }

@@ -1,8 +1,8 @@
 <!--
-  - Copyright (c) 2021
+  - Copyright (c) 2021 Jaxson
   - 项目名称：Vue3-Admin-Plus
   - 文件名称：AppTable.vue
-  - 创建日期：2021/3/31 下午2:34
+  - 创建日期：2021年04月14日
   - 创建作者：Jaxson
   -->
 
@@ -117,7 +117,7 @@
   </el-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref, reactive, onBeforeMount } from 'vue'
 import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
 import { merge } from 'lodash'
@@ -142,14 +142,14 @@ export default defineComponent({
     const tableData = ref([])
     const selectionRow = ref([])
     const tableSearchModel = ref({})
-    const editBoxFormRef = ref(null)
+    const editBoxFormRef = ref<any>(null)
     const editBox = reactive({
       title: '',
       type: 'add',
       visible: false,
       row: {}
     })
-    const appConfig = reactive(
+    const appConfig = reactive<any>(
       merge(
         {
           header: {
@@ -221,7 +221,7 @@ export default defineComponent({
      * 搜索按钮触发
      * 所有的搜索条件都在这里触发
      */
-    const getTableList = searchModel => {
+    const getTableList = (searchModel?: any) => {
       // 搜集所有搜索条件
       const params = merge(
         {
@@ -235,9 +235,9 @@ export default defineComponent({
     /**
      * 获取列表数据
      */
-    const getTableListData = params => {
+    const getTableListData = (params: any) => {
       loading.value = true
-      appConfig.table.api.list(params).then(data => {
+      appConfig.table.api.list(params).then((data: any) => {
         tableData.value = data.list
         pagination.pageCount = data.totalPage
         pagination.totalCount = data.totalCount
@@ -264,7 +264,7 @@ export default defineComponent({
      * 分页 - 当前页码
      * @param val
      */
-    const handleCurrentChange = val => {
+    const handleCurrentChange = (val: number) => {
       pagination.currentPage = val
       getTableList()
     }
@@ -272,7 +272,7 @@ export default defineComponent({
      * 分页 - 当前条数
      * @param val
      */
-    const handleSizeChange = val => {
+    const handleSizeChange = (val: number) => {
       pagination.pageSize = val
       getTableList()
     }
@@ -281,7 +281,7 @@ export default defineComponent({
      * @param val
      * @returns {string|*}
      */
-    const filterVal = val => {
+    const filterVal = (val: string) => {
       if (val === null || val === '' || val === undefined) {
         return '-'
       } else {
@@ -292,7 +292,7 @@ export default defineComponent({
      * 勾选列表回调
      * @param val
      */
-    const handleSelectionChange = val => {
+    const handleSelectionChange = (val: any) => {
       selectionRow.value = val
       emit('selection-change', val)
     }
@@ -300,7 +300,7 @@ export default defineComponent({
      * 页头按钮事件
      * @param row
      */
-    const handleHeaderAction = row => {
+    const handleHeaderAction = (row: any) => {
       switch (row.action) {
         case 'add':
           if (row.event) {
@@ -347,27 +347,27 @@ export default defineComponent({
     /**
      * EditBox 弹窗提交事件
      */
-    const handleBox = type => {
+    const handleBox = (type: string) => {
       if (type === 'confirm') {
         editBoxFormRef.value
           .formValidate()
           .then(() => {
             if (editBox.type === 'add') {
-              appConfig.editBox.api.add(editBox.row).then(response => {
+              appConfig.editBox.api.add(editBox.row).then(() => {
                 ElMessage.success('新建成功')
                 getTableList()
                 editBox.visible = false
               })
             }
             if (editBox.type === 'edit') {
-              appConfig.editBox.api.update(editBox.row).then(response => {
+              appConfig.editBox.api.update(editBox.row).then(() => {
                 ElMessage.success('更新成功')
                 getTableList()
                 editBox.visible = false
               })
             }
           })
-          .catch(validError => {
+          .catch((validError: any) => {
             ElMessage.error(validError)
           })
       }
@@ -376,7 +376,7 @@ export default defineComponent({
     /**
      * Edit Box 打开
      */
-    const handleEdit = row => {
+    const handleEdit = (row?: any) => {
       if (row) {
         editBox.row = row
         editBox.title = '编辑' + appConfig.editBox.title
@@ -392,8 +392,8 @@ export default defineComponent({
     /**
      * 删除
      */
-    const handleDelete = row => {
-      appConfig.table.api.delete(row).then(response => {
+    const handleDelete = (row: any) => {
+      appConfig.table.api.delete(row).then(() => {
         ElMessage.success('删除成功！')
         getTableList()
       })

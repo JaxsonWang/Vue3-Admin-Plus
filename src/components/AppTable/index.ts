@@ -6,6 +6,6 @@
  * 创建作者：Jaxson
  */
 
-import SvgIcon from './index.vue'
+import AppTable from './AppTable.vue'
 
-export default SvgIcon
+export default AppTable

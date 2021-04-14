@@ -1,17 +1,20 @@
 /*
- * Copyright (c) 2021
+ * Copyright (c) 2021 Jaxson
  * 项目名称：Vue3-Admin-Plus
- * 文件名称：request.js
- * 创建日期：2021/1/26 下午5:49
+ * 文件名称：request.ts
+ * 创建日期：2021年04月14日
  * 创建作者：Jaxson
  */
 
+import { useRoute, useRouter } from 'vue-router'
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios'
 import { ElMessage } from 'element-plus'
-import { useRoute, useRouter } from 'vue-router'
 
+import { useStore } from '@/store'
 import { setToken } from '@/utils/cookie'
-import store from '@/store'
+import { UserActionTypes } from '@/store/modules/user/actions'
+
+const store = useStore()
 
 const baseURL: any = process.env.VUE_APP_BASE_API
 const baseApi: any = process.env.VUE_APP_URI
@@ -66,7 +69,7 @@ request.interceptors.response.use(
             duration: 5 * 1000
           })
           // 触发触发器并重定向到登录页
-          await store.dispatch('user/resetToken')
+          await store.dispatch(UserActionTypes.resetToken)
           await useRouter().push(`/login?redirect=${useRoute().path}`)
           break
         default:

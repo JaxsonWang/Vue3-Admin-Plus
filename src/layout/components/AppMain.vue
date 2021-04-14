@@ -1,8 +1,8 @@
 <!--
-  - Copyright (c) 2021
+  - Copyright (c) 2021 Jaxson
   - 项目名称：Vue3-Admin-Plus
   - 文件名称：AppMain.vue
-  - 创建日期：2021/1/20 下午6:31
+  - 创建日期：2021年04月14日
   - 创建作者：Jaxson
   -->
 
@@ -18,7 +18,7 @@
   </el-main>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue'
 import { useStore } from 'vuex'
 

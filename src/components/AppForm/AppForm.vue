@@ -1,8 +1,8 @@
 <!--
-  - Copyright (c) 2021
+  - Copyright (c) 2021 Jaxson
   - 项目名称：Vue3-Admin-Plus
   - 文件名称：AppForm.vue
-  - 创建日期：2021/3/31 下午2:34
+  - 创建日期：2021年04月14日
   - 创建作者：Jaxson
   -->
 
@@ -201,7 +201,7 @@
   </el-form>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref, reactive, computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import { merge } from 'lodash'
@@ -221,9 +221,9 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
-    const formRef = ref(null)
-    const validError = ref('请填写表单内容！')
-    const appConfig = reactive(merge({}, props.config))
+    const formRef = ref<any>(null)
+    const validError = ref<string>('请填写表单内容！')
+    const appConfig = reactive<any>(merge({}, props.config))
     const appModel = computed({
       get: () => props.modelValue,
       set: value => {
@@ -235,7 +235,7 @@ export default defineComponent({
      */
     const formValidate = () => {
       return new Promise((resolve, reject) => {
-        formRef.value.validate(valid => (valid ? resolve() : reject(validError.value)))
+        formRef.value.validate((valid: boolean) => (valid ? resolve('ok') : reject(validError.value)))
       })
     }
     /**
@@ -255,7 +255,7 @@ export default defineComponent({
     }
 
     // 初始化表单数据
-    appConfig.formList = appConfig.formList.map(item => {
+    appConfig.formList = appConfig.formList.map((item: any) => {
       if (!item.formEvents) item.formEvents = {}
       if (item.type === 'submit') {
         if (item.submit && !item.submit.attrs) item.submit.attrs = {}

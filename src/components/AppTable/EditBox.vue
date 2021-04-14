@@ -1,8 +1,8 @@
 <!--
-  - Copyright (c) 2021
+  - Copyright (c) 2021 Jaxson
   - 项目名称：Vue3-Admin-Plus
   - 文件名称：EditBox.vue
-  - 创建日期：2021/3/24 上午11:59
+  - 创建日期：2021年04月14日
   - 创建作者：Jaxson
   -->
 
@@ -23,7 +23,7 @@
   </el-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, reactive, ref, watch } from 'vue'
 import { ElDialog } from 'element-plus'
 

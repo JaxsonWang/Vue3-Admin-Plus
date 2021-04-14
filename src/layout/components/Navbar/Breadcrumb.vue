@@ -1,8 +1,8 @@
 <!--
-  - Copyright (c) 2021
+  - Copyright (c) 2021 Jaxson
   - 项目名称：Vue3-Admin-Plus
   - 文件名称：Breadcrumb.vue
-  - 创建日期：2021/1/19 下午10:14
+  - 创建日期：2021年04月14日
   - 创建作者：Jaxson
   -->
 
@@ -19,7 +19,7 @@
   </el-breadcrumb>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import * as pathToRegexp from 'path-to-regexp'
@@ -29,7 +29,7 @@ export default defineComponent({
   setup() {
     const route = useRoute()
     const router = useRouter()
-    const isDashboard = route => {
+    const isDashboard = (route: any) => {
       const name = route && route.name
       if (!name) {
         return false
@@ -38,7 +38,7 @@ export default defineComponent({
     }
     const getBreadcrumb = () => {
       // only show routes with meta.title
-      const matched = route.matched.filter(item => item.meta && item.meta.title)
+      const matched: any = route.matched.filter(item => item.meta && item.meta.title)
       const first = matched[0]
 
       if (!isDashboard(first)) {
@@ -50,14 +50,14 @@ export default defineComponent({
         })
       }
 
-      return matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
+      return matched.filter((item: any) => item.meta && item.meta.title && item.meta.breadcrumb !== false)
     }
-    const pathCompile = path => {
+    const pathCompile = (path: any) => {
       const { params } = route
       const toPath = pathToRegexp.compile(path)
       return toPath(params)
     }
-    const handleLink = item => {
+    const handleLink = (item: any) => {
       const { redirect, path } = item
       if (redirect) {
         router.push(redirect)

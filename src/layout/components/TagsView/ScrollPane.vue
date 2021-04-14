@@ -1,8 +1,8 @@
 <!--
-  - Copyright (c) 2021
+  - Copyright (c) 2021 Jaxson
   - 项目名称：Vue3-Admin-Plus
   - 文件名称：ScrollPane.vue
-  - 创建日期：2021/1/24 下午12:40
+  - 创建日期：2021年04月14日
   - 创建作者：Jaxson
   -->
 
@@ -18,7 +18,7 @@
   </el-scrollbar>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref, onMounted, onBeforeUnmount } from 'vue'
 
 const tagAndTagSpacing = 4 // tagAndTagSpacing
@@ -26,18 +26,18 @@ const tagAndTagSpacing = 4 // tagAndTagSpacing
 export default defineComponent({
   name: 'ScrollPane',
   setup(props, { emit }) {
-    const scrollContainer = ref(null)
-    const scrollWrapper = ref(null)
+    const scrollContainer = ref<any>(null)
+    const scrollWrapper = ref<any>(null)
     const emitScroll = () => emit('scroll')
-    const handleScroll = event => {
+    const handleScroll = (event: any) => {
       const eventDelta = event.wheelDelta || -event.deltaY * 40
-      const $scrollWrapper = scrollWrapper
+      const $scrollWrapper: any = scrollWrapper
       $scrollWrapper.scrollLeft = $scrollWrapper.scrollLeft + eventDelta / 4
     }
-    const moveToTarget = currentTag => {
+    const moveToTarget = (currentTag: any) => {
       const $container = scrollContainer.value.$el
       const $containerWidth = $container.offsetWidth
-      const $scrollWrapper = scrollWrapper
+      const $scrollWrapper: any = scrollWrapper
       const tagList = scrollContainer.value.$parent.$parent.tagArrNodes
 
       let firstTag = null
@@ -55,7 +55,7 @@ export default defineComponent({
         $scrollWrapper.scrollLeft = $scrollWrapper.scrollWidth - $containerWidth
       } else {
         // find preTag and nextTag
-        const currentIndex = tagList.findIndex(item => item === currentTag)
+        const currentIndex = tagList.findIndex((item: any) => item === currentTag)
         const prevTag = tagList[currentIndex - 1]
         const nextTag = tagList[currentIndex + 1]
 

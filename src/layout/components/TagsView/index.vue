@@ -1,8 +1,8 @@
 <!--
-  - Copyright (c) 2021
+  - Copyright (c) 2021 Jaxson
   - 项目名称：Vue3-Admin-Plus
   - 文件名称：index.vue
-  - 创建日期：2021/1/24 下午12:48
+  - 创建日期：2021年04月14日
   - 创建作者：Jaxson
   -->
 
@@ -37,12 +37,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import path from 'path'
 import { defineComponent, ref, reactive, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import ScrollPane from './ScrollPane'
+import ScrollPane from './ScrollPane.vue'
+
+import { TagsViewActionTypes } from '@/store/modules/tagsView/actions'
 
 export default defineComponent({
   name: 'TagsView',
@@ -56,30 +58,30 @@ export default defineComponent({
     const visible = ref(false)
     const top = ref(0)
     const left = ref(0)
-    const tagsViewContainerRef = ref(null)
-    const scrollPaneRef = ref(null)
-    const selectedTag = reactive({})
-    const affixTags = reactive([])
+    const tagsViewContainerRef = ref<any>(null)
+    const scrollPaneRef = ref<any>(null)
+    const selectedTag = reactive<any>({})
+    const affixTags = reactive<any>([])
     const routes = computed(() => store.state.user.routes)
     // 过滤路由 hidden = true 的 visitedViews
     // const visitedViews = computed(() => store.state.tagsView.visitedViews)
     const visitedViews = computed(() =>
       store.state.tagsView.visitedViews.filter(
-        item =>
+        (item: any) =>
           routes.value
-            .filter(i => i.hidden)
-            .map(i => i.path)
+            .filter((i: any) => i.meta.hidden)
+            .map((i: any) => i.path)
             .indexOf(item.path) === -1
       )
     )
 
-    let tagArrNodes = reactive([])
+    let tagArrNodes = reactive<any>([])
 
-    const isActive = $route => $route.path === route.path
-    const isAffix = tag => tag && tag.meta && tag.meta.affix
-    const filterAffixTags = (routes, basePath = '/') => {
-      let tags = []
-      routes.forEach(route => {
+    const isActive = ($route: any) => $route.path === route.path
+    const isAffix = (tag: any) => tag && tag.meta && tag.meta.affix
+    const filterAffixTags = (routes: any, basePath = '/') => {
+      let tags: any[] = []
+      routes.forEach((route: any) => {
         if (route.meta && route.meta.affix) {
           const tagPath = path.resolve(basePath, route.path)
           tags.push({
@@ -103,41 +105,41 @@ export default defineComponent({
       for (const tag of affixTagsArr) {
         // Must have tag name
         if (tag.name) {
-          store.dispatch('tagsView/addVisitedView', tag)
+          store.dispatch(TagsViewActionTypes.addVisitedView, tag)
         }
       }
     }
-    const addTags = to => {
+    const addTags = (to: any) => {
       const { name } = to
       if (name) {
-        store.dispatch('tagsView/addView', to)
+        store.dispatch(TagsViewActionTypes.addView, to)
       }
       return false
     }
-    const moveToCurrentTag = to => {
+    const moveToCurrentTag = (to: any) => {
       for (const tag of tagArrNodes) {
         if (tag.to.path === to.path) {
           scrollPaneRef.value.moveToTarget(tag)
           // when query is different then update
           if (tag.to.fullPath !== to.fullPath) {
-            store.dispatch('tagsView/updateVisitedView', to)
+            store.dispatch(TagsViewActionTypes.updateVisitedView, to)
           }
           break
         }
       }
     }
-    const tagHandleNodes = tag => {
-      if (tag !== null && !tagArrNodes.some(i => i.to.path === tag.to.path)) tagArrNodes.push(tag)
+    const tagHandleNodes = (tag: any) => {
+      if (tag !== null && !tagArrNodes.some((i: any) => i.to.path === tag.to.path)) tagArrNodes.push(tag)
     }
-    const refreshSelectedTag = view => {
-      store.dispatch('tagsView/delCachedView', view).then(() => {
+    const refreshSelectedTag = (view: any) => {
+      store.dispatch(TagsViewActionTypes.delCachedView, view).then(() => {
         const { fullPath } = view
         router.replace({
           path: '/redirect' + fullPath
         })
       })
     }
-    const toLastView = (visitedViews, view) => {
+    const toLastView = (visitedViews: any, view: any) => {
       const latestView = visitedViews.slice(-1)[0]
       if (latestView) {
         router.push(latestView.fullPath)
@@ -152,8 +154,8 @@ export default defineComponent({
         }
       }
     }
-    const closeSelectedTag = view => {
-      store.dispatch('tagsView/delView', view).then(({ visitedViews }) => {
+    const closeSelectedTag = (view: any) => {
+      store.dispatch(TagsViewActionTypes.delView, view).then(({ visitedViews }) => {
         if (isActive(view)) {
           toLastView(visitedViews, view)
         }
@@ -161,19 +163,19 @@ export default defineComponent({
     }
     const closeOthersTags = () => {
       router.push(selectedTag)
-      store.dispatch('tagsView/delOthersViews', selectedTag).then(() => {
+      store.dispatch(TagsViewActionTypes.delOthersViews, selectedTag).then(() => {
         moveToCurrentTag(route)
       })
     }
-    const closeAllTags = view => {
-      store.dispatch('tagsView/delAllViews').then(({ visitedViews }) => {
-        if (affixTags.some(tag => tag.path === view.path)) {
+    const closeAllTags = (view: any) => {
+      store.dispatch(TagsViewActionTypes.delAllViews).then(({ visitedViews }) => {
+        if (affixTags.some((tag: any) => tag.path === view.path)) {
           return
         }
         toLastView(visitedViews, view)
       })
     }
-    const openMenu = (tag, event) => {
+    const openMenu = (tag: any, event: any) => {
       const menuMinWidth = 105
       const offsetLeft = tagsViewContainerRef.value.getBoundingClientRect().left // container margin left
       const offsetWidth = tagsViewContainerRef.value.offsetWidth // container width
@@ -248,7 +250,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '~@/styles/variables.scss';
+@import '~@/styles/variables.module.scss';
 
 .tags-view-container {
   height: 40px;

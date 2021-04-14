@@ -1,14 +1,15 @@
 /*
- * Copyright (c) 2021
+ * Copyright (c) 2021 Jaxson
  * 项目名称：Vue3-Admin-Plus
- * 文件名称：toRoutes.js
- * 创建日期：2021/1/27 下午4:24
+ * 文件名称：toRoutes.ts
+ * 创建日期：2021年04月14日
  * 创建作者：Jaxson
  */
-import DefaultLayout from '@/layout/default'
+import { RouteRecordRaw } from 'vue-router'
+import { Layout as DefaultLayout } from '@/layout'
 
-export const dataToRoutes = data => {
-  return data.map(item => {
+export const dataToRoutes = (data: RouteRecordRaw[]): any => {
+  return data.map((item: any) => {
     const tmp = { ...item }
     // 实例化路径
     if (tmp.component === 'layout/default') {

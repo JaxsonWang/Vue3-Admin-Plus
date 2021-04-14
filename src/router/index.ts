@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2021 Jaxson
+ * 项目名称：Vue3-Admin-Plus
+ * 文件名称：index.ts
+ * 创建日期：2021年04月14日
+ * 创建作者：Jaxson
+ */
+
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import { Layout } from '@/layout'
 
@@ -134,7 +142,7 @@ export const constantRoutes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '/redirect/:path(.*)',
-        component: () => import('@/views/redirect/index')
+        component: () => import('@/views/redirect')
       }
     ],
     meta: {

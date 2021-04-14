@@ -7,7 +7,6 @@
  */
 
 const path = require('path')
-const settings = require('./src/settings')
 
 const resolve = dir => {
   return path.join(__dirname, dir)
@@ -43,7 +42,7 @@ module.exports = {
   configureWebpack: {
     // provide the app's title in webpack name field, so that
     // it can be accessed in index.html to inject the correct title.
-    name: settings.title,
+    name: process.env.VUE_APP_TITLE,
     resolve: {
       alias: {
         '@': resolve('src')

@@ -1,12 +1,12 @@
 /*
- * Copyright (c) 2021
+ * Copyright (c) 2021 Jaxson
  * 项目名称：Vue3-Admin-Plus
- * 文件名称：auth.js
- * 创建日期：2021/1/29 下午10:42
+ * 文件名称：auth.ts
+ * 创建日期：2021年04月14日
  * 创建作者：Jaxson
  */
 import { ObjectDirective } from 'vue'
-import store from '@/store'
+import { useStore } from 'vuex'
 
 /**
  * Action 权限指令
@@ -20,6 +20,7 @@ import store from '@/store'
 const Auth: ObjectDirective = {
   mounted: (el: HTMLButtonElement, binding) => {
     // 从 store 获取当前路由 auth 数组对象
+    const store = useStore()
     const authArr = store.getters.currentRoute.meta.auth ? store.getters.currentRoute.meta.auth : []
     const actionName = binding.arg
     // 遍历权限颗粒是否存在，不存在则删除节点

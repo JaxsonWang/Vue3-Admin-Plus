@@ -1,8 +1,8 @@
 <!--
-  - Copyright (c) 2021
+  - Copyright (c) 2021 Jaxson
   - 项目名称：Vue3-Admin-Plus
-  - 文件名称：demo.vue
-  - 创建日期：2021/2/18 下午2:50
+  - 文件名称：table.vue
+  - 创建日期：2021年04月14日
   - 创建作者：Jaxson
   -->
 
@@ -10,7 +10,7 @@
   <div class="table-demo-container">正在开发中...</div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue'
 
 export default defineComponent({

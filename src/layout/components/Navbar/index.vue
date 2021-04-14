@@ -1,8 +1,8 @@
 <!--
-  - Copyright (c) 2021
+  - Copyright (c) 2021 Jaxson
   - 项目名称：Vue3-Admin-Plus
-  - 文件名称：Navbar.vue
-  - 创建日期：2021/1/19 下午10:04
+  - 文件名称：index.vue
+  - 创建日期：2021年04月14日
   - 创建作者：Jaxson
   -->
 
@@ -41,12 +41,15 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import store from '@/store'
-import Breadcrumb from './Breadcrumb'
-import Hamburger from './Hamburger'
+import { useStore } from 'vuex'
+import Breadcrumb from './Breadcrumb.vue'
+import Hamburger from './Hamburger.vue'
+
+import { MutationType as AppMutationType } from '@/store/modules/app/mutations'
+import { UserActionTypes } from '@/store/modules/user/actions'
 
 export default defineComponent({
   name: 'Navbar',
@@ -63,11 +66,12 @@ export default defineComponent({
   setup() {
     const route = useRoute()
     const router = useRouter()
+    const store = useStore()
     const avatar = 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
     const sidebar = computed(() => store.getters.sidebar)
-    const toggleSideBar = () => store.dispatch('app/toggleSideBar')
+    const toggleSideBar = () => store.commit(AppMutationType.toggleSidebar)
     const logout = async () => {
-      await store.dispatch('user/logout')
+      await store.dispatch(UserActionTypes.logout)
       await router.push(`/login?redirect=${route.fullPath}`)
     }
 
@@ -82,7 +86,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '~@/styles/variables.scss';
+@import '~@/styles/variables.module.scss';
 
 .navbar {
   position: relative;

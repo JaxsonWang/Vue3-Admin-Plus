@@ -2,7 +2,7 @@
  * Copyright (c) 2021 Jaxson
  * 项目名称：Vue3-Admin-Plus
  * 文件名称：index.ts
- * 创建日期：2021年04月13日
+ * 创建日期：2021年04月14日
  * 创建作者：Jaxson
  */
 
@@ -13,10 +13,11 @@ import { state } from './state'
 import { getters, Getters } from './getters'
 import { mutations, Mutations } from './mutations'
 import { actions, Actions } from './actions'
-
 import type { State } from './state'
 
 export { State }
+
+console.log('user actions', actions)
 
 export type UserStore<S = State> = Omit<VuexStore<S>, 'getters' | 'commit' | 'dispatch'> & {
   getters: {

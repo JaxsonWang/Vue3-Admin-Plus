@@ -1,9 +1,9 @@
 <!--
-  - Copyright (c) 2021
+  - Copyright (c) 2021 Jaxson
   - 项目名称：Vue3-Admin-Plus
   - 文件名称：settings.vue
-  - 创建日期：2021/3/1 下午9:26
-  - 创建作者：jaxson
+  - 创建日期：2021年04月14日
+  - 创建作者：Jaxson
   -->
 
 <template>
@@ -59,14 +59,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 
 export default defineComponent({
   name: 'UserSettings',
   setup() {
-    const userFormRef = ref(null)
+    const userFormRef = ref<any>(null)
     const userForm = reactive({
       nickname: '',
       email: '',
@@ -81,11 +81,11 @@ export default defineComponent({
       email: [{ type: 'email', required: true, message: '请输入用户邮箱', trigger: 'blur' }]
     })
 
-    const handleAvatarSuccess = (res, file) => {
-      reactive.value.avatar = URL.createObjectURL(file.raw)
+    const handleAvatarSuccess = (res: any, file: any) => {
+      userForm.avatar = URL.createObjectURL(file.raw)
     }
 
-    const beforeAvatarUpload = file => {
+    const beforeAvatarUpload = (file: any) => {
       const isJPG = file.type === 'image/jpeg'
       const isLt2M = file.size / 1024 / 1024 < 2
 
@@ -99,7 +99,7 @@ export default defineComponent({
     }
 
     const submitForm = () => {
-      userFormRef.value.validate(valid => {
+      userFormRef.value.validate((valid: boolean) => {
         if (valid) {
           alert('submit!')
         } else {

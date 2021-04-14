@@ -1,8 +1,8 @@
 /*
- * Copyright (c) 2021
+ * Copyright (c) 2021 Jaxson
  * 项目名称：Vue3-Admin-Plus
- * 文件名称：lang/index.js
- * 创建日期：2021/2/1 下午1:22
+ * 文件名称：index.ts
+ * 创建日期：2021年04月14日
  * 创建作者：Jaxson
  */
 

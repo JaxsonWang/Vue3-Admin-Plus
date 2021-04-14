@@ -6,6 +6,6 @@
  * 创建作者：Jaxson
  */
 
-import SvgIcon from './index.vue'
+import AppForm from './AppForm.vue'
 
-export default SvgIcon
+export default AppForm

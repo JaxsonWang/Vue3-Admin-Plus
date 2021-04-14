@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2021 Jaxson
+ * 项目名称：Vue3-Admin-Plus
+ * 文件名称：index.ts
+ * 创建日期：2021年04月14日
+ * 创建作者：Jaxson
+ */
+
 import { createStore } from 'vuex'
 
 import { store as app, AppStore, State as AppState } from '@/store/modules/app'
@@ -29,5 +37,7 @@ const store = createStore<RootState>({
     user
   }
 })
+
+export const useStore = (): Store => store as Store
 
 export default store

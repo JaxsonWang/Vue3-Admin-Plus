@@ -1,3 +1,11 @@
+<!--
+  - Copyright (c) 2021 Jaxson
+  - 项目名称：Vue3-Admin-Plus
+  - 文件名称：default.vue
+  - 创建日期：2021年04月14日
+  - 创建作者：Jaxson
+  -->
+
 <template>
   <el-container :class="appWrapper" class="app-wrapper">
     <div v-if="device === 'mobile' && sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
@@ -13,11 +21,14 @@
   </el-container>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, computed, watch, onBeforeMount, onBeforeUnmount, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import store from '@/store'
+import { useStore } from 'vuex'
 import { Sidebar, Navbar, AppMain, AppFooter, TagsView } from './components'
+
+import { MutationType as AppMutationType } from '@/store/modules/app/mutations'
+import { MutationType as RouterMutationType } from '@/store/modules/router/mutations'
 
 const { body } = document
 const WIDTH = 992
@@ -33,6 +44,7 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute()
+    const store = useStore()
     const sidebar = computed(() => store.state.app.sidebar)
     const device = computed(() => store.state.app.device)
     const showTagsView = computed(() => store.state.settings.tagsView)
@@ -69,29 +81,29 @@ export default defineComponent({
     }
     const resizeHandler = () => {
       if (!document.hidden) {
-        store.dispatch('app/toggleDevice', isMobile() ? 'mobile' : 'desktop')
+        store.commit(AppMutationType.toggleDevice, isMobile() ? 'mobile' : 'desktop')
 
         if (isMobile()) {
-          store.dispatch('app/closeSideBar', {
+          store.commit(AppMutationType.closeSidebar, {
             withoutAnimation: true
           })
         }
       }
     }
     const handleClickOutside = () => {
-      store.dispatch('app/closeSideBar', {
+      store.commit(AppMutationType.closeSidebar, {
         withoutAnimation: false
       })
     }
     // 记录当前路由
-    const setCurrentRoute = () => store.dispatch('router/setCurrentRoute', route)
+    const setCurrentRoute = () => store.commit(RouterMutationType.setCurrentRoute, route)
 
     // 路由更新回调
     watch(
       () => route.path,
       () => {
         if (store.getters.device === 'mobile' && store.getters.sidebar.opened) {
-          store.dispatch('app/closeSideBar', {
+          store.commit(AppMutationType.closeSidebar, {
             withoutAnimation: false
           })
         }
@@ -105,8 +117,8 @@ export default defineComponent({
     })
     onMounted(() => {
       if (isMobile()) {
-        store.dispatch('app/toggleDevice', 'mobile')
-        store.dispatch('app/closeSideBar', {
+        store.commit(AppMutationType.toggleDevice, 'mobile')
+        store.commit(AppMutationType.closeSidebar, {
           withoutAnimation: true
         })
       }

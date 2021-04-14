@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2021 Jaxson
+ * 项目名称：Vue3-Admin-Plus
+ * 文件名称：main.ts
+ * 创建日期：2021年04月14日
+ * 创建作者：Jaxson
+ */
+
 import { createApp } from 'vue'
 
 // 载入重置样式表
@@ -8,13 +16,13 @@ import ElementPlus from 'element-plus'
 // 载入全局变量样式表
 import '@/styles/index.scss'
 // 国际化
-import i18n from '@/lang/index'
+import i18n from '@/lang'
 import App from '@/App.vue'
-import router from '@/router/index'
-import store from '@/store/index'
+import router from '@/router'
+import store from '@/store'
 
 // 注册图标组件
-import SvgIcon from '@/icons/index'
+import SvgIcon from '@/icons'
 
 // 注册权限指令
 import Auth from '@/directives/auth'

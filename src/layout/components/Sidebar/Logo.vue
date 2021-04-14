@@ -1,3 +1,11 @@
+<!--
+  - Copyright (c) 2021 Jaxson
+  - 项目名称：Vue3-Admin-Plus
+  - 文件名称：Logo.vue
+  - 创建日期：2021年04月14日
+  - 创建作者：Jaxson
+  -->
+
 <template>
   <div :class="{ collapse: collapse }" class="sidebar-logo-container">
     <transition name="sidebar-logo-fade" mode="out-in">
@@ -13,7 +21,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref } from 'vue'
 export default defineComponent({
   name: 'SidebarLogo',

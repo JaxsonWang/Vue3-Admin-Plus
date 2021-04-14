@@ -1,8 +1,8 @@
 <!--
-  - Copyright (c) 2021
+  - Copyright (c) 2021 Jaxson
   - 项目名称：Vue3-Admin-Plus
   - 文件名称：index.vue
-  - 创建日期：2021/1/26 下午4:21
+  - 创建日期：2021年04月14日
   - 创建作者：Jaxson
   -->
 
@@ -83,14 +83,14 @@ export default defineComponent({
     const router = useRouter()
     const store = useStore()
 
-    const validateUsername = (rule, value, callback) => {
+    const validateUsername = (rule: any, value: string, callback: any) => {
       if (value.length === 0) {
         callback(new Error('请输入登录账户！'))
       } else {
         callback()
       }
     }
-    const validatePassword = (rule, value, callback) => {
+    const validatePassword = (rule: any, value: string, callback: any) => {
       if (value.length < 4) {
         callback(new Error('输入密码至少四位字母！'))
       } else {
@@ -98,11 +98,11 @@ export default defineComponent({
       }
     }
 
-    const loading = ref(false)
-    const passwordType = ref('password')
-    const loginWrapperRef = ref(null)
-    const passwordRef = ref(null)
-    const loginFormRef = ref(null)
+    const loading = ref<boolean>(false)
+    const passwordType = ref<string>('password')
+    const loginWrapperRef = ref<any>(null)
+    const passwordRef = ref<any>(null)
+    const loginFormRef = ref<any>(null)
     const loginForm = reactive({
       username: '',
       password: ''
@@ -112,10 +112,10 @@ export default defineComponent({
       password: [{ required: true, trigger: 'blur', validator: validatePassword }]
     })
 
-    const getOtherQuery = query => {
+    const getOtherQuery = (query: any) => {
       return Object.keys(query).reduce((acc, cur) => {
         if (cur !== 'redirect') {
-          acc[cur] = query[cur]
+          ;(acc as any)[cur] = query[cur]
         }
         return acc
       }, {})
@@ -129,13 +129,13 @@ export default defineComponent({
       passwordRef.value.focus()
     }
     const handleLogin = () => {
-      loginFormRef.value.validate(valid => {
+      loginFormRef.value.validate((valid: boolean) => {
         if (valid) {
           loading.value = true
           store
             .dispatch(UserActionTypes.login, loginForm)
             .then(() => {
-              const query = route.query
+              const query: any = route.query
               router.push({
                 path: query ? query.redirect : '/',
                 query: query ? getOtherQuery(query) : {}
