@@ -10,11 +10,8 @@ import { useRoute, useRouter } from 'vue-router'
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios'
 import { ElMessage } from 'element-plus'
 
-import { useStore } from '@/store'
 import { setToken } from '@/utils/cookie'
 import { UserActionTypes } from '@/store/modules/user/actions'
-
-const store = useStore()
 
 const baseURL: any = process.env.VUE_APP_BASE_API
 const baseApi: any = process.env.VUE_APP_URI
@@ -26,10 +23,11 @@ export const request: AxiosInstance = axios.create({
 })
 
 request.interceptors.request.use(
-  config => {
-    if (store.getters.token) {
+  async config => {
+    const { useStore } = await import('@/store')
+    if (useStore().getters.token) {
       config.headers = {
-        Authorization: 'Bearer ' + store.getters.token
+        Authorization: 'Bearer ' + useStore().getters.token
       }
     }
     return config
@@ -57,6 +55,7 @@ request.interceptors.response.use(
     }
   },
   async (error: AxiosError) => {
+    const { useStore } = await import('@/store')
     const { response } = error
     let data = '未知错误'
     if (response !== undefined) {
@@ -69,7 +68,7 @@ request.interceptors.response.use(
             duration: 5 * 1000
           })
           // 触发触发器并重定向到登录页
-          await store.dispatch(UserActionTypes.resetToken)
+          await useStore().dispatch(UserActionTypes.resetToken)
           await useRouter().push(`/login?redirect=${useRoute().path}`)
           break
         default:

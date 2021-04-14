@@ -17,8 +17,6 @@ import type { State } from './state'
 
 export { State }
 
-console.log('user actions', actions)
-
 export type UserStore<S = State> = Omit<VuexStore<S>, 'getters' | 'commit' | 'dispatch'> & {
   getters: {
     [K in keyof Getters]: ReturnType<Getters[K]>

@@ -18,3 +18,18 @@ export const getPageTitle = (pageTitle: string): string => {
   }
   return `${title}`
 }
+
+export function deepClone(source: any): any {
+  if (!source && typeof source !== 'object') {
+    throw new Error('deepClone: error arguments')
+  }
+  const targetObj = source.constructor === Array ? [] : {}
+  Object.keys(source).forEach(keys => {
+    if (source[keys] && typeof source[keys] === 'object') {
+      ;(targetObj as any)[keys] = deepClone(source[keys])
+    } else {
+      ;(targetObj as any)[keys] = source[keys]
+    }
+  })
+  return targetObj
+}
