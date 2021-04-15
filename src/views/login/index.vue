@@ -72,7 +72,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useStore } from 'vuex'
+import { useStore } from '@/store'
 
 import { UserActionTypes } from '@/store/modules/user/actions'
 
@@ -114,9 +114,7 @@ export default defineComponent({
 
     const getOtherQuery = (query: any) => {
       return Object.keys(query).reduce((acc, cur) => {
-        if (cur !== 'redirect') {
-          ;(acc as any)[cur] = query[cur]
-        }
+        if (cur !== 'redirect') (acc as any)[cur] = query[cur]
         return acc
       }, {})
     }

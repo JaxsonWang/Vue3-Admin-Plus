@@ -16,7 +16,7 @@ export enum MutationType {
 
 export type Mutations<S = State> = {
   [MutationType.toggleSidebar](state: S): void
-  [MutationType.closeSidebar](state: S, payload: boolean): void
+  [MutationType.closeSidebar](state: S, payload: any): void
   [MutationType.toggleDevice](state: S, payload: string): void
 }
 
@@ -26,7 +26,7 @@ export const mutations: MutationTree<State> & Mutations = {
     state.sidebar.withoutAnimation = false
     localStorage.setItem('sidebarStatus', state.sidebar.opened.toString())
   },
-  [MutationType.closeSidebar]: (state, withoutAnimation) => {
+  [MutationType.closeSidebar]: (state, { withoutAnimation }) => {
     state.sidebar.opened = false
     state.sidebar.withoutAnimation = withoutAnimation
     localStorage.setItem('sidebarStatus', 'false')

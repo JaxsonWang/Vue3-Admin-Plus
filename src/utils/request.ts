@@ -7,27 +7,27 @@
  */
 
 import { useRoute, useRouter } from 'vue-router'
-import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios'
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
 import { ElMessage } from 'element-plus'
 
 import { setToken } from '@/utils/cookie'
 import { UserActionTypes } from '@/store/modules/user/actions'
 
-const baseURL: any = process.env.VUE_APP_BASE_API
-const baseApi: any = process.env.VUE_APP_URI
+const baseURL: string = process.env.VUE_APP_BASE_API ? process.env.VUE_APP_BASE_API : '/'
+const apiPrefix: string = process.env.VUE_APP_URI ? process.env.VUE_APP_URI : ''
 
 export const request: AxiosInstance = axios.create({
-  baseURL: baseURL + baseApi,
+  baseURL: baseURL + apiPrefix,
   withCredentials: false,
   timeout: 10 * 1000
 })
 
 request.interceptors.request.use(
-  async config => {
-    const { useStore } = await import('@/store')
-    if (useStore().getters.token) {
+  async (config: AxiosRequestConfig) => {
+    const store = await require('@/store').default
+    if (store.getters.token) {
       config.headers = {
-        Authorization: 'Bearer ' + useStore().getters.token
+        Authorization: 'Bearer ' + store.getters.token
       }
     }
     return config
@@ -55,7 +55,7 @@ request.interceptors.response.use(
     }
   },
   async (error: AxiosError) => {
-    const { useStore } = await import('@/store')
+    const store = await require('@/store').default
     const { response } = error
     let data = '未知错误'
     if (response !== undefined) {
@@ -68,7 +68,7 @@ request.interceptors.response.use(
             duration: 5 * 1000
           })
           // 触发触发器并重定向到登录页
-          await useStore().dispatch(UserActionTypes.resetToken)
+          await store.dispatch(UserActionTypes.resetToken)
           await useRouter().push(`/login?redirect=${useRoute().path}`)
           break
         default:

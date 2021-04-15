@@ -15,7 +15,7 @@ import { getToken } from '@/utils/cookie'
 import { UserActionTypes } from '@/store/modules/user/actions'
 
 // 路由白名单
-const whiteList = ['/login']
+const whiteList: string[] = ['/login']
 
 NProgress.configure({
   showSpinner: false
@@ -27,7 +27,7 @@ router.beforeEach(async (to, from, next) => {
   // 设置文档标题
   document.title = getPageTitle(to.meta.title as string)
   // 获取用户 token
-  const hasToken = getToken()
+  const hasToken: string = getToken()
   // 判断是否有 token
   if (hasToken) {
     // 如果当前页面是登录页
@@ -36,7 +36,7 @@ router.beforeEach(async (to, from, next) => {
       NProgress.done()
     } else {
       // 获取用户信息
-      const hasGetUserInfo = store.state.user.name
+      const hasGetUserInfo: string = store.state.user.name
       // 如果存在跳转否则触发 store 触发器获取用户基本信息
       if (hasGetUserInfo) {
         next()

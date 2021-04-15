@@ -8,7 +8,7 @@
 
 export interface Meta {
   // 名称
-  title: string
+  title?: string
   // 是否固定在tab上
   affix?: boolean
   // tab上的图标

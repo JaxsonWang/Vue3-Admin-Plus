@@ -10,14 +10,23 @@ import Cookies from 'js-cookie'
 
 const TokenKey = '_user_token'
 
-export const getToken = (): any => {
-  return Cookies.get(TokenKey)
+/**
+ * 获取 Cookie
+ */
+export const getToken = (): string => {
+  return Cookies.get(TokenKey) || ''
 }
 
-export const setToken = (token: string): any => {
-  return Cookies.set(TokenKey, token)
+/**
+ * 设置 Cookie
+ */
+export const setToken = (token: string): string => {
+  return Cookies.set(TokenKey, token) || ''
 }
 
-export const removeToken = (): any => {
+/**
+ * 移除 Cookie
+ */
+export const removeToken = (): void => {
   return Cookies.remove(TokenKey)
 }

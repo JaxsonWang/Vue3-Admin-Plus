@@ -44,11 +44,11 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useStore } from 'vuex'
+import { useStore } from '@/store'
 import Breadcrumb from './Breadcrumb.vue'
 import Hamburger from './Hamburger.vue'
 
-import { MutationType as AppMutationType } from '@/store/modules/app/mutations'
+import { AppActionTypes } from '@/store/modules/app/actions'
 import { UserActionTypes } from '@/store/modules/user/actions'
 
 export default defineComponent({
@@ -69,7 +69,7 @@ export default defineComponent({
     const store = useStore()
     const avatar = 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
     const sidebar = computed(() => store.getters.sidebar)
-    const toggleSideBar = () => store.commit(AppMutationType.toggleSidebar)
+    const toggleSideBar = () => store.dispatch(AppActionTypes.toggleSidebar)
     const logout = async () => {
       await store.dispatch(UserActionTypes.logout)
       await router.push(`/login?redirect=${route.fullPath}`)

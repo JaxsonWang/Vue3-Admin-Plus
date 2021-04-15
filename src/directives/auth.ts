@@ -5,8 +5,8 @@
  * 创建日期：2021年04月14日
  * 创建作者：Jaxson
  */
-import { ObjectDirective } from 'vue'
-import { useStore } from 'vuex'
+import { ObjectDirective, DirectiveBinding } from 'vue'
+import router from '@/router'
 
 /**
  * Action 权限指令
@@ -18,16 +18,13 @@ import { useStore } from 'vuex'
  *
  */
 const Auth: ObjectDirective = {
-  mounted: (el: HTMLButtonElement, binding) => {
-    // 从 store 获取当前路由 auth 数组对象
-    const store = useStore()
-    const authArr = store.getters.currentRoute.meta.auth ? store.getters.currentRoute.meta.auth : []
+  mounted: (el: HTMLButtonElement, binding: DirectiveBinding) => {
+    const route = router.currentRoute.value
+    const authArr: any = route.meta.auth || []
     const actionName = binding.arg
     // 遍历权限颗粒是否存在，不存在则删除节点
-    if (authArr.indexOf(actionName) === -1) {
-      el.parentNode && el.parentNode.removeChild(el)
-      // (el.parentNode && el.parentNode.removeChild(el)) || (el.style.display = 'none')
-    }
+    if (authArr.indexOf(actionName) === -1)
+      (el.parentNode && el.parentNode.removeChild(el)) || (el.style.display = 'none')
   }
 }
 

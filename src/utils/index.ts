@@ -8,28 +8,35 @@
 
 /**
  * 设置文档标题
- * @param pageTitle
- * @returns {string}
+ * @param {string} pageTitle 设置网页标题
+ * @return {string} 完整网页标题
  */
 export const getPageTitle = (pageTitle: string): string => {
-  const title = process.env.VUE_APP_TITLE
+  const title = process.env.VUE_APP_TITLE ? process.env.VUE_APP_TITLE : '管理系统'
   if (pageTitle) {
     return `${pageTitle} - ${title}`
   }
-  return `${title}`
+  return title
 }
 
-export function deepClone(source: any): any {
-  if (!source && typeof source !== 'object') {
-    throw new Error('deepClone: error arguments')
+/**
+ * 深度拷贝
+ * @param {Object} target 对象源
+ * @return {Object}
+ */
+export const deepClone = <T extends object>(target: T): T => {
+  if (target === null) return target
+
+  if (target instanceof Date) return new Date(target.getTime()) as T
+
+  if (target instanceof Array) return target.map(item => deepClone(item)) as T
+
+  if (typeof target === 'object' && target !== {}) {
+    const copy = { ...target } as any
+    const clone = Object.create(target)
+    Object.keys(copy).forEach(key => (clone[key] = deepClone(copy[key])))
+    return clone as T
   }
-  const targetObj = source.constructor === Array ? [] : {}
-  Object.keys(source).forEach(keys => {
-    if (source[keys] && typeof source[keys] === 'object') {
-      ;(targetObj as any)[keys] = deepClone(source[keys])
-    } else {
-      ;(targetObj as any)[keys] = source[keys]
-    }
-  })
-  return targetObj
+
+  return target as T
 }

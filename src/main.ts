@@ -28,7 +28,7 @@ import SvgIcon from '@/icons'
 import Auth from '@/directives/auth'
 
 // 加载路由鉴权
-import '@/utils/routeAuth'
+import '@/router/route-guard'
 
 // 实例化 Vue App 对象
 const app = createApp(App)

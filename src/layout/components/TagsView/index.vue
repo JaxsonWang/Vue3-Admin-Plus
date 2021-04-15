@@ -41,7 +41,7 @@
 import path from 'path'
 import { defineComponent, ref, reactive, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useStore } from 'vuex'
+import { useStore } from '@/store'
 import ScrollPane from './ScrollPane.vue'
 
 import { TagsViewActionTypes } from '@/store/modules/tagsView/actions'
@@ -55,9 +55,9 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const store = useStore()
-    const visible = ref(false)
-    const top = ref(0)
-    const left = ref(0)
+    const visible = ref<boolean>(false)
+    const top = ref<number>(0)
+    const left = ref<number>(0)
     const tagsViewContainerRef = ref<any>(null)
     const scrollPaneRef = ref<any>(null)
     const selectedTag = reactive<any>({})

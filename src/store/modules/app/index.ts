@@ -6,18 +6,19 @@
  * 创建作者：Jaxson
  */
 
-import { Store as VuexStore, CommitOptions, Module } from 'vuex'
+import { Store as VuexStore, CommitOptions, Module, DispatchOptions } from 'vuex'
 
 import { RootState } from '@/store'
 import { state } from './state'
 import { getters, Getters } from './getters'
 import { mutations, Mutations } from './mutations'
+import { actions, Actions } from './actions'
 
 import type { State } from './state'
 
 export { State }
 
-export type AppStore<S = State> = Omit<VuexStore<S>, 'getters' | 'commit'> & {
+export type AppStore<S = State> = Omit<VuexStore<S>, 'getters' | 'commit' | 'dispatch'> & {
   getters: {
     [K in keyof Getters]: ReturnType<Getters[K]>
   }
@@ -27,10 +28,17 @@ export type AppStore<S = State> = Omit<VuexStore<S>, 'getters' | 'commit'> & {
     payload: P,
     options?: CommitOptions
   ): ReturnType<Mutations[K]>
+} & {
+  dispatch<K extends keyof Actions>(
+    key: K,
+    payload?: Parameters<Actions[K]>[1],
+    options?: DispatchOptions
+  ): ReturnType<Actions[K]>
 }
 
 export const store: Module<State, RootState> = {
   state,
   mutations,
+  actions,
   getters
 }

@@ -24,11 +24,10 @@
 <script lang="ts">
 import { defineComponent, computed, watch, onBeforeMount, onBeforeUnmount, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { useStore } from 'vuex'
+import { useStore } from '@/store'
 import { Sidebar, Navbar, AppMain, AppFooter, TagsView } from './components'
 
 import { MutationType as AppMutationType } from '@/store/modules/app/mutations'
-import { MutationType as RouterMutationType } from '@/store/modules/router/mutations'
 
 const { body } = document
 const WIDTH = 992
@@ -95,8 +94,6 @@ export default defineComponent({
         withoutAnimation: false
       })
     }
-    // 记录当前路由
-    const setCurrentRoute = () => store.commit(RouterMutationType.setCurrentRoute, route)
 
     // 路由更新回调
     watch(
@@ -107,13 +104,11 @@ export default defineComponent({
             withoutAnimation: false
           })
         }
-        setCurrentRoute()
       }
     )
 
     onBeforeMount(() => {
       window.addEventListener('resize', resizeHandler)
-      setCurrentRoute()
     })
     onMounted(() => {
       if (isMobile()) {

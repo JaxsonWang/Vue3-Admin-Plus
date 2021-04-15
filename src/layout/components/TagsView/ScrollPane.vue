@@ -19,18 +19,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, onBeforeUnmount } from 'vue'
+import { defineComponent, ref, onMounted, onBeforeUnmount, SetupContext } from 'vue'
 
 const tagAndTagSpacing = 4 // tagAndTagSpacing
 
 export default defineComponent({
   name: 'ScrollPane',
-  setup(props, { emit }) {
+  setup(props, { emit }: SetupContext) {
     const scrollContainer = ref<any>(null)
     const scrollWrapper = ref<any>(null)
     const emitScroll = () => emit('scroll')
-    const handleScroll = (event: any) => {
-      const eventDelta = event.wheelDelta || -event.deltaY * 40
+    const handleScroll = (event: WheelEvent) => {
+      const eventDelta = -event.deltaY * 40
       const $scrollWrapper: any = scrollWrapper
       $scrollWrapper.scrollLeft = $scrollWrapper.scrollLeft + eventDelta / 4
     }

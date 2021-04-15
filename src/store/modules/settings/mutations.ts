@@ -18,8 +18,6 @@ export type Mutations<S = State> = {
 
 export const mutations: MutationTree<State> & Mutations = {
   [MutationType.changeSetting]: (state, { key, value }) => {
-    if (Object.prototype.hasOwnProperty.call(state, key)) {
-      ;(state as any)[key] = value
-    }
+    if (Object.prototype.hasOwnProperty.call(state, key)) (state as any)[key] = value
   }
 }
