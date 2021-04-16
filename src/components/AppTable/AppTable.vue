@@ -122,8 +122,16 @@ import { defineComponent, ref, reactive, onBeforeMount } from 'vue'
 import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
 import { merge } from 'lodash'
 
+import { AppTableConfig } from '@/types/app-table'
 import AppForm from '@/components/AppForm'
 import dayjs from '@/utils/dayjs'
+
+interface Pagination {
+  currentPage: number
+  pageCount: number
+  pageSize: number
+  totalCount: number
+}
 
 export default defineComponent({
   name: 'AppTable',
@@ -138,83 +146,24 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
-    const loading = ref(false)
+    const loading = ref<boolean>(false)
     const tableData = ref([])
     const selectionRow = ref([])
     const tableSearchModel = ref({})
     const editBoxFormRef = ref<any>(null)
+    const appConfig = props.config as AppTableConfig
+    const pageSize: number =
+      appConfig.pagination && appConfig.pagination.pageSizes ? appConfig.pagination.pageSizes[0] : 10
     const editBox = reactive({
       title: '',
       type: 'add',
       visible: false,
       row: {}
     })
-    const appConfig = reactive<any>(
-      merge(
-        {
-          header: {
-            search: {},
-            actions: {}
-          },
-          table: {
-            attrs: {
-              stripe: true,
-              border: true,
-              fit: true,
-              highlightCurrentRow: true
-            },
-            events: {},
-            columns: [],
-            api: {
-              list: null,
-              delete: null
-            }
-          },
-          pagination: {
-            pageSizes: [10, 20, 30, 40, 50, 100],
-            layout: 'total, sizes, prev, pager, next, jumper',
-            background: true
-          },
-          editBox: {
-            api: {
-              add: null,
-              update: null
-            },
-            title: '',
-            dialogAttrs: {
-              width: '960px'
-            },
-            dialogEvents: {},
-            form: {
-              formAttrs: {},
-              formList: []
-            },
-            footer: [
-              {
-                action: 'cancel',
-                title: '取消',
-                attrs: {
-                  size: 'small'
-                }
-              },
-              {
-                action: 'confirm',
-                title: '确定',
-                attrs: {
-                  type: 'primary',
-                  size: 'small'
-                }
-              }
-            ]
-          }
-        },
-        props.config
-      )
-    )
-    const pagination = reactive({
+    const pagination: Pagination = reactive({
       currentPage: 1,
       pageCount: 1,
-      pageSize: appConfig.pagination.pageSizes[0],
+      pageSize: pageSize,
       totalCount: 1
     })
     /**
@@ -249,7 +198,7 @@ export default defineComponent({
      */
     const onSearchReset = () => {
       pagination.currentPage = 1
-      pagination.pageSize = appConfig.pagination.pageSizes[0]
+      pagination.pageSize = pageSize
       getTableList()
     }
     /**
@@ -257,7 +206,7 @@ export default defineComponent({
      */
     const onSearchSubmit = () => {
       pagination.currentPage = 1
-      pagination.pageSize = appConfig.pagination.pageSizes[0]
+      pagination.pageSize = pageSize
       getTableList(tableSearchModel.value)
     }
     /**
@@ -353,14 +302,14 @@ export default defineComponent({
           .formValidate()
           .then(() => {
             if (editBox.type === 'add') {
-              appConfig.editBox.api.add(editBox.row).then(() => {
+              appConfig.editBox?.api.add(editBox.row).then(() => {
                 ElMessage.success('新建成功')
                 getTableList()
                 editBox.visible = false
               })
             }
             if (editBox.type === 'edit') {
-              appConfig.editBox.api.update(editBox.row).then(() => {
+              appConfig.editBox?.api.update(editBox.row).then(() => {
                 ElMessage.success('更新成功')
                 getTableList()
                 editBox.visible = false
@@ -379,12 +328,12 @@ export default defineComponent({
     const handleEdit = (row?: any) => {
       if (row) {
         editBox.row = row
-        editBox.title = '编辑' + appConfig.editBox.title
+        editBox.title = '编辑' + appConfig.editBox?.title
         editBox.type = 'edit'
       } else {
         // 清空数据
         editBox.row = {}
-        editBox.title = '新建' + appConfig.editBox.title
+        editBox.title = '新建' + appConfig.editBox?.title
         editBox.type = 'add'
       }
       editBox.visible = true

@@ -20,7 +20,7 @@
 import { defineComponent, ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-import AppForm from '@/components/AppForm'
+import AppForm, { AppFormConfig } from '@/components/AppForm'
 
 export default defineComponent({
   name: 'FormDemo',
@@ -48,7 +48,7 @@ export default defineComponent({
       transfer: [],
       upload: ''
     })
-    const formConfig = reactive({
+    const formConfig = reactive<AppFormConfig>({
       formAttrs: {
         inline: false,
         labelPosition: 'top',

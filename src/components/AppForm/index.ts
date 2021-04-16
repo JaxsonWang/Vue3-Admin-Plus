@@ -7,5 +7,6 @@
  */
 
 import AppForm from './AppForm.vue'
+export { AppFormConfig } from '@/types/app-form'
 
 export default AppForm

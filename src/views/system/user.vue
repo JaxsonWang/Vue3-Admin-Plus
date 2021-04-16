@@ -35,6 +35,7 @@ import { useI18n } from 'vue-i18n'
 
 import AppTable from '@/components/AppTable'
 import { request } from '@/utils/request'
+import { AppTableConfig } from '@/types/app-table'
 
 export default defineComponent({
   name: 'SystemUser',
@@ -43,7 +44,7 @@ export default defineComponent({
   },
   setup() {
     const appTableRef = ref<any>(null)
-    const tableConfig = reactive({
+    const tableConfig = reactive<AppTableConfig>({
       header: {
         search: {
           formAttrs: {
@@ -268,7 +269,7 @@ export default defineComponent({
             }
           },
           {
-            action: 'confirm',
+            action: 'primary',
             title: '确定',
             attrs: {
               type: 'primary',

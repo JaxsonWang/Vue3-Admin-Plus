@@ -6,6 +6,6 @@
  * 创建作者：Jaxson
  */
 
-import SvgIcon from './index.vue'
+import SvgIcon from './SvgIcon.vue'
 
 export default SvgIcon

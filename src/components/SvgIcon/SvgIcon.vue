@@ -39,7 +39,7 @@ export default defineComponent({
         return 'svg-icon'
       }
     })
-    const styleExternalIcon = computed(() => {
+    const styleExternalIcon: object = computed(() => {
       return {
         mask: `url(${props.iconClass}) no-repeat 50% 50%`,
         '-webkit-mask': `url(${props.iconClass}) no-repeat 50% 50%`
