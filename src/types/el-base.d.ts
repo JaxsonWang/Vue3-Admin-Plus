@@ -10,10 +10,6 @@ export interface Func {
   (...args: any[]): any
 }
 
-export interface AnyObject {
-  [key: string]: any
-}
-
 export interface ElButton {
   type: 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text' | 'default'
   size: 'medium' | 'small' | 'mini'
@@ -26,5 +22,3 @@ export interface ElButton {
   round: boolean
   circle: boolean
 }
-
-export type ComponentSize = 'large' | 'medium' | 'small' | 'mini'

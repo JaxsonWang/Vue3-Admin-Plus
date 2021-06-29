@@ -5,7 +5,9 @@
  * 创建日期：2021年04月16日
  * 创建作者：Jaxson
  */
-import { TableProps, TableColumnCtx } from 'element-plus/packages/table/src/table.type'
+import { PropType } from 'vue'
+import { TableProps } from 'element-plus/packages/table/src/table/defaults'
+import { TableColumnCtx } from 'element-plus/packages/table/src/table-column/defaults'
 import { ElButton } from './el-base'
 import { AppFormConfig } from './app-form'
 
@@ -35,13 +37,13 @@ interface DialogEvents {
   closed: () => void
 }
 
-interface ElTableColumns extends Partial<TableColumnCtx> {
+interface ElTableColumns<T> extends TableColumnCtx<T> {
   slot?: string
   dateTimeFormat?: string
   action?: Array<'editBox' | 'delete'>
 }
 
-interface ElTableConfig {
+interface ElTableConfig<T> {
   attrs?: Partial<TableProps>
   events?: {
     select?: (selection, row) => void
@@ -62,7 +64,7 @@ interface ElTableConfig {
     headerDragend?: (newWidth, oldWidth, column, event) => void
     expandChange?: (row, expandedRows) => void
   }
-  columns?: Array<Partial<ElTableColumns>>
+  columns?: Array<Partial<ElTableColumns<T>>>
   api: {
     list: (params: any) => Promise<any>
     delete: (row: any) => Promise<any>
