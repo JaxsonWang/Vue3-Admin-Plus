@@ -1,20 +1,9 @@
-<!--
-  - Copyright (c) 2021 Jaxson
-  - 项目名称：Vue3-Admin-Plus
-  - 文件名称：App.vue
-  - 创建日期：2021年04月14日
-  - 创建作者：Jaxson
-  -->
-
 <template>
-  <div class="app-container">
-    <router-view />
+  <div id="nav">
+    <router-link to="/">Home</router-link> |
+    <router-link to="/about">About</router-link>
   </div>
+  <router-view />
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-export default defineComponent({
-  name: 'App'
-})
-</script>
+<style lang="scss">
+</style>

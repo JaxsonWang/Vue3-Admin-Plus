@@ -1,39 +1,19 @@
-/*
- * Copyright (c) 2021 Jaxson
- * 项目名称：Vue3-Admin-Plus
- * 文件名称：index.ts
- * 创建日期：2021年04月14日
- * 创建作者：Jaxson
- */
-
+import type { App } from 'vue'
 import { createStore } from 'vuex'
 
-import { store as app, AppStore, State as AppState } from '@/store/modules/app'
-import { store as settings, SettingsStore, State as SettingsState } from '@/store/modules/settings'
-import { store as tagsView, TagsViewStore, State as TagsViewState } from '@/store/modules/tagsView'
-import { store as user, UserStore, State as UserState } from '@/store/modules/user'
-
-export type RootState = {
-  app: AppState
-  settings: SettingsState
-  tagsView: TagsViewState
-  user: UserState
-}
-
-export type Store = AppStore<Pick<RootState, 'app'>> &
-  SettingsStore<Pick<RootState, 'settings'>> &
-  TagsViewStore<Pick<RootState, 'tagsView'>> &
-  UserStore<Pick<RootState, 'user'>>
-
-const store = createStore<RootState>({
+const store = createStore({
+  state: {
+  },
+  mutations: {
+  },
+  actions: {
+  },
   modules: {
-    app,
-    settings,
-    tagsView,
-    user
   }
 })
 
-export const useStore = (): Store => store as Store
+export const setupStore = (app: App<Element>) :void => {
+  app.use(store)
+}
 
 export default store
