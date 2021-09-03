@@ -2,7 +2,7 @@ import type { App } from 'vue'
 import type { AppRouteRecordRaw } from './types'
 
 import { createRouter, createWebHashHistory, Router, RouteRecordRaw, RouteRecord } from 'vue-router'
-import Layout from '@/layouts'
+import { Layout } from '@/layouts'
 
 const routes: Array<AppRouteRecordRaw> = [
   {

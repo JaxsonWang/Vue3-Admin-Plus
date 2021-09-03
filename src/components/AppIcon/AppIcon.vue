@@ -61,7 +61,7 @@ const styleFontIcon = computed(() => {
   width: 14px;
   height: 14px;
   overflow: hidden;
-  vertical-align: middle;
+  vertical-align: inherit;
   fill: currentColor;
 }
 

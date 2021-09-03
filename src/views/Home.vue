@@ -1,5 +1,5 @@
 <template>
-  <div class="home block">
+  <div class="home block flow-root">
     <app-icon icon="dashboard" is-custom-svg />
     <app-icon icon="ri-home-2-line" />
   </div>

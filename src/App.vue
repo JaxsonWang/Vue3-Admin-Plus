@@ -1,9 +1,12 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div class="app-provider">
+    <el-config-provider :locale="locale">
+      <router-view />
+    </el-config-provider>
   </div>
-  <router-view />
 </template>
-<style lang="scss">
-</style>
+<script lang="ts" setup>
+import zhCN from 'element-plus/lib/locale/lang/zh-cn'
+
+const locale = zhCN
+</script>
