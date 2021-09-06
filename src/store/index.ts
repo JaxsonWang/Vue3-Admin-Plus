@@ -1,17 +1,7 @@
 import type { App } from 'vue'
-import { createStore } from 'vuex'
+import { createPinia } from 'pinia'
 
-import routes, { RoutesState } from './modules/routes'
-
-const store = createStore({
-  modules: {
-    routes
-  }
-})
-
-export interface RootState {
-  RoutesState: RoutesState
-}
+const store = createPinia()
 
 export const setupStore = (app: App<Element>) :void => {
   app.use(store)

@@ -57,23 +57,27 @@ const styleFontIcon = computed(() => {
 <style lang="scss" scoped>
 .svg-icon {
   display: inline-block;
-  margin: 0 auto;
+  position: relative;
+  bottom: 1px;
+  overflow: hidden;
+  vertical-align: middle;
+  fill: currentColor;
+}
+
+.external-icon,
+.svg-icon {
   width: 14px;
   height: 14px;
-  overflow: hidden;
-  vertical-align: inherit;
-  fill: currentColor;
 }
 
 .el-font-icon,
 .remix-icon {
   font-size: 14px;
+  vertical-align: middle;
 }
 
 .svg-external-icon {
   display: inline-block;
-  width: 14px;
-  height: 14px;
   background-color: currentColor;
   mask-size: cover;
 }

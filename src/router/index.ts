@@ -21,23 +21,22 @@ const routes: Array<AppRouteRecordRaw> = [
         meta: {
           title: '系统首页'
         }
+      },
+      {
+        path: '/about',
+        name: 'About',
+        component: () => import('@/views/About.vue'),
+        meta: {
+          title: '关于系统'
+        }
       }
     ]
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import('@/views/About.vue'),
-    meta: {
-      title: '关于系统'
-    }
   }
 ]
 
-const router: Router | null = createRouter({
+const router: Router = createRouter({
   history: createWebHashHistory(),
-  routes: routes as unknown as RouteRecordRaw[],
-  strict: true,
+  routes: routes as RouteRecordRaw[],
   scrollBehavior: () => ({ left: 0, top: 0 })
 })
 

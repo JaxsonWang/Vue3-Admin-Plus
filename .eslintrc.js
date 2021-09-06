@@ -25,6 +25,7 @@ module.exports = {
     }],
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/ban-types': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
     'vue/attributes-order': 'off',
     'vue/one-component-per-file': 'off',
     'vue/html-closing-bracket-newline': 'off',
