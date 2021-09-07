@@ -11,8 +11,13 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
 import { useStoreAppWithOut } from '@/store/modules/app'
+import { useUserWithOut } from '@/store/modules/user'
+import config from '@/config'
+import { getPageTitle } from '@/utils'
 
+const { routesWhitelist } = config
 const { getTheme: { showProgressBar }} = useStoreAppWithOut()
+const { getToken } = useUserWithOut()
 
 if (showProgressBar) {
   NProgress.configure({
@@ -31,10 +36,30 @@ if (showProgressBar) {
 export const setupRouterGuard = (router: Router): void => {
   router.beforeEach((to, from, next) => {
     if (showProgressBar) NProgress.start()
+
+    if (getToken) {
+      if (to.path === '/login') {
+        next({ path: '/' })
+        if (showProgressBar) NProgress.done()
+      } else {
+        // 根据当前用户获取路由信息
+        next()
+
+      }
+    } else {
+      if (routesWhitelist.includes(to.path)) {
+        next()
+      } else {
+        next('/login')
+      }
+    }
+
     next()
   })
 
-  router.afterEach(() => {
+  router.afterEach((to) => {
     if (showProgressBar) NProgress.done()
+    // 设置文档标题
+    document.title = getPageTitle(to.meta.title)
   })
 }

@@ -24,10 +24,10 @@ interface ThemeState {
 }
 
 export const useStoreApp = defineStore({
-  id: 'theme',
+  id: 'app',
   state: (): ThemeState => ({
     device: DeviceEnum.DESKTOP,
-    theme: getLocalStore('theme') || themeConfig
+    theme: getLocalStore('appSettings') || themeConfig
   }),
   getters: {
     getTheme(): ThemeConfig {

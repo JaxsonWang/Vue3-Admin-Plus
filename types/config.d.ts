@@ -9,3 +9,10 @@
 export interface ThemeConfig {
   showProgressBar: boolean
 }
+
+export interface SettingConfig {
+  title: string
+  titleReverse: boolean
+  tokenName: string
+  routesWhitelist: Array<string>
+}
