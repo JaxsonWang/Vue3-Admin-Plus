@@ -1,6 +1,7 @@
 import path from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 import { configSvgIconsPlugin } from './build/vite/plugins'
 
 const resolve = (dir: string): string => {
@@ -24,6 +25,7 @@ export default defineConfig(({ command }) => ({
   },
   plugins: [
     vue(),
+    vueJsx(),
     configSvgIconsPlugin(command === 'build')
   ],
   server: {
