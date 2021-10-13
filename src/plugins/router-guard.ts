@@ -53,8 +53,6 @@ export const setupRouterGuard = (router: Router): void => {
         next('/login')
       }
     }
-
-    next()
   })
 
   router.afterEach((to) => {
