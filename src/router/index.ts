@@ -6,6 +6,15 @@ import { Layout } from '@/layouts'
 
 const routes: Array<AppRouteRecordRaw> = [
   {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/login/index.vue'),
+    meta: {
+      hidden: true,
+      title: '登陆页面'
+    }
+  },
+  {
     path: '/',
     name: 'AppRoot',
     redirect: '/home',

@@ -16,7 +16,7 @@ const settingConfig: SettingConfig = {
   // token 信息
   tokenName: 'vue_plus_token',
   // 路由白名单，不经过 token 校验
-  routesWhitelist: ['/', '/home', '/login', '/404', '/403']
+  routesWhitelist: ['/login', '/404', '/403']
 }
 
 export default settingConfig

@@ -1,0 +1,51 @@
+.handle-login-wrapper {
+  max-width: 500px;
+  padding: 20px 40px;
+  background-color: #fff;
+  border-radius: 10px;
+  .login-text {
+    font-size: 24px;
+    font-weight: 500;
+  }
+}
+
+@screen lg {
+  .handle-login-wrapper {
+    max-width: 400px;
+    padding: 0;
+    background-color: transparent;
+    border-radius: 0;
+    .login-text {
+      font-size: 32px;
+      font-weight: 700;
+    }
+  }
+}
+
+.enter-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  animation: enter-animation 400ms ease-in-out 300ms;
+  animation-fill-mode: forwards;
+}
+
+.enter-right {
+  opacity: 0;
+  transform: translateX(50px);
+  animation: enter-animation 400ms ease-in-out 300ms;
+  animation-fill-mode: forwards;
+}
+
+@for $i from 0 to 10 {
+  .enter-left:nth-child(#{$i}),
+  .enter-right:nth-child(#{$i}) {
+    animation-delay: #{$i}00ms;
+  }
+}
+
+@keyframes enter-animation {
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

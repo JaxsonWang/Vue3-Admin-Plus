@@ -5,7 +5,7 @@ declare module 'vue-router' {
     // 路由标题
     title: string
     // 在菜单隐藏路由
-    hideMenu?: boolean
+    hidden?: boolean
     // 在 tab 标签隐藏路由
     hideTab?: boolean
     // 路由图标
