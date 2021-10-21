@@ -22,7 +22,7 @@
       <el-form-item class="enter-right">
         <div class="remember-wrapper flow-root">
           <el-checkbox v-model="rememberPassword" class="float-left">记住我</el-checkbox>
-          <el-button type="text" class="float-right" @click="$emit('login-type', 'rest-account')">忘记密码？</el-button>
+          <el-button type="text" class="float-right" @click="emit('login-type', 'rest-account')">忘记密码？</el-button>
         </div>
       </el-form-item>
       <el-form-item class="enter-right">
@@ -31,13 +31,13 @@
       <el-form-item class="enter-right">
         <div class="login-type-list grid grid-cols-3 gap-4">
           <div class="col-span-1">
-            <el-button class="w-full" @click="$emit('login-type', 'phone')">手机号登录</el-button>
+            <el-button class="w-full" @click="emit('login-type', 'phone')">手机号登录</el-button>
           </div>
           <div class="col-span-1">
-            <el-button class="w-full" @click="$emit('login-type', 'qrcode')">二维码登录</el-button>
+            <el-button class="w-full" @click="emit('login-type', 'qrcode')">二维码登录</el-button>
           </div>
           <div class="col-span-1">
-            <el-button class="w-full" @click="$emit('login-type', 'signup')">注册</el-button>
+            <el-button class="w-full" @click="emit('login-type', 'signup')">注册</el-button>
           </div>
         </div>
       </el-form-item>
@@ -59,8 +59,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import AppIcon from '@/components/AppIcon'
 
-const loginFormRef = ref<ElRef>(null)
+const emit = defineEmits(['login-type'])
+const loginFormRef = ref()
 const loginForm = ref({
   username: 'admin',
   password: 'admin123',
@@ -100,5 +102,37 @@ const handleLogin = () => {
 </script>
 
 <style lang="scss" scoped>
+@import "../style";
 
+.login-form {
+  .verification-code-form-item {
+    .verification-code-image {
+      width: 100px;
+      height: 100%;
+      border-top: 1px solid #fff;
+      border-bottom: 1px solid #fff;
+      border-right: 1px solid #fff;
+    }
+    :deep(.el-input-group__append) {
+      padding: 0;
+      border: none;
+    }
+  }
+  .divider-wrapper {
+    :deep(.el-divider__text) {
+      color: #888;
+      background-color: transparent;
+    }
+  }
+  .social-wrapper {
+    .social-item {
+      color: #888;
+      cursor: pointer;
+      transition: color 250ms linear;
+      &:hover {
+        // color: $main-base-color;
+      }
+    }
+  }
+}
 </style>

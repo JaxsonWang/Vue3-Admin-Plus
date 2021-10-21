@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isExternal" :style="styleExternalIcon" class="svg-external-icon svg-icon" v-bind="$attrs" />
+  <div v-if="isExternal" :style="styleExternalIcon" class="svg-external-icon external-icon svg-icon" v-bind="$attrs" />
   <svg v-else-if="isCustomSvg" :class="['svg-icon']" :style="styleCustomSvg" aria-hidden="true" v-bind="$attrs">
     <use :xlink:href="iconName" />
   </svg>

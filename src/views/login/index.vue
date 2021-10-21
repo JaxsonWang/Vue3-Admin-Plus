@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-import { watch } from 'vue'
+import { ref, watch, shallowRef } from 'vue'
 import { useRoute } from 'vue-router'
 
 import Introduction from './components/Introduction.vue'
@@ -26,12 +26,12 @@ import PhoneWrapper from './components/PhoneWrapper.vue'
 import QrCodeWrapper from './components/QRCodeWrapper.vue'
 import SignUpWrapper from './components/SignUpWrapper.vue'
 
-let loginType = LoginWrapper
-let isResetWrapper = false
-let redirect = null
+const loginType = shallowRef(LoginWrapper)
+const isResetWrapper = ref(false)
+const redirect = ref<any>('')
 
 watch(() => useRoute(), route => {
-  redirect = route.query && route.query.redirect
+  redirect.value = route.query && route.query.redirect
 }, {
   immediate: true
 })
@@ -39,21 +39,21 @@ watch(() => useRoute(), route => {
 const getLoginType = (type: string) => {
   switch (type) {
     case 'phone':
-      loginType = PhoneWrapper
+      loginType.value = PhoneWrapper
       break
     case 'qrcode':
-      loginType = QrCodeWrapper
+      loginType.value = QrCodeWrapper
       break
     case 'signup':
-      loginType = SignUpWrapper
-      isResetWrapper = false
+      loginType.value = SignUpWrapper
+      isResetWrapper.value = false
       break
     case 'rest-account':
-      loginType = SignUpWrapper
-      isResetWrapper = true
+      loginType.value = SignUpWrapper
+      isResetWrapper.value = true
       break
     default:
-      loginType = LoginWrapper
+      loginType.value = LoginWrapper
   }
 }
 

@@ -7,7 +7,7 @@
  */
 import type { App } from 'vue'
 import ElementPlus from 'element-plus'
-import { InstallOptions } from 'element-plus/es/utils/config'
+import type { InstallOptions } from 'element-plus/es/utils/config'
 
 import 'element-plus/dist/index.css'
 

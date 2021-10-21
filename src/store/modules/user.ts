@@ -8,8 +8,11 @@
 
 import { defineStore } from 'pinia'
 import store from '@/store'
+import { login } from '@/api/login'
 import { resetRouter } from '@/router'
 import { getToken, removeToken } from '@/utils/auth'
+
+import type { LoginParams, LoginResultModel } from '@/model/UserModel'
 
 interface UserState {
   name: string
@@ -59,6 +62,23 @@ export const useUser = defineStore({
     },
     setFull(isFull: boolean): void {
       this.full = isFull
+    },
+    /**
+     * 登陆请求
+     * @param userInfo
+     */
+    login(userInfo: LoginParams): Promise<LoginResultModel | null> {
+      const { username, password, code, uuid } = userInfo
+      return new Promise((resolve, reject) => {
+        login({
+          username: username.trim(),
+          password,
+          code,
+          uuid
+        }).then(response => {
+          // const { token } = response
+        })
+      })
     },
     /**
      * 获取用户个人信息
