@@ -5,6 +5,7 @@
  * 创建日期：2021年09月06日
  * 创建作者：Jaxson
  */
+import { ContentTypeEnum } from '@/enums/http.enum'
 
 export interface ThemeConfig {
   showProgressBar: boolean
@@ -15,4 +16,13 @@ export interface SettingConfig {
   titleReverse: boolean
   tokenName: string
   routesWhitelist: Array<string>
+}
+
+export interface AxiosConfig {
+  withCredentials: boolean
+  timeout: number
+  contentType: ContentTypeEnum.JSON | ContentTypeEnum.FORM_URLENCODED
+  successCode: string | number | (number | string)[]
+  statusName: string
+  messageName: string
 }

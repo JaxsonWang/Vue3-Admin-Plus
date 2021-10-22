@@ -67,16 +67,17 @@ export const useUser = defineStore({
      * 登陆请求
      * @param userInfo
      */
-    login(userInfo: LoginParams): Promise<LoginResultModel | null> {
+    login(userInfo: LoginParams): Promise<LoginResultModel | void> {
       const { username, password, code, uuid } = userInfo
       return new Promise((resolve, reject) => {
         login({
-          username: username.trim(),
+          username,
           password,
           code,
           uuid
         }).then(response => {
-          // const { token } = response
+          const { token } = response
+          console.log(token)
         })
       })
     },
@@ -89,18 +90,27 @@ export const useUser = defineStore({
       this.setRoles()
       this.setAbility()
     },
+    logout(): Promise<void> {
+      return new Promise(resolve => {
+        this.resetAll()
+        resolve()
+      })
+    },
     /**
      * 重置信息
      */
-    resetAll(): void {
-      this.name = ''
-      this.token = ''
-      this.avatar = ''
-      this.roles = []
-      this.ability = []
-      this.full = false
-      removeToken()
-      resetRouter()
+    resetAll(): Promise<void> {
+      return new Promise(resolve => {
+        this.name = ''
+        this.token = ''
+        this.avatar = ''
+        this.roles = []
+        this.ability = []
+        this.full = false
+        removeToken()
+        resetRouter()
+        resolve()
+      })
     }
   }
 })

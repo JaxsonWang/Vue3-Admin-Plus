@@ -59,6 +59,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useUser } from '@/store/modules/user'
 import AppIcon from '@/components/AppIcon'
 
 const emit = defineEmits(['login-type'])
@@ -96,6 +97,9 @@ const handleLogin = () => {
       loading.value = true
       const form = JSON.parse(JSON.stringify(loginForm))
       form.uuid = verificationCodeInfo.value.uuid
+      useUser().login(form).then(response => {
+        console.log(response)
+      })
     }
   })
 }
