@@ -1,23 +1,12 @@
 import { ElMessageBox, ElMessage } from 'element-plus'
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosInstance } from 'axios'
 import { isArray } from 'lodash'
 import qs from 'qs'
 import { useRouter } from 'vue-router'
 import { useUser } from '@/store/modules/user'
 import config from '@/config'
 import { ContentTypeEnum } from '@/enums/http.enum'
-import type { Result } from '#/axios'
-
-interface CodeMessageInterface {
-  [key: number]: string
-}
-
-type ResponseData = {
-  code: number
-  msg: string
-  data?: any
-  [key: string]: any
-}
+import type { Result, CodeMessageInterface } from '#/axios'
 
 const { withCredentials, timeout, contentType, successCode, statusName, messageName } = config
 
@@ -42,8 +31,8 @@ const CODE_MESSAGE: CodeMessageInterface = {
   504: '网关超时'
 }
 
-const service = axios.create({
-  baseURL: `${import.meta.env.VUE_APP_BASE_API}/api`,
+const service: AxiosInstance = axios.create({
+  baseURL: `${import.meta.env.VITE_BASE_API}`,
   withCredentials: withCredentials, // 跨域请求时发送 cookies
   timeout: timeout, // 请求超时时间
   headers: {
@@ -93,11 +82,12 @@ const requestConfig = (config: AxiosRequestConfig) => {
   return config
 }
 
-const responseConfig = ({ config, data, status, statusText }: AxiosResponse<ResponseData>) => {
+const responseConfig = (response: AxiosResponse<Result>): Result | Promise<string> => {
+  const { config, data, status, statusText } = response
   // 若data.code存在，覆盖默认code
-  let code: number = data && data['code'] ? data['code'] : status
+  let code: number = data && data[statusName] ? data[statusName] : status
   // 若code属于操作正常code，则status修改为200
-  if (codeVerificationArray.indexOf(data['code']) + 1) code = 200
+  if (codeVerificationArray.indexOf(data[statusName]) + 1) code = 200
   switch (code) {
     case 200:
       // 业务层级错误处理，以下是假定restful有一套统一输出格式(指不管成功与否都有相应的数据格式)情况下进行处理
@@ -132,7 +122,7 @@ const responseConfig = ({ config, data, status, statusText }: AxiosResponse<Resp
   // 异常处理
   // 若data.msg存在，覆盖默认提醒消息
   const errMsg = `${
-    data && data['msg'] ? data['msg'] : CODE_MESSAGE[code] ? CODE_MESSAGE[code] : statusText
+    data && data[messageName] ? data[messageName] : CODE_MESSAGE[code] ? CODE_MESSAGE[code] : statusText
   }`
   ElMessage({
     type: 'error',
@@ -149,6 +139,8 @@ service.interceptors.request.use(requestConfig, error => {
 })
 
 // 响应拦截器
+// eslint-disable-next-line
+// @ts-ignore @typescript-eslint/ban-ts-comment
 service.interceptors.response.use(responseConfig, error => {
   const { response } = error
   if (response === undefined) {

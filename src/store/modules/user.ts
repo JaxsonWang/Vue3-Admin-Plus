@@ -67,7 +67,7 @@ export const useUser = defineStore({
      * 登陆请求
      * @param userInfo
      */
-    login(userInfo: LoginParams): Promise<LoginResultModel | void> {
+    login(userInfo: LoginParams): Promise<LoginResultModel> {
       const { username, password, code, uuid } = userInfo
       return new Promise((resolve, reject) => {
         login({
@@ -76,8 +76,8 @@ export const useUser = defineStore({
           code,
           uuid
         }).then(response => {
-          const { token } = response
-          console.log(token)
+          const { data } = response
+          resolve(data)
         })
       })
     },

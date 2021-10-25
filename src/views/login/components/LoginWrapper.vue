@@ -59,6 +59,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { getCaptchaImage } from '@/api/login'
 import { useUser } from '@/store/modules/user'
 import AppIcon from '@/components/AppIcon'
 
@@ -85,8 +86,8 @@ const passwordType = ref('password')
 const rememberPassword = false
 const verificationCodeInfo = ref({
   captchaOnOff: false,
-  img: null,
-  uuid: null
+  img: '',
+  uuid: ''
 })
 const showPassword = () => {
   passwordType.value = passwordType.value === 'password' ? 'text' : 'password'
@@ -103,6 +104,15 @@ const handleLogin = () => {
     }
   })
 }
+const getCaptchaImageAction = () => {
+  getCaptchaImage().then(response => {
+    verificationCodeInfo.value.captchaOnOff = response
+    verificationCodeInfo.value.uuid = response.uuid
+    verificationCodeInfo.value.img = `data:image/gif;base64,${response.img}`
+  })
+}
+
+getCaptchaImageAction()
 </script>
 
 <style lang="scss" scoped>
