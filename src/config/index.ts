@@ -6,12 +6,10 @@
  * 创建作者：Jaxson
  */
 
-import axiosConfig from './axios'
 import themeConfig from './theme'
 import settingConfig from './settings'
 
 export default {
-  ...axiosConfig,
   ...themeConfig,
   ...settingConfig
 }

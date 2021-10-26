@@ -1,18 +1,18 @@
 import { request } from '@/utils/request'
 import type { Result } from '#/axios'
 
-interface LoginParams {
+export interface LoginParams {
   username: string
   password: string
   code: string
   uuid: string
 }
 
-interface LoginResult extends Result {
+export interface LoginResult extends Result {
   token: string
 }
 
-interface CaptchaImageResult extends Result {
+export interface CaptchaImageResult extends Result {
   captchaOnOff: boolean
   uuid: string
   img: string

@@ -83,10 +83,7 @@ export class Axios {
         headers: { ignoreCancelToken }
       } = config
 
-      const ignoreCancel =
-        ignoreCancelToken !== undefined
-          ? ignoreCancelToken
-          : this.options.requestOptions?.ignoreCancelToken
+      const ignoreCancel = ignoreCancelToken !== undefined ? ignoreCancelToken : this.options.requestOptions?.ignoreCancelToken
 
       !ignoreCancel && axiosCanceler.addPending(config)
       if (requestInterceptors && isFunction(requestInterceptors)) {

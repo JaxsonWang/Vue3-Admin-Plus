@@ -17,12 +17,3 @@ export interface SettingConfig {
   tokenName: string
   routesWhitelist: Array<string>
 }
-
-export interface AxiosConfig {
-  withCredentials: boolean
-  timeout: number
-  contentType: ContentTypeEnum.JSON | ContentTypeEnum.FORM_URLENCODED
-  successCode: string | number | (number | string)[]
-  statusName: string
-  messageName: string
-}

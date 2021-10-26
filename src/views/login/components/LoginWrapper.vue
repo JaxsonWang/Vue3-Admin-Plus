@@ -58,17 +58,23 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, unref } from 'vue'
+import { useRouter } from 'vue-router'
+import { ElNotification } from 'element-plus'
+import { useStoreApp } from '@/store/modules/app'
 import { getCaptchaImage } from '@/api/login'
 import { useUser } from '@/store/modules/user'
 import AppIcon from '@/components/AppIcon'
+
+const router = useRouter()
 
 const emit = defineEmits(['login-type'])
 const loginFormRef = ref()
 const loginForm = ref({
   username: 'admin',
   password: 'admin123',
-  code: ''
+  code: '',
+  uuid: ''
 })
 const loginRules = ref({
   username: [
@@ -96,10 +102,15 @@ const handleLogin = () => {
   loginFormRef.value.validate((valid: boolean) => {
     if (valid) {
       loading.value = true
-      const form = JSON.parse(JSON.stringify(loginForm))
-      form.uuid = verificationCodeInfo.value.uuid
+      loginForm.value.uuid = verificationCodeInfo.value.uuid
+      const form = unref(loginForm)
       useUser().login(form).then(response => {
-        console.log(response)
+        loginTips()
+      }).catch(() => {
+        getCaptchaImageAction()
+        loginForm.value.code = ''
+        loginForm.value.uuid = ''
+        loading.value = false
       })
     }
   })
@@ -110,6 +121,19 @@ const getCaptchaImageAction = () => {
     verificationCodeInfo.value.uuid = response.uuid
     verificationCodeInfo.value.img = `data:image/gif;base64,${response.img}`
   })
+}
+const loginTips = () => {
+  const hour = new Date().getHours()
+  const thisTime = hour < 8 ? '早上好' : hour <= 11 ? '上午好' : hour <= 13 ? '中午好' : hour < 18 ? '下午好' : '晚上好'
+  setTimeout(() => {
+    ElNotification({
+      title: thisTime,
+      message: `欢迎登录${useStoreApp().getTitle}`,
+      type: 'success'
+    })
+    router.push('/')
+    loading.value = false
+  }, 1000)
 }
 
 getCaptchaImageAction()
@@ -126,6 +150,7 @@ getCaptchaImageAction()
       border-top: 1px solid #fff;
       border-bottom: 1px solid #fff;
       border-right: 1px solid #fff;
+      cursor: pointer;
     }
     :deep(.el-input-group__append) {
       padding: 0;

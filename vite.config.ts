@@ -2,8 +2,6 @@ import path from 'path'
 import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import VueJsx from '@vitejs/plugin-vue-jsx'
-import ViteComponents from 'unplugin-vue-components/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { configSvgIconsPlugin } from './build/vite/plugins'
 
 const resolve = (dir: string): string => {
@@ -28,15 +26,7 @@ export default defineConfig(({ command }) => ({
   plugins: [
     Vue(),
     VueJsx(),
-    configSvgIconsPlugin(command === 'build'),
-    ViteComponents({
-      resolvers: [
-        ElementPlusResolver({
-          importStyle: 'sass'
-        })
-      ],
-      dts: 'types/components.d.ts'
-    })
+    configSvgIconsPlugin(command === 'build')
   ],
   server: {
     host: true

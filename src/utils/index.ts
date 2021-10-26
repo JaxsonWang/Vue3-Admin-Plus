@@ -8,15 +8,21 @@ import type { App, Plugin } from 'vue'
  * @param component
  * @param alias
  */
-export const withInstall = <T>(component: T, alias?: string): T => {
-  const temp = component as any
-  temp.install = (app: App) => {
-    app.component(temp.name || temp.displayName, component)
-    if (alias) app.config.globalProperties[alias] = component
+export const withInstall = <T>(component: T, alias?: string) => {
+  const comp = component as any
+  comp.install = (app: App) => {
+    app.component(comp.name || comp.displayName, component)
+    if (alias) {
+      app.config.globalProperties[alias] = component
+    }
   }
   return component as T & Plugin
 }
 
+/**
+ * 设置页面标题
+ * @param pageTitle
+ */
 export const getPageTitle = (pageTitle: string): string => {
   let titleData: string = config.title
   if (pageTitle) titleData = `${pageTitle} - ${config.title}`
@@ -29,7 +35,7 @@ export const getPageTitle = (pageTitle: string): string => {
  * @param src
  * @param target
  */
-export function deepMerge<T = any>(src: any = {}, target: any = {}): T {
+export const deepMerge = <T = any>(src: any = {}, target: any = {}): T => {
   let key: string
   for (key in target) {
     src[key] = isObject(src[key]) ? deepMerge(src[key], target[key]) : (src[key] = target[key])
@@ -47,7 +53,7 @@ export function deepMerge<T = any>(src: any = {}, target: any = {}): T {
  *  setObjToUrlParams('www.baidu.com', obj)
  *  ==>www.baidu.com?a=3&b=4
  */
-export function setObjToUrlParams(baseUrl: string, obj: any): string {
+export const setObjToUrlParams = (baseUrl: string, obj: any): string => {
   let parameters = ''
   for (const key in obj) {
     parameters += key + '=' + encodeURIComponent(obj[key]) + '&'

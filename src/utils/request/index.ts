@@ -32,19 +32,18 @@ const transform: AxiosTransform = {
       return response.data
     }
     // 错误的时候返回
-
     const { data } = response
     if (!data) {
       // return '[HTTP] Request has no return value';
       throw new Error('请求出错，请稍候重试')
     }
     //  这里 code，result，message为 后台统一的字段，需要在 types.ts内修改为项目自己的接口返回格式
-    const { code, result, message } = data
+    const { code, msg } = data
 
     // 这里逻辑可以根据项目进行修改
     const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS
     if (hasSuccess) {
-      return result
+      return data
     }
 
     // 在此处根据自己项目的实际情况对不同的code执行不同的操作
@@ -58,8 +57,8 @@ const transform: AxiosTransform = {
         userStore.logout()
         break
       default:
-        if (message) {
-          timeoutMsg = message
+        if (msg) {
+          timeoutMsg = msg
         }
     }
 
@@ -169,7 +168,7 @@ const transform: AxiosTransform = {
         if (errorMessageMode === 'modal') {
           ElMessageBox.alert('errMessage', '错误提示', {
             type: 'error'
-          })
+          }).then()
         } else if (errorMessageMode === 'message') {
           ElMessage.error(errMessage)
         }
@@ -207,7 +206,7 @@ const createAxios = (options?: Partial<CreateAxiosOptions>) => {
           // 是否返回原生响应头 比如：需要获取响应头时使用该属性
           isReturnNativeResponse: false,
           // 需要对返回数据进行处理
-          isTransformResponse: false,
+          isTransformResponse: true,
           // post请求的时候添加参数到url
           joinParamsToUrl: false,
           // 格式化提交参数时间

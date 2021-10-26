@@ -8,11 +8,11 @@
 
 import { defineStore } from 'pinia'
 import store from '@/store'
-import { login } from '@/api/login'
 import { resetRouter } from '@/router'
-import { getToken, removeToken } from '@/utils/auth'
+import { getToken, removeToken, setToken } from '@/utils/auth'
+import { login } from '@/api/login'
 
-import type { LoginParams, LoginResultModel } from '@/model/UserModel'
+import type { LoginParams, LoginResult } from '@/api/login'
 
 interface UserState {
   name: string
@@ -67,7 +67,7 @@ export const useUser = defineStore({
      * 登陆请求
      * @param userInfo
      */
-    login(userInfo: LoginParams): Promise<LoginResultModel> {
+    login(userInfo: LoginParams): Promise<LoginResult> {
       const { username, password, code, uuid } = userInfo
       return new Promise((resolve, reject) => {
         login({
@@ -76,9 +76,10 @@ export const useUser = defineStore({
           code,
           uuid
         }).then(response => {
-          const { data } = response
-          resolve(data)
-        })
+          this.setToken(response.token)
+          setToken(response.token)
+          resolve(response)
+        }).catch(error => reject(error))
       })
     },
     /**
