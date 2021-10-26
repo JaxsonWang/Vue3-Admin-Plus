@@ -57,8 +57,8 @@ export const useUser = defineStore({
     /**
      * 设置 token 信息
      */
-    setToken(): void {
-      this.token = 'xxxxxxxxxxxxx'
+    setToken(token: string | undefined): void {
+      this.token = token
     },
     setFull(isFull: boolean): void {
       this.full = isFull
@@ -90,11 +90,8 @@ export const useUser = defineStore({
       this.setRoles()
       this.setAbility()
     },
-    logout(): Promise<void> {
-      return new Promise(resolve => {
-        this.resetAll()
-        resolve()
-      })
+    logout(): void {
+      this.resetAll()
     },
     /**
      * 重置信息

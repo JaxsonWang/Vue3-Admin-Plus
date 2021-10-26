@@ -106,7 +106,7 @@ const handleLogin = () => {
 }
 const getCaptchaImageAction = () => {
   getCaptchaImage().then(response => {
-    verificationCodeInfo.value.captchaOnOff = response
+    verificationCodeInfo.value.captchaOnOff = response.captchaOnOff
     verificationCodeInfo.value.uuid = response.uuid
     verificationCodeInfo.value.img = `data:image/gif;base64,${response.img}`
   })

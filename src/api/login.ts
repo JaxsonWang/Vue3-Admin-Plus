@@ -1,18 +1,28 @@
-import type { AxiosPromise, AxiosRequestConfig } from 'axios'
-import request from '@/utils/request'
-import type { LoginParams, LoginResultModel, CaptchaImageModel } from '@/model/UserModel'
+import { request } from '@/utils/request'
+import type { Result } from '#/axios'
 
-export const login = (data: LoginParams) => {
-  return request({
-    url: '/login',
-    method: 'post',
-    data
-  })
+interface LoginParams {
+  username: string
+  password: string
+  code: string
+  uuid: string
 }
 
-export const getCaptchaImage = () => {
-  return request({
-    url: '/captchaImage',
-    method: 'get'
-  })
+interface LoginResult extends Result {
+  token: string
 }
+
+interface CaptchaImageResult extends Result {
+  captchaOnOff: boolean
+  uuid: string
+  img: string
+}
+
+export const login = (data: LoginParams) => request.post<LoginResult>({
+  url: '/login',
+  params: data
+})
+
+export const getCaptchaImage = () => request.get<CaptchaImageResult>({
+  url: '/captchaImage'
+})
