@@ -44,7 +44,6 @@ export const setupRouterGuard = (router: Router): void => {
       } else {
         // 根据当前用户获取路由信息
         next()
-
       }
     } else {
       if (routesWhitelist.includes(to.path)) {

@@ -1,10 +1,10 @@
 import type { App } from 'vue'
-import type { AppRouteRecordRaw } from './types'
+import type { AppRouteRecordRaw } from '@/router/types'
 
 import { createRouter, createWebHashHistory, Router, RouteRecordRaw, RouteRecord } from 'vue-router'
 import { Layout } from '@/layouts'
 
-const routes: Array<AppRouteRecordRaw> = [
+const routes: AppRouteRecordRaw[] = [
   {
     path: '/login',
     name: 'Login',
@@ -40,6 +40,19 @@ const routes: Array<AppRouteRecordRaw> = [
         }
       }
     ]
+  }
+]
+
+export const asyncRoutes: AppRouteRecordRaw[] = [
+  // 404 page must be placed at the end !!!
+  {
+    path: '*',
+    name: '404',
+    redirect: '/404',
+    meta: {
+      hidden: true,
+      title: '404页面'
+    }
   }
 ]
 

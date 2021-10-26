@@ -7,6 +7,7 @@
  */
 
 import { defineStore } from 'pinia'
+import { AuthenticationEnum } from '@/enums/router.enum'
 import type { AppRouteRecordRaw } from '@/router/types'
 
 interface RoutesState {
@@ -26,8 +27,11 @@ export const useRoutes = defineStore({
     }
   },
   actions: {
-    setRoutes(routes: AppRouteRecordRaw[]): void {
-      this.routes = routes
+    // setRoutes(routes: AppRouteRecordRaw[]): void {
+    //   this.routes = routes
+    // }
+    setRoutes(mode: AuthenticationEnum): void {
+      // this.routes = routes
     }
   }
 })
