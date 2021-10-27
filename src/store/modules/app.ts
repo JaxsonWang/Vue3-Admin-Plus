@@ -8,8 +8,8 @@
 
 import { defineStore } from 'pinia'
 import store from '@/store'
-import themeConfig from '@/config/theme'
-import appConfig from '@/config/settings'
+import themeConfig from '@/configs/theme'
+import appConfig from '@/configs/settings'
 import { DeviceEnum } from '@/enums/app.enum'
 import type { ThemeConfig } from '#/config'
 

@@ -1,4 +1,5 @@
-import 'vue-router'
+import type { RouteMeta, RouteRecordRaw } from 'vue-router'
+import { defineComponent } from 'vue'
 
 declare module 'vue-router' {
   interface RouteMeta extends Record<string | number | symbol, unknown> {
@@ -16,5 +17,23 @@ declare module 'vue-router' {
     affix?: boolean
     // 禁止缓存
     noKeepAlive?: boolean
+    // 权限列表
+    roles?: string[]
   }
+}
+
+export type Component<T = any> =
+  | ReturnType<typeof defineComponent>
+  | (() => Promise<typeof import('*.vue')>)
+  | (() => Promise<T>)
+
+export interface AppRouteRecordRaw extends Omit<RouteRecordRaw, 'meta'> {
+  name: string
+  meta: RouteMeta
+  component?: Component | string
+  components?: Component
+  children?: AppRouteRecordRaw[]
+  childrenNameList?: (string | undefined)[]
+  props?: Recordable
+  fullPath?: string
 }

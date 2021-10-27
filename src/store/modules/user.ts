@@ -18,9 +18,9 @@ interface UserState {
   name: string
   token: string | undefined
   avatar: string
-  roles: Array<string>
-  ability: Array<string>
-  full: boolean
+  roles: string[]
+  ability: string[]
+  admin: boolean
 }
 
 export const useUser = defineStore({
@@ -29,30 +29,24 @@ export const useUser = defineStore({
     name: '',
     token: getToken(),
     avatar: '',
-    roles: [],
-    ability: [],
-    full: false
+    roles: ['admin'],
+    ability: ['*:*:*'],
+    admin: false
   }),
   getters: {
-    getName(): string {
-      return this.name
-    },
-    getToken(): string | undefined {
-      return this.token
-    }
   },
   actions: {
     /**
      * 设置 roles 权限列表
      */
-    setRoles(): void {
-      this.roles = ['admin']
+    setRoles(roles: string[]): void {
+      this.roles = roles
     },
     /**
      * 设置 ability 权限列表
      */
-    setAbility(): void {
-      this.ability = ['*:*:*']
+    setAbility(ability: string[]): void {
+      this.ability = ability
     },
     /**
      * 设置 token 信息
@@ -60,8 +54,12 @@ export const useUser = defineStore({
     setToken(token: string | undefined): void {
       this.token = token
     },
-    setFull(isFull: boolean): void {
-      this.full = isFull
+    /**
+     * 设置管理员
+     * @param isAdmin
+     */
+    setFull(isAdmin: boolean): void {
+      this.admin = isAdmin
     },
     /**
      * 登陆请求
@@ -88,8 +86,15 @@ export const useUser = defineStore({
     getUserInfo(): void {
       this.name = '管理员'
       this.avatar = 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
-      this.setRoles()
-      this.setAbility()
+      this.setRoles(['admin'])
+      this.setAbility(['*:*:*'])
+    },
+    setVirtualRoles(): void {
+      this.name = '管理员'
+      this.avatar = 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
+      this.setRoles(['admin'])
+      this.setAbility(['*:*:*'])
+      this.admin = true
     },
     logout(): void {
       this.resetAll()
@@ -104,7 +109,7 @@ export const useUser = defineStore({
         this.avatar = ''
         this.roles = []
         this.ability = []
-        this.full = false
+        this.admin = false
         removeToken()
         resetRouter()
         resolve()

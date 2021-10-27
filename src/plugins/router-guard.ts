@@ -6,18 +6,21 @@
  * 创建作者：Jaxson
  */
 
-import type { Router } from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-
+import { ElMessage } from 'element-plus'
 import { useStoreAppWithOut } from '@/store/modules/app'
 import { useUserWithOut } from '@/store/modules/user'
-import config from '@/config'
+import { useRoutesWithOut } from '@/store/modules/routes'
+import config from '@/configs'
 import { getPageTitle } from '@/utils'
 
-const { routesWhitelist } = config
+import type { Router } from 'vue-router'
+
+const { loginInterception, routesWhiteList } = config
 const { getTheme: { showProgressBar }} = useStoreAppWithOut()
-const { getToken } = useUserWithOut()
+const { token: getToken, name: getUserName, getUserInfo, setVirtualRoles, resetAll } = useUserWithOut()
+const { routes, setRoutes } = useRoutesWithOut()
 
 if (showProgressBar) {
   NProgress.configure({
@@ -37,16 +40,37 @@ export const setupRouterGuard = (router: Router): void => {
   router.beforeEach((to, from, next) => {
     if (showProgressBar) NProgress.start()
 
-    if (getToken) {
-      if (to.path === '/login') {
-        next({ path: '/' })
-        if (showProgressBar) NProgress.done()
+    // 获取用户鉴权信息
+    let hasToken: string | boolean | undefined = getToken
+
+    if (!loginInterception) hasToken = true
+
+    if (hasToken) {
+      if (routes.length) {
+        if (to.path === '/login') {
+          next({ path: '/' })
+          if (showProgressBar) NProgress.done()
+        } else {
+          // 根据当前用户获取路由信息
+          next()
+        }
       } else {
-        // 根据当前用户获取路由信息
-        next()
+        if (getUserName) {
+          next()
+        } else {
+          try {
+            loginInterception ? getUserInfo() : setVirtualRoles()
+            setRoutes().then()
+            next({ ...to, replace: true })
+          } catch (error) {
+            ElMessage.error((error as Error) || 'Has Error')
+            resetAll().then()
+            next(`/login?redirect=${to.path}`)
+          }
+        }
       }
     } else {
-      if (routesWhitelist.includes(to.path)) {
+      if (routesWhiteList.includes(to.path)) {
         next()
       } else {
         next('/login')

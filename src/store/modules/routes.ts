@@ -7,8 +7,17 @@
  */
 
 import { defineStore } from 'pinia'
-import { AuthenticationEnum } from '@/enums/router.enum'
-import type { AppRouteRecordRaw } from '@/router/types'
+import { ElMessage } from 'element-plus'
+import store from '@/store'
+import { asyncRoutes, constantRoutes, resetRouter } from '@/router'
+import { getRouteList } from '@/api/router'
+import { convertRouter, filterRoutes } from '@/utils/routes'
+import { isArray } from '@/utils/validate'
+import configs from '@/configs'
+
+import type { AppRouteRecordRaw } from '#/vue-router'
+
+const { authentication, rolesControl } = configs
 
 interface RoutesState {
   routes: AppRouteRecordRaw[]
@@ -30,8 +39,54 @@ export const useRoutes = defineStore({
     // setRoutes(routes: AppRouteRecordRaw[]): void {
     //   this.routes = routes
     // }
-    setRoutes(mode: AuthenticationEnum): void {
-      // this.routes = routes
+    /**
+     * 设置路由
+     */
+    async setRoutes(): Promise<void> {
+      // 默认前端路由
+      let routes = [...asyncRoutes]
+      // 设置后端路由(不需要可以删除)
+      if(authentication === 'all') {
+        const { data } = await getRouteList()
+        if (!isArray(data)) {
+          ElMessage.error('路由格式返回有误！')
+          return
+        }
+        if (data[data.length - 1].path !== '*') data.push({ path: '*', name: '404', redirect: '/404', meta: { hidden: true, title: '404' }})
+        routes = convertRouter(data)
+      }
+      // 根据权限和 rolesControl 过滤路由
+      const accessRoutes = filterRoutes([...constantRoutes, ...routes], rolesControl)
+      // 根据可访问路由重置Vue Router
+      await resetRouter(accessRoutes)
+      // 设置菜单所需路由
+      this.routes = accessRoutes
+    },
+    /**
+     * 修改路由信息
+     * @param options
+     */
+    changeMenuMeta(options: AppRouteRecordRaw): void {
+      function handleRoutes(routes: AppRouteRecordRaw[]) {
+        return routes.map(route => {
+          if (route.name === options.name) Object.assign(route.meta, options.meta)
+          if (route.children && route.children.length) { route.children = handleRoutes(route.children) }
+          return route
+        })
+      }
+      this.routes = handleRoutes(this.routes)
+    },
+    /**
+     * 修改当前菜单内容
+     * @param activeName
+     */
+    changeActiveName(activeName: string): void {
+      this.activeName = activeName
     }
   }
 })
+
+// 外部引入
+export const useRoutesWithOut = () => {
+  return useRoutes(store)
+}

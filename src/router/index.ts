@@ -1,10 +1,10 @@
-import type { App } from 'vue'
-import type { AppRouteRecordRaw } from '@/router/types'
-
-import { createRouter, createWebHashHistory, Router, RouteRecordRaw, RouteRecord } from 'vue-router'
+import { createRouter, createRouterMatcher, createWebHashHistory } from 'vue-router'
 import { Layout } from '@/layouts'
+import type { App } from 'vue'
+import type { Router, RouteRecordRaw } from 'vue-router'
+import type { AppRouteRecordRaw } from '#/vue-router'
 
-const routes: AppRouteRecordRaw[] = [
+export const constantRoutes: AppRouteRecordRaw[] = [
   {
     path: '/login',
     name: 'Login',
@@ -58,21 +58,38 @@ export const asyncRoutes: AppRouteRecordRaw[] = [
 
 const router: Router = createRouter({
   history: createWebHashHistory(),
-  routes: routes as RouteRecordRaw[],
+  routes: constantRoutes as RouteRecordRaw[],
   scrollBehavior: () => ({ left: 0, top: 0 })
 })
 
 /**
+ * 格式化路由
+ * @param routes
+ */
+const fatteningRoutes = (routes: AppRouteRecordRaw[]): AppRouteRecordRaw[] => {
+  return routes.flatMap((route: AppRouteRecordRaw) => {
+    return route.children ? fatteningRoutes(route.children) : route
+  })
+}
+
+/**
  * 重置路由
  */
-export const resetRouter = (): void => {
-  router.getRoutes().forEach((route: RouteRecord) => {
-    const { name } = route
-    if (name) {
-      router.hasRoute(name) && router.removeRoute(name)
+export const resetRouter = (routes: AppRouteRecordRaw[] = constantRoutes): void => {
+  routes.forEach((route: AppRouteRecordRaw) => {
+    if (route.children) {
+      route.children = fatteningRoutes(route.children)
     }
   })
 }
+// export const resetRouter = (): void => {
+//   router.getRoutes().forEach((route: RouteRecord) => {
+//     const { name } = route
+//     if (name) {
+//       router.hasRoute(name) && router.removeRoute(name)
+//     }
+//   })
+// }
 
 /**
  * 安装路由

@@ -1,4 +1,4 @@
-import config from '@/config'
+import config from '@/configs'
 import { isObject } from '@/utils/validate'
 
 import type { App, Plugin } from 'vue'
