@@ -8,7 +8,7 @@
 
 import { defineStore } from 'pinia'
 import store from '@/store'
-import { resetRouter } from '@/router'
+import router, { resetRouter } from '@/router'
 import { getToken, removeToken, setToken } from '@/utils/auth'
 import { login } from '@/api/login'
 
@@ -98,6 +98,7 @@ export const useUser = defineStore({
     },
     logout(): void {
       this.resetAll()
+      router.push('/login').then()
     },
     /**
      * 重置信息

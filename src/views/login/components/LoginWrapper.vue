@@ -59,14 +59,12 @@
 
 <script lang="ts" setup>
 import { ref, unref } from 'vue'
-import { useRouter } from 'vue-router'
 import { ElNotification } from 'element-plus'
+import router from '@/router'
 import { useStoreApp } from '@/store/modules/app'
 import { getCaptchaImage } from '@/api/login'
 import { useUser } from '@/store/modules/user'
 import AppIcon from '@/components/AppIcon'
-
-const router = useRouter()
 
 const emit = defineEmits(['login-type'])
 const loginFormRef = ref()

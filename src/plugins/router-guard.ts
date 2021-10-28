@@ -19,8 +19,6 @@ import type { Router } from 'vue-router'
 
 const { loginInterception, routesWhiteList } = config
 const { getTheme: { showProgressBar }} = useStoreAppWithOut()
-const { token: getToken, name: getUserName, getUserInfo, setVirtualRoles, resetAll } = useUserWithOut()
-const { routes, setRoutes } = useRoutesWithOut()
 
 if (showProgressBar) {
   NProgress.configure({
@@ -41,12 +39,12 @@ export const setupRouterGuard = (router: Router): void => {
     if (showProgressBar) NProgress.start()
 
     // 获取用户鉴权信息
-    let hasToken: string | boolean | undefined = getToken
+    let hasToken: string | boolean | undefined = useUserWithOut().token
 
     if (!loginInterception) hasToken = true
 
     if (hasToken) {
-      if (routes.length) {
+      if (useRoutesWithOut().routes.length) {
         if (to.path === '/login') {
           next({ path: '/' })
           if (showProgressBar) NProgress.done()
@@ -55,16 +53,16 @@ export const setupRouterGuard = (router: Router): void => {
           next()
         }
       } else {
-        if (getUserName) {
+        if (useUserWithOut().name) {
           next()
         } else {
           try {
-            loginInterception ? getUserInfo() : setVirtualRoles()
-            setRoutes().then()
+            loginInterception ? useUserWithOut().getUserInfo() : useUserWithOut().setVirtualRoles()
+            useRoutesWithOut().setRoutes().then()
             next({ ...to, replace: true })
           } catch (error) {
             ElMessage.error((error as Error) || 'Has Error')
-            resetAll().then()
+            useUserWithOut().resetAll().then()
             next(`/login?redirect=${to.path}`)
           }
         }

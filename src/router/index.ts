@@ -1,4 +1,4 @@
-import { createRouter, createRouterMatcher, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import { Layout } from '@/layouts'
 import type { App } from 'vue'
 import type { Router, RouteRecordRaw } from 'vue-router'
