@@ -24,7 +24,9 @@ export default defineConfig(({ command }) => ({
     ]
   },
   plugins: [
-    Vue(),
+    Vue({
+      refTransform: true
+    }),
     VueJsx(),
     configSvgIconsPlugin(command === 'build')
   ],
