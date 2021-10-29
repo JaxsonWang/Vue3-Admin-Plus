@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { Layout } from '@/layouts'
 import type { App } from 'vue'
-import type { Router, RouteRecordRaw } from 'vue-router'
+import type { Router, RouteRecordRaw, RouteRecord } from 'vue-router'
 import type { AppRouteRecordRaw } from '#/vue-router'
 
 export const constantRoutes: AppRouteRecordRaw[] = [
@@ -46,7 +46,7 @@ export const constantRoutes: AppRouteRecordRaw[] = [
 export const asyncRoutes: AppRouteRecordRaw[] = [
   // 404 page must be placed at the end !!!
   {
-    path: '*',
+    path: '/:pathMatch(.*)*',
     name: '404',
     redirect: '/404',
     meta: {
@@ -66,30 +66,32 @@ const router: Router = createRouter({
  * 格式化路由
  * @param routes
  */
-const fatteningRoutes = (routes: AppRouteRecordRaw[]): AppRouteRecordRaw[] => {
-  return routes.flatMap((route: AppRouteRecordRaw) => {
-    return route.children ? fatteningRoutes(route.children) : route
-  })
-}
+// const fatteningRoutes = (routes: AppRouteRecordRaw[]): AppRouteRecordRaw[] => {
+//   return routes.flatMap((route: AppRouteRecordRaw) => {
+//     return route.children ? fatteningRoutes(route.children) : route
+//   })
+// }
+
+// export const resetRouter = (routes: AppRouteRecordRaw[] = constantRoutes): void => {
+//   routes.forEach((route: AppRouteRecordRaw) => {
+//     if (route.children) {
+//       route.children = fatteningRoutes(route.children)
+//     }
+//   })
+//   router.matcher = createRouterMatcher(router.getRoutes(), {})
+// }
 
 /**
  * 重置路由
  */
-export const resetRouter = (routes: AppRouteRecordRaw[] = constantRoutes): void => {
-  routes.forEach((route: AppRouteRecordRaw) => {
-    if (route.children) {
-      route.children = fatteningRoutes(route.children)
+export const resetRouter = (): void => {
+  router.getRoutes().forEach((route: RouteRecord) => {
+    const { name } = route
+    if (name) {
+      router.hasRoute(name) && router.removeRoute(name)
     }
   })
 }
-// export const resetRouter = (): void => {
-//   router.getRoutes().forEach((route: RouteRecord) => {
-//     const { name } = route
-//     if (name) {
-//       router.hasRoute(name) && router.removeRoute(name)
-//     }
-//   })
-// }
 
 /**
  * 安装路由

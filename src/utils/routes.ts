@@ -1,4 +1,5 @@
 import qs from 'qs'
+import resolve from '@/utils/path-resolve'
 import { hasAccess } from '@/utils/has-access'
 import { isExternal } from '@/utils/validate'
 import configs from '@/configs'
@@ -40,8 +41,7 @@ export const convertRouter = (asyncRoutes: AppRouteRecordRaw[]) => {
 export const filterRoutes = (routes: AppRouteRecordRaw[], rolesControl: boolean, baseUrl = '/') => {
   return routes.filter(route => rolesControl && route.meta && route.meta.roles ? hasAccess(route.meta.roles) : true).map(route => {
     route = { ...route }
-    // route.path = route.path !== '*' && !isExternal(route.path) ? resolve(baseUrl, route.path) : route.path
-    route.path = route.path !== '*' && !isExternal(route.path) ? (baseUrl + route.path).replace(/\/+/g, '/') : route.path
+    route.path = route.path !== '/:pathMatch(.*)*' && !isExternal(route.path) ? resolve(baseUrl, route.path) : route.path
     if (route.children) {
       route.children = filterRoutes(route.children, rolesControl, route.path)
       route.childrenNameList = route.children.flatMap(_ => _.childrenNameList)

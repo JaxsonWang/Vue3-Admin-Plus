@@ -9,12 +9,13 @@
 import { defineStore } from 'pinia'
 import { ElMessage } from 'element-plus'
 import store from '@/store'
-import { asyncRoutes, constantRoutes, resetRouter } from '@/router'
+import router, { asyncRoutes, constantRoutes, resetRouter } from '@/router'
 import { getRouteList } from '@/api/router'
 import { convertRouter, filterRoutes } from '@/utils/routes'
 import { isArray } from '@/utils/validate'
 import configs from '@/configs'
 
+import type { RouteRecordRaw } from 'vue-router'
 import type { AppRouteRecordRaw } from '#/vue-router'
 
 const { authentication, rolesControl } = configs
@@ -46,14 +47,18 @@ export const useRoutes = defineStore({
           if (!isArray(data)) {
             ElMessage.error('路由格式返回有误！')
           } else {
-            if (data[data.length - 1].path !== '*') data.push({ path: '*', name: '404', redirect: '/404', meta: { hidden: true, title: '404' }})
+            if (data[data.length - 1].path !== '/:pathMatch(.*)*') data.push({ path: '/:pathMatch(.*)*', name: '404', redirect: '/404', meta: { hidden: true, title: '404' }})
             routes = convertRouter(data)
           }
         }
         // 根据权限和 rolesControl 过滤路由
         const accessRoutes = filterRoutes([...constantRoutes, ...routes], rolesControl)
-        // 根据可访问路由重置Vue Router
-        resetRouter(accessRoutes)
+        // 根据可访问路由重置 Vue Router
+        resetRouter()
+        // 添加路由
+        accessRoutes.forEach((route: AppRouteRecordRaw) => {
+          router.addRoute(route as unknown as RouteRecordRaw)
+        })
         // 设置菜单所需路由
         this.routes = accessRoutes
         // 返回内容
