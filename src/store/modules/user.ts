@@ -37,31 +37,6 @@ export const useUser = defineStore({
   },
   actions: {
     /**
-     * 设置 roles 权限列表
-     */
-    setRoles(roles: string[]): void {
-      this.roles = roles
-    },
-    /**
-     * 设置 ability 权限列表
-     */
-    setAbility(ability: string[]): void {
-      this.ability = ability
-    },
-    /**
-     * 设置 token 信息
-     */
-    setToken(token: string | undefined): void {
-      this.token = token
-    },
-    /**
-     * 设置管理员
-     * @param isAdmin
-     */
-    setFull(isAdmin: boolean): void {
-      this.admin = isAdmin
-    },
-    /**
      * 登陆请求
      * @param userInfo
      */
@@ -74,7 +49,7 @@ export const useUser = defineStore({
           code,
           uuid
         }).then(response => {
-          this.setToken(response.token)
+          this.token = response.token
           setToken(response.token)
           resolve(response)
         }).catch(error => reject(error))
@@ -104,8 +79,8 @@ export const useUser = defineStore({
     setVirtualRoles(): void {
       this.name = '管理员'
       this.avatar = 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
-      this.setRoles(['admin'])
-      this.setAbility(['*:*:*'])
+      this.roles = ['admin']
+      this.ability = ['*:*:*']
       this.admin = true
     },
     logout(): void {

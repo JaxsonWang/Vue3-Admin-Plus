@@ -29,7 +29,7 @@ export const checkStatus = (status: number, msg: string, errorMessageMode: Error
       errMessage = `${msg}`
       break
     case 401:
-      userStore.setToken(undefined)
+      userStore.token = undefined
       errMessage = msg || CODE_MESSAGE[status]
       userStore.logout()
       break
