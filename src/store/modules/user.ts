@@ -10,9 +10,9 @@ import { defineStore } from 'pinia'
 import store from '@/store'
 import router, { resetRouter } from '@/router'
 import { getToken, removeToken, setToken } from '@/utils/auth'
-import { login } from '@/api/login'
-
-import type { LoginParams, LoginResult } from '@/api/login'
+import { login, getInfo } from '@/api/login'
+import { RoleEnum } from '@/enums/app.enum'
+import type { LoginParams, LoginResult, UserInfoResult } from '@/api/login'
 
 interface UserState {
   name: string
@@ -83,11 +83,23 @@ export const useUser = defineStore({
     /**
      * 获取用户个人信息
      */
-    getUserInfo(): void {
-      this.name = '管理员'
-      this.avatar = 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
-      this.setRoles(['admin'])
-      this.setAbility(['*:*:*'])
+    getUserInfo(): Promise<UserInfoResult> {
+      return new Promise((resolve, reject) => {
+        getInfo().then(response => {
+          const { permissions, roles, user } = response
+
+          if (!response) {
+            reject('验证失败，请重新登陆！')
+          }
+
+          this.name = user.nickName
+          this.avatar = user.avatar ? user.avatar : 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
+          this.roles = roles
+          this.admin = roles.includes(RoleEnum.ADMIN)
+          this.ability = permissions
+          resolve(response)
+        }).catch(error => reject(error))
+      })
     },
     setVirtualRoles(): void {
       this.name = '管理员'

@@ -10,3 +10,8 @@ export enum DeviceEnum {
   DESKTOP = 'desktop',
   MOBILE = 'mobile'
 }
+
+export enum RoleEnum {
+  ADMIN = 'admin',
+  USER = 'user'
+}

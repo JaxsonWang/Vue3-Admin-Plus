@@ -6,6 +6,7 @@
  * 创建作者：Jaxson
  */
 
+import { mapState } from 'pinia'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { ElMessage } from 'element-plus'
@@ -58,8 +59,9 @@ export const setupRouterGuard = (router: Router): void => {
         } else {
           try {
             loginInterception ? useUserWithOut().getUserInfo() : useUserWithOut().setVirtualRoles()
-            useRoutesWithOut().setRoutes().then()
-            next({ ...to, replace: true })
+            useRoutesWithOut().setRoutes().then(() => {
+              next({ ...to, replace: true })
+            })
           } catch (error) {
             ElMessage.error((error as Error) || 'Has Error')
             useUserWithOut().resetAll().then()

@@ -31,36 +31,34 @@ export const useRoutes = defineStore({
     activeName: ''
   }),
   getters: {
-    getRoutes(): AppRouteRecordRaw[] {
-      return this.routes
-    }
   },
   actions: {
-    // setRoutes(routes: AppRouteRecordRaw[]): void {
-    //   this.routes = routes
-    // }
     /**
      * 设置路由
      */
-    async setRoutes(): Promise<void> {
-      // 默认前端路由
-      let routes = [...asyncRoutes]
-      // 设置后端路由(不需要可以删除)
-      if(authentication === 'all') {
-        const { data } = await getRouteList()
-        if (!isArray(data)) {
-          ElMessage.error('路由格式返回有误！')
-          return
+    setRoutes(): Promise<AppRouteRecordRaw[]> {
+      return new Promise(async(resolve, reject) => {
+        // 默认前端路由
+        let routes = [...asyncRoutes]
+        // 设置后端路由(不需要可以删除)
+        if(authentication === 'all') {
+          const { data } = await getRouteList()
+          if (!isArray(data)) {
+            ElMessage.error('路由格式返回有误！')
+          } else {
+            if (data[data.length - 1].path !== '*') data.push({ path: '*', name: '404', redirect: '/404', meta: { hidden: true, title: '404' }})
+            routes = convertRouter(data)
+          }
         }
-        if (data[data.length - 1].path !== '*') data.push({ path: '*', name: '404', redirect: '/404', meta: { hidden: true, title: '404' }})
-        routes = convertRouter(data)
-      }
-      // 根据权限和 rolesControl 过滤路由
-      const accessRoutes = filterRoutes([...constantRoutes, ...routes], rolesControl)
-      // 根据可访问路由重置Vue Router
-      await resetRouter(accessRoutes)
-      // 设置菜单所需路由
-      this.routes = accessRoutes
+        // 根据权限和 rolesControl 过滤路由
+        const accessRoutes = filterRoutes([...constantRoutes, ...routes], rolesControl)
+        // 根据可访问路由重置Vue Router
+        resetRouter(accessRoutes)
+        // 设置菜单所需路由
+        this.routes = accessRoutes
+        // 返回内容
+        resolve(accessRoutes)
+      })
     },
     /**
      * 修改路由信息
