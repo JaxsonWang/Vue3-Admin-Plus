@@ -10,7 +10,7 @@
   <el-scrollbar :height="scrollbarHeight" wrap-class="side-menu-scrollbar">
     <el-menu :default-openeds="['1', '3']" class="border-none">
       <el-sub-menu index="1">
-        <template #title><i class="el-icon-message" />导航一</template>
+        <template #title><el-icon><message /></el-icon>导航一</template>
         <el-menu-item index="1-1">选项1</el-menu-item>
         <el-menu-item index="1-2">选项2</el-menu-item>
         <el-sub-menu index="1-4">
@@ -19,37 +19,37 @@
         </el-sub-menu>
       </el-sub-menu>
       <el-sub-menu index="2">
-        <template #title><i class="el-icon-menu" />导航二</template>
-        <el-menu-item index="2-1"><i class="el-icon-menu" />选项1</el-menu-item>
-        <el-menu-item index="2-2"><i class="el-icon-menu" />选项2</el-menu-item>
-        <el-menu-item index="2-3"><i class="el-icon-menu" />选项3</el-menu-item>
+        <template #title><el-icon><menu /></el-icon>导航二</template>
+        <el-menu-item index="2-1"><el-icon><menu /></el-icon>选项1</el-menu-item>
+        <el-menu-item index="2-2"><el-icon><menu /></el-icon>选项2</el-menu-item>
+        <el-menu-item index="2-3"><el-icon><menu /></el-icon>选项3</el-menu-item>
         <el-sub-menu index="2-4">
-          <template #title><i class="el-icon-menu" />选项4</template>
-          <el-menu-item index="2-4-1"><i class="el-icon-menu" />选项4-1</el-menu-item>
+          <template #title><el-icon><menu /></el-icon>选项4</template>
+          <el-menu-item index="2-4-1"><el-icon><menu /></el-icon>选项4-1</el-menu-item>
         </el-sub-menu>
       </el-sub-menu>
       <el-sub-menu index="3">
-        <template #title><i class="el-icon-setting" />导航三</template>
-        <el-menu-item index="3-1"><i class="el-icon-menu" />选项1</el-menu-item>
-        <el-menu-item index="3-2"><i class="el-icon-menu" />选项2</el-menu-item>
-        <el-menu-item index="3-3"><i class="el-icon-menu" />选项3</el-menu-item>
+        <template #title><el-icon><setting /></el-icon>导航三</template>
+        <el-menu-item index="3-1"><el-icon><menu /></el-icon>选项1</el-menu-item>
+        <el-menu-item index="3-2"><el-icon><menu /></el-icon>选项2</el-menu-item>
+        <el-menu-item index="3-3"><el-icon><menu /></el-icon>选项3</el-menu-item>
         <el-sub-menu index="3-4">
-          <template #title><i class="el-icon-menu" />选项4</template>
-          <el-menu-item index="3-4-1"><i class="el-icon-menu" />选项4-1</el-menu-item>
+          <template #title><el-icon><menu /></el-icon>选项4</template>
+          <el-menu-item index="3-4-1"><el-icon><menu /></el-icon>选项4-1</el-menu-item>
         </el-sub-menu>
       </el-sub-menu>
       <el-sub-menu index="4">
-        <template #title><i class="el-icon-setting" />导航四</template>
-        <el-menu-item index="4-1"><i class="el-icon-menu" />选项1</el-menu-item>
-        <el-menu-item index="4-2"><i class="el-icon-menu" />选项2</el-menu-item>
-        <el-menu-item index="4-3"><i class="el-icon-menu" />选项3</el-menu-item>
+        <template #title><el-icon><setting /></el-icon>导航四</template>
+        <el-menu-item index="4-1"><el-icon><menu /></el-icon>选项1</el-menu-item>
+        <el-menu-item index="4-2"><el-icon><menu /></el-icon>选项2</el-menu-item>
+        <el-menu-item index="4-3"><el-icon><menu /></el-icon>选项3</el-menu-item>
         <el-sub-menu index="4-4">
-          <template #title><i class="el-icon-menu" />选项4</template>
-          <el-menu-item index="4-4-1"><i class="el-icon-menu" />选项4-1</el-menu-item>
-          <el-menu-item index="4-4-2"><i class="el-icon-menu" />选项4-2</el-menu-item>
-          <el-menu-item index="4-4-3"><i class="el-icon-menu" />选项4-3</el-menu-item>
-          <el-menu-item index="4-4-4"><i class="el-icon-menu" />选项4-4</el-menu-item>
-          <el-menu-item index="4-4-5"><i class="el-icon-menu" />选项4-5</el-menu-item>
+          <template #title><el-icon><menu /></el-icon>选项4</template>
+          <el-menu-item index="4-4-1"><el-icon><menu /></el-icon>选项4-1</el-menu-item>
+          <el-menu-item index="4-4-2"><el-icon><menu /></el-icon>选项4-2</el-menu-item>
+          <el-menu-item index="4-4-3"><el-icon><menu /></el-icon>选项4-3</el-menu-item>
+          <el-menu-item index="4-4-4"><el-icon><menu /></el-icon>选项4-4</el-menu-item>
+          <el-menu-item index="4-4-5"><el-icon><menu /></el-icon>选项4-5</el-menu-item>
         </el-sub-menu>
       </el-sub-menu>
     </el-menu>
