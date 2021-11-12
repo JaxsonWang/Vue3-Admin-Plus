@@ -7,13 +7,13 @@
 <script lang="ts" setup>
 import { onBeforeMount, onBeforeUnmount } from 'vue'
 import { debounce } from 'lodash'
-import { useStoreApp } from '@/store/modules/app'
+import { useApp } from '@/store/modules/app'
 import { DeviceEnum } from '@/enums/app.enum'
 import { DefaultLayout } from './index'
 
 const WIDTH = 992
 const layoutType = DefaultLayout
-const { setDevice } = useStoreApp()
+const { setDevice } = useApp()
 
 /**
  * 判断手机响应式

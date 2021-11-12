@@ -9,6 +9,10 @@ import { ContentTypeEnum } from '@/enums/http.enum'
 
 export interface ThemeConfig {
   showProgressBar: boolean
+  menuBackgroundColor: string
+  subMenuBackgroundColor: string
+  menuTextColor: string
+  menuActiveTextColor: string
 }
 
 export interface SettingConfig {
@@ -19,5 +23,6 @@ export interface SettingConfig {
   recordRoute: boolean
   loginInterception: boolean
   authentication: 'all' | 'intelligence'
-  rolesControl: boolean
+  rolesControl: boolean,
+  logo: string | false
 }

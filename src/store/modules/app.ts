@@ -15,6 +15,7 @@ import type { ThemeConfig } from '#/config'
 
 interface ThemeState {
   title: string
+  logo: string | false
   device: DeviceEnum
   theme: ThemeConfig
 }
@@ -25,25 +26,17 @@ const getLocalStore = (key: string): ThemeConfig | false => {
   return JSON.parse(value)
 }
 
-const { title } = appConfig
+const { title, logo } = appConfig
 
-export const useStoreApp = defineStore({
+export const useApp = defineStore({
   id: 'app',
   state: (): ThemeState => ({
-    title: title,
+    title,
+    logo,
     device: DeviceEnum.DESKTOP,
     theme: getLocalStore('appSettings') || themeConfig
   }),
   getters: {
-    getTheme(): ThemeConfig {
-      return this.theme
-    },
-    getDevice(): string {
-      return this.device
-    },
-    getTitle(): string {
-      return this.title
-    }
   },
   actions: {
     setDevice(device: DeviceEnum): void {
@@ -53,6 +46,6 @@ export const useStoreApp = defineStore({
 })
 
 // 外部引入
-export const useStoreAppWithOut = () => {
-  return useStoreApp(store)
+export const useAppWithOut = () => {
+  return useApp(store)
 }

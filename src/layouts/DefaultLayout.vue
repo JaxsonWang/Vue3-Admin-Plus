@@ -7,8 +7,12 @@
   -->
 
 <template>
-  <el-container class="default-layout layout-wrapper">
+  <el-container
+    :style="variableStyles"
+    class="default-layout layout-wrapper"
+  >
     <el-aside width="300px" class="sidebar-wrapper">
+      <LayoutHeaderLogo />
       <LayoutSideMenu />
     </el-aside>
     <el-container class="content-wrapper">
@@ -26,8 +30,12 @@
 </template>
 
 <script lang="ts" setup>
-import { LayoutSideMenu, LayoutHeader, LayoutMain, LayoutFooter } from './universal'
-import './styles/default-layout.scss'
+import { LayoutSideMenu, LayoutHeaderLogo, LayoutHeader, LayoutMain, LayoutFooter } from './universal'
+import '@/styles/layouts/default-layout.scss'
+
+const variableStyles = {
+  '--header-logo-height': '60px'
+}
 </script>
 
 <style lang="scss" scoped>

@@ -1,0 +1,40 @@
+.default-layout {
+  min-height: 100%;
+}
+
+.default-layout .logo-container {
+  height: var(--header-logo-height);
+  line-height: var(--header-logo-height);
+  color: #fff;
+  font-size: 20px;
+  text-align: center;
+
+  .logo .svg-icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+  }
+}
+
+.default-layout .sidebar-wrapper {
+  background-color: var(--menu-background-color);
+}
+
+.default-layout .side-menu-scrollbar-wrapper {
+  height: calc(100% - var(--header-logo-height));
+}
+
+.default-layout .side-menu-wrap {
+  height: 100%;
+}
+
+// 侧边栏菜单样式
+.default-layout .side-menu {
+  min-height: 100%;
+  .el-sub-menu .el-menu--inline {
+    background-color: var(--sub-menu-background-color);
+  }
+  .menu-icon {
+    margin-right: 2px;
+  }
+}

@@ -10,7 +10,11 @@ import type { ThemeConfig } from '#/config'
 
 const themeConfig: ThemeConfig = {
   // 是否开启顶部进度条
-  showProgressBar: true
+  showProgressBar: true,
+  menuBackgroundColor: '#041429',
+  subMenuBackgroundColor: '#112035',
+  menuTextColor: 'rgba(255,255,255,0.7)',
+  menuActiveTextColor: '#fff'
 }
 
 export default themeConfig

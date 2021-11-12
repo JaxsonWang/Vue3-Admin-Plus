@@ -61,7 +61,7 @@
 import { ref, unref } from 'vue'
 import { ElNotification } from 'element-plus'
 import router from '@/router'
-import { useStoreApp } from '@/store/modules/app'
+import { useApp } from '@/store/modules/app'
 import { getCaptchaImage } from '@/api/login'
 import { useUser } from '@/store/modules/user'
 import AppIcon from '@/components/AppIcon'
@@ -126,7 +126,7 @@ const loginTips = () => {
   setTimeout(() => {
     ElNotification({
       title: thisTime,
-      message: `欢迎登录${useStoreApp().getTitle}`,
+      message: `欢迎登录${useApp().getTitle}`,
       type: 'success'
     })
     router.push('/')

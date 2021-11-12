@@ -6,11 +6,10 @@
  * 创建作者：Jaxson
  */
 
-import { mapState } from 'pinia'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { ElMessage } from 'element-plus'
-import { useStoreAppWithOut } from '@/store/modules/app'
+import { useAppWithOut } from '@/store/modules/app'
 import { useUserWithOut } from '@/store/modules/user'
 import { useRoutesWithOut } from '@/store/modules/routes'
 import config from '@/configs'
@@ -19,7 +18,7 @@ import { getPageTitle } from '@/utils'
 import type { Router } from 'vue-router'
 
 const { loginInterception, routesWhiteList } = config
-const { getTheme: { showProgressBar }} = useStoreAppWithOut()
+const { theme: { showProgressBar }} = useAppWithOut()
 
 if (showProgressBar) {
   NProgress.configure({

@@ -13,7 +13,8 @@
 </template>
 
 <script lang="ts" setup>
-const getTitle = '后台管理系统'
+import { useApp } from '@/store/modules/app'
+const getTitle = useApp().title
 </script>
 
 <style lang="scss" scoped>

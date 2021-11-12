@@ -7,6 +7,7 @@
  */
 
 export { default as LayoutSideMenu } from './LayoutSideMenu'
+export { default as LayoutHeaderLogo } from './LayoutHeaderLogo.vue'
 export { default as LayoutHeader } from './LayoutHeader.vue'
 export { default as LayoutMain } from './LayoutMain.vue'
 export { default as LayoutFooter } from './LayoutFooter.vue'
