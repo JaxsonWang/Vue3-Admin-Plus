@@ -6,7 +6,7 @@
  * 创建作者：王瑾
  */
 
-import { request } from '@/utils/request'
+import request from '@/utils/request'
 import type { Result } from '#/axios'
 import type { AppRouteRecordRaw } from '#/vue-router'
 

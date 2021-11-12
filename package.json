@@ -8,6 +8,7 @@
     "preview": "vite preview",
     "svgo": "svgo -f src/icons --config=svgo.config.js",
     "lint": "eslint --ext .ts,.tsx,.vue src",
+    "type check": "vue-tsc --noEmit",
     "ncu": "npx npm-check-updates -u"
   },
   "dependencies": {
@@ -17,7 +18,7 @@
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
     "nprogress": "^0.2.0",
-    "pinia": "^2.0.2",
+    "pinia": "^2.0.3",
     "qs": "^6.10.1",
     "register-service-worker": "^1.7.2",
     "vue": "^3.2.6",
@@ -37,7 +38,7 @@
     "@vue/eslint-config-typescript": "^9.0.1",
     "autoprefixer": "^10.4.0",
     "eslint": "^8.2.0",
-    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.1",
     "eslint-plugin-vue": "^8.0.3",
@@ -46,9 +47,9 @@
     "svgo": "^2.8.0",
     "tailwindcss": "^2.2.19",
     "typescript": "^4.4.4",
-    "vite": "^2.6.13",
+    "vite": "^2.6.14",
     "vite-plugin-svg-icons": "^1.0.5",
-    "vue-tsc": "^0.29.2"
+    "vue-tsc": "^0.29.3"
   },
   "browserslist": [
     "> 1%",

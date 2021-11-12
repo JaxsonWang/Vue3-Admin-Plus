@@ -231,3 +231,4 @@ const createAxios = (options?: Partial<CreateAxiosOptions>) => {
 }
 
 export const request = createAxios()
+export default request

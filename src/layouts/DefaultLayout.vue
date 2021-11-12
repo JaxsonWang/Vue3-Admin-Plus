@@ -7,19 +7,19 @@
   -->
 
 <template>
-  <el-container class="default-layout">
+  <el-container class="default-layout layout-wrapper">
     <el-aside width="300px" class="sidebar-wrapper">
-      <layout-side-menu />
+      <LayoutSideMenu />
     </el-aside>
     <el-container class="content-wrapper">
       <el-header height="60px" class="header-wrapper">
-        <layout-header />
+        <LayoutHeader />
       </el-header>
       <el-main class="main-wrapper">
-        <layout-main />
+        <LayoutMain />
       </el-main>
       <el-footer height="60px" class="footer-wrapper">
-        <layout-footer />
+        <LayoutFooter />
       </el-footer>
     </el-container>
   </el-container>
@@ -27,6 +27,7 @@
 
 <script lang="ts" setup>
 import { LayoutSideMenu, LayoutHeader, LayoutMain, LayoutFooter } from './universal'
+import './styles/default-layout.scss'
 </script>
 
 <style lang="scss" scoped>
@@ -41,9 +42,5 @@ import { LayoutSideMenu, LayoutHeader, LayoutMain, LayoutFooter } from './univer
 
 .fade-transform-leave-to {
   opacity: 0;
-}
-
-.default-layout {
-  min-height: 100%;
 }
 </style>

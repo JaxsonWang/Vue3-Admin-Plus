@@ -30,14 +30,6 @@ export const constantRoutes: AppRouteRecordRaw[] = [
         meta: {
           title: '系统首页'
         }
-      },
-      {
-        path: '/about',
-        name: 'About',
-        component: () => import('@/views/About.vue'),
-        meta: {
-          title: '关于系统'
-        }
       }
     ]
   }

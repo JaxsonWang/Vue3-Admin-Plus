@@ -3,7 +3,7 @@
   <svg v-else-if="isCustomSvg" :class="['svg-icon']" :style="styleCustomSvg" aria-hidden="true" v-bind="$attrs">
     <use :xlink:href="iconName" />
   </svg>
-  <i v-else-if="isEleIcon" :class="['el-font-icon', icon]" :style="styleFontIcon" aria-hidden="true" v-bind="$attrs" />
+  <component v-else-if="isEleIcon" :is="pipeEleIcon()" :class="['svg-icon', 'el-icon', icon]" :style="styleFontIcon" aria-hidden="true" v-bind="$attrs" />
   <i v-else :class="['remix-icon', icon]" :style="styleFontIcon" aria-hidden="true" v-bind="$attrs" />
 </template>
 
@@ -52,6 +52,12 @@ const styleFontIcon = computed(() => {
     fontSize: typeof props.size === 'number' ? `${props.size}px` : props.size
   }
 })
+/**
+ * 根据传入 icon 名称识别为 el-icon 组件
+ */
+const pipeEleIcon = (): string => {
+  return props.icon.slice(3)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -70,7 +76,6 @@ const styleFontIcon = computed(() => {
   height: 14px;
 }
 
-.el-font-icon,
 .remix-icon {
   font-size: 14px;
   vertical-align: middle;

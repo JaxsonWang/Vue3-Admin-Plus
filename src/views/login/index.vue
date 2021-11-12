@@ -26,7 +26,9 @@ import PhoneWrapper from './components/PhoneWrapper.vue'
 import QrCodeWrapper from './components/QRCodeWrapper.vue'
 import SignUpWrapper from './components/SignUpWrapper.vue'
 
-const loginType = shallowRef(LoginWrapper)
+import type { Component } from 'vue'
+
+const loginType = shallowRef<Component>(LoginWrapper)
 const isResetWrapper = ref(false)
 const redirect = ref<any>('')
 

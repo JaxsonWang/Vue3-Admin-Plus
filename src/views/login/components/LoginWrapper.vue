@@ -3,17 +3,17 @@
     <div class="login-text enter-right mb-3 text-center lg:text-left">系统登录</div>
     <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" size="default" class="login-form" @keyup.enter="handleLogin">
       <el-form-item prop="username" class="enter-right">
-        <el-input v-model="loginForm.username" placeholder="用户账号" prefix-icon="el-icon-user" />
+        <el-input v-model="loginForm.username" placeholder="用户账号" prefix-icon="user" />
       </el-form-item>
       <el-form-item prop="password" class="enter-right">
-        <el-input v-model="loginForm.password" :type="passwordType" placeholder="用户密码" prefix-icon="el-icon-lock">
+        <el-input v-model="loginForm.password" :type="passwordType" placeholder="用户密码" prefix-icon="lock">
           <template #append>
-            <el-button :icon="passwordType === 'password' ? 'el-icon-unlock' : 'el-icon-lock'" @click="showPassword" />
+            <el-button :icon="passwordType === 'password' ? 'unlock' : 'lock'" @click="showPassword" />
           </template>
         </el-input>
       </el-form-item>
       <el-form-item v-if="verificationCodeInfo.captchaOnOff" prop="code" class="enter-right verification-code-form-item">
-        <el-input v-model="loginForm.code" placeholder="验证码" prefix-icon="el-icon-mobile">
+        <el-input v-model="loginForm.code" placeholder="验证码" prefix-icon="iphone">
           <template #append>
             <el-image :src="verificationCodeInfo.img" fit="contain" class="verification-code-image" @click="getCaptchaImageAction" />
           </template>

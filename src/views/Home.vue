@@ -2,7 +2,7 @@
   <div class="home block xxx">
     <app-icon icon="dashboard" is-custom-svg />
     <app-icon icon="ri-home-line" />
-    <el-icon><apple /></el-icon>
+    <app-icon icon="el-apple" />
     <router-link to="/about">about</router-link>
     {{ getName }}
   </div>

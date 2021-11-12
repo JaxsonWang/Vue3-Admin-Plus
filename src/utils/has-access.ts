@@ -8,7 +8,7 @@ import { isPermission, isArray } from '@/utils/validate'
  */
 export const hasAccess = (value: string[]) => {
   const useUser = useUserWithOut()
-  if (useUser.full) return true
+  if (useUser.admin) return true
   if (isArray(value) && value.length > 0) {
     if (value.some(i => isPermission(i))) {
       // 如果是 *:*:* 放开权限

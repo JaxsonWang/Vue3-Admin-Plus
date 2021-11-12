@@ -3,15 +3,15 @@
     <div class="login-text enter-right mb-3 text-center lg:text-left">手机登录</div>
     <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" size="default" class="login-form" @keyup.enter="handleLogin">
       <el-form-item prop="phone" class="enter-right">
-        <el-input v-model="loginForm.phone" placeholder="手机号码" prefix-icon="el-icon-mobile-phone" />
+        <el-input v-model="loginForm.phone" placeholder="手机号码" prefix-icon="phone" />
       </el-form-item>
       <el-form-item prop="code" class="enter-right">
-        <el-input v-model="loginForm.code" placeholder="短信验证码" prefix-icon="el-icon-c-scale-to-original">
+        <el-input v-model="loginForm.code" placeholder="短信验证码" prefix-icon="message">
           <template v-if="isCoding" #append>
             <el-button :loading="isCoding"> {{ codeTime }} 秒</el-button>
           </template>
           <template v-else #append>
-            <el-button icon="el-icon-chat-line-round" @click="getCode">获取验证码</el-button>
+            <el-button icon="chat-line-round" @click="getCode">获取验证码</el-button>
           </template>
         </el-input>
       </el-form-item>

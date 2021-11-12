@@ -7,6 +7,7 @@
  */
 
 import { defineComponent, toRaw } from 'vue'
+import { ElScrollbar, ElMenu, ElMenuItem, ElSubMenu } from 'element-plus'
 import { useRoutes } from '@/store/modules/routes'
 import AppIcon from '@/components/AppIcon'
 
@@ -41,25 +42,26 @@ export default defineComponent({
       if (menu.meta && menu.meta.hidden) return
       if (menu.children) {
         return <>
-          <el-sub-menu v-slots={{
-            title: () => menuName(menu.meta)
-          }} index={menu.path}>
+          <ElSubMenu
+            v-slots={{
+              title: () => menuName(menu.meta)
+            }}
+            index={menu.path}
+          >
             {menuList(menu.children)}
-          </el-sub-menu>
+          </ElSubMenu>
         </>
       } else {
-        return <el-menu-item index={menu.path} route={menu}>{menuName(menu.meta)}</el-menu-item>
+        return <ElMenuItem index={menu.path} route={menu}>{menuName(menu.meta)}</ElMenuItem>
       }
     })
     return (
       <>
-        <el-scrollbar height={'100vh'} wrap-class="side-menu-scrollbar">
-          <el-menu router={true} class="border-none">
-            {
-              menuList(getRoutes)
-            }
-          </el-menu>
-        </el-scrollbar>
+        <ElScrollbar height="100vh" view-class="side-menu-view" wrap-class="side-menu-wrap">
+          <ElMenu router class="border-none">
+            {menuList(getRoutes)}
+          </ElMenu>
+        </ElScrollbar>
       </>
     )
   }
