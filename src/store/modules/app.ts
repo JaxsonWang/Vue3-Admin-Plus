@@ -11,6 +11,7 @@ import store from '@/store'
 import themeConfig from '@/configs/theme'
 import appConfig from '@/configs/settings'
 import { DeviceEnum } from '@/enums/app.enum'
+
 import type { ThemeConfig } from '#/config'
 
 interface ThemeState {
@@ -18,6 +19,7 @@ interface ThemeState {
   logo: string | false
   device: DeviceEnum
   theme: ThemeConfig
+  sidebarCollapse: boolean
 }
 
 const getLocalStore = (key: string): ThemeConfig | false => {
@@ -34,13 +36,17 @@ export const useApp = defineStore({
     title,
     logo,
     device: DeviceEnum.DESKTOP,
-    theme: getLocalStore('appSettings') || themeConfig
+    theme: getLocalStore('appSettings') || themeConfig,
+    sidebarCollapse: true
   }),
   getters: {
   },
   actions: {
-    setDevice(device: DeviceEnum): void {
-      this.device = device
+    /**
+     * 切换侧边栏
+     */
+    toggleCollapse(): void {
+      this.sidebarCollapse = !this.sidebarCollapse
     }
   }
 })

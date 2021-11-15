@@ -18,11 +18,13 @@ export const convertRouter = (asyncRoutes: AppRouteRecordRaw[]) => {
   return asyncRoutes.map((route: AppRouteRecordRaw) => {
     if (route.component) {
       if (route.component === 'Layout') {
-        route.component = () => Promise.resolve(require('@/layout').default)
+        // route.component = () => Promise.resolve(require('@/layouts').Layout)
+        route.component = () => import('@/layouts/Layout.vue')
       } else {
         const index = route.component.indexOf('views')
         const path = index > 0 ? route.component.slice(index) : `views/${route.component}`
-        route.component = () => Promise.resolve(require(`@/${path}`).default)
+        // route.component = () => Promise.resolve(require(`@/${path}`).default)
+        route.component = () => import(`/src/${path}.vue`)
       }
     }
     if (route.children && route.children.length) route.children = convertRouter(route.children)

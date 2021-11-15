@@ -7,12 +7,32 @@
   -->
 
 <template>
-  Header
+  <div class="header-wrapper flex justify-between items-center h-full">
+    <div class="header-left-wrapper">
+      <div :class="{'is-active': app.sidebarCollapse}" class="menu-fold" @click="app.toggleCollapse">
+        <app-icon icon="el-expand" size="18px" />
+      </div>
+    </div>
+    <div class="header-right-wrapper">
+      2
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
+import AppIcon from '@/components/AppIcon'
+import { useApp } from '@/store/modules/app'
+
+const app = useApp()
 </script>
 
 <style lang="scss" scoped>
-
+.menu-fold {
+  cursor: pointer;
+  transition-duration: 500ms;
+  transform: rotate(180deg);
+  &.is-active {
+    transform: rotate(0);
+  }
+}
 </style>

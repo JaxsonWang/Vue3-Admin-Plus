@@ -7,6 +7,7 @@
  */
 
 import { defineComponent, toRaw } from 'vue'
+import { useRoute } from 'vue-router'
 import { ElScrollbar, ElMenu, ElMenuItem, ElSubMenu } from 'element-plus'
 import { useApp } from '@/store/modules/app'
 import { useRoutes } from '@/store/modules/routes'
@@ -17,12 +18,17 @@ import type { AppRouteRecordRaw } from '#/vue-router'
 
 export default defineComponent({
   render: () => {
-    const { theme } = useApp()
+    const route = useRoute()
+    const { theme, sidebarCollapse } = useApp()
     const { routes } = useRoutes()
     /**
      * 获取路由信息
      */
     const getRoutes = toRaw(routes)
+    /**
+     * 当前路由路径
+     */
+    const currentPath = route.path
     /**
      * 菜单名称显示
      * @param meta
@@ -30,7 +36,7 @@ export default defineComponent({
     const menuName = (meta: RouteMeta) => {
       if (meta.icon) {
         return <>
-          <AppIcon icon={meta.icon} size="28" class="menu-icon" /> {meta.title}
+          <AppIcon icon={meta.icon} size="28" class="menu-icon" /> <span>{meta.title}</span>
         </>
       } else {
         return meta.title
@@ -60,15 +66,18 @@ export default defineComponent({
     return (
       <>
         <ElScrollbar
-          view-class="side-menu-view"
-          wrap-class="side-menu-wrap"
+          viewClass="side-menu-view"
+          wrapClass="side-menu-wrap"
           class="side-menu-scrollbar-wrapper"
         >
           <ElMenu
-            background-color={theme.menuBackgroundColor}
-            text-color={theme.menuTextColor}
-            active-text-color={theme.menuActiveTextColor}
+            defaultActive={currentPath}
+            collapse={!sidebarCollapse}
+            backgroundColor={theme.menuBackgroundColor}
+            textColor={theme.menuTextColor}
+            activeTextColor={theme.menuActiveTextColor}
             router
+            uniqueOpened
             class="side-menu border-none"
           >
             {menuList(getRoutes)}

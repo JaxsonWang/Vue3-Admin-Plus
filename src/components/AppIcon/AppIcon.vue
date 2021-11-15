@@ -3,7 +3,7 @@
   <svg v-else-if="isCustomSvg" :class="['svg-icon']" :style="styleCustomSvg" aria-hidden="true" v-bind="$attrs">
     <use :xlink:href="iconName" />
   </svg>
-  <component v-else-if="isEleIcon" :is="pipeEleIcon()" :class="['svg-icon', 'el-icon', icon]" :style="styleFontIcon" aria-hidden="true" v-bind="$attrs" />
+  <component v-else-if="isEleIcon" :is="pipeEleIcon()" :class="['svg-icon', 'el-icon', icon]" :style="styleCustomSvg" aria-hidden="true" v-bind="$attrs" />
   <i v-else :class="['remix-icon', icon]" :style="styleFontIcon" aria-hidden="true" v-bind="$attrs" />
 </template>
 
@@ -31,25 +31,22 @@ const isExternal = computed(() => isExternalRegExp(props.icon))
 const isEleIcon = computed(() => isEleIconRegExp(props.icon))
 const iconName = computed(() => `#icon-${props.icon}`)
 const styleExternalIcon = computed(() => {
-  if (props.size === '') return {}
   return {
     mask: `url(${props.icon}) no-repeat 50% 50%`,
     '-webkit-mask': `url(${props.icon}) no-repeat 50% 50%`,
-    width: typeof props.size === 'number' ? `${props.size}px` : props.size,
-    height: typeof props.size === 'number' ? `${props.size}px` : props.size
+    width: props.size,
+    height: props.size
   }
 })
 const styleCustomSvg = computed(() => {
-  if (props.size === '') return {}
   return {
-    width: typeof props.size === 'number' ? `${props.size}px` : props.size,
-    height: typeof props.size === 'number' ? `${props.size}px` : props.size
+    width: props.size,
+    height: props.size
   }
 })
 const styleFontIcon = computed(() => {
-  if (props.size === '') return {}
   return {
-    fontSize: typeof props.size === 'number' ? `${props.size}px` : props.size
+    fontSize: props.size
   }
 })
 /**

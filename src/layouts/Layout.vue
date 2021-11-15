@@ -13,7 +13,7 @@ import { DefaultLayout } from './index'
 
 const WIDTH = 992
 const layoutType = DefaultLayout
-const { setDevice } = useApp()
+const app = useApp()
 
 /**
  * 判断手机响应式
@@ -27,7 +27,7 @@ const isMobile = (): boolean => {
  * 监听窗口变化回调
  */
 const resizeHandler = (): void => {
-  if (!document.hidden) setDevice(isMobile() ? DeviceEnum.MOBILE : DeviceEnum.DESKTOP)
+  if (!document.hidden) app.device = isMobile() ? DeviceEnum.MOBILE : DeviceEnum.DESKTOP
 }
 
 onBeforeMount(() => {

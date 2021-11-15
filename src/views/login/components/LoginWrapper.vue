@@ -46,11 +46,11 @@
       </el-form-item>
       <el-form-item class="enter-right">
         <div class="social-wrapper flex flex-row justify-around items-center">
-          <app-icon icon="ri-github-fill" :size="28" class="social-item" />
-          <app-icon icon="ri-alipay-fill" :size="28" class="social-item" />
-          <app-icon icon="ri-qq-fill" :size="28" class="social-item" />
-          <app-icon icon="ri-weibo-fill" :size="28" class="social-item" />
-          <app-icon icon="ri-twitter-fill" :size="28" class="social-item" />
+          <app-icon icon="ri-github-fill" size="28px" class="social-item" />
+          <app-icon icon="ri-alipay-fill" size="28px" class="social-item" />
+          <app-icon icon="ri-qq-fill" size="28px" class="social-item" />
+          <app-icon icon="ri-weibo-fill" size="28px" class="social-item" />
+          <app-icon icon="ri-twitter-fill" size="28px" class="social-item" />
         </div>
       </el-form-item>
     </el-form>
@@ -66,6 +66,7 @@ import { getCaptchaImage } from '@/api/login'
 import { useUser } from '@/store/modules/user'
 import AppIcon from '@/components/AppIcon'
 
+const { title } = useApp()
 const emit = defineEmits(['login-type'])
 const loginFormRef = ref()
 const loginForm = ref({
@@ -126,7 +127,7 @@ const loginTips = () => {
   setTimeout(() => {
     ElNotification({
       title: thisTime,
-      message: `欢迎登录${useApp().getTitle}`,
+      message: `欢迎登录${title}`,
       type: 'success'
     })
     router.push('/')

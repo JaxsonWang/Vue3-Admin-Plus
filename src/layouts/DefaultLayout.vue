@@ -11,7 +11,7 @@
     :style="variableStyles"
     class="default-layout layout-wrapper"
   >
-    <el-aside width="300px" class="sidebar-wrapper">
+    <el-aside :width="app.sidebarCollapse ? '300px' : '64px'" class="sidebar-wrapper">
       <LayoutHeaderLogo />
       <LayoutSideMenu />
     </el-aside>
@@ -30,12 +30,17 @@
 </template>
 
 <script lang="ts" setup>
+import { useApp } from '@/store/modules/app'
 import { LayoutSideMenu, LayoutHeaderLogo, LayoutHeader, LayoutMain, LayoutFooter } from './universal'
 import '@/styles/layouts/default-layout.scss'
 
+import type { CSSProperties } from 'vue'
+
 const variableStyles = {
   '--header-logo-height': '60px'
-}
+} as CSSProperties
+
+const app = useApp()
 </script>
 
 <style lang="scss" scoped>

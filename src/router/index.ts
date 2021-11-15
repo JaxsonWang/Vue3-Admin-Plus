@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import { Layout } from '@/layouts'
+import Layout from '@/layouts/Layout.vue'
 import type { App } from 'vue'
 import type { Router, RouteRecordRaw, RouteRecord } from 'vue-router'
 import type { AppRouteRecordRaw } from '#/vue-router'

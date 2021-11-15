@@ -9,6 +9,8 @@
 import { useApp } from '@/store/modules/app'
 import zhCN from 'element-plus/lib/locale/lang/zh-cn'
 
+import type { CSSProperties } from 'vue'
+
 const { theme } = useApp()
 const locale = zhCN
 
@@ -17,5 +19,5 @@ const globalStyles = {
   '--sub-menu-background-color': theme.subMenuBackgroundColor,
   '--menu-text-color': theme.menuTextColor,
   '--menu-active-text-color': theme.menuActiveTextColor
-}
+} as CSSProperties
 </script>
