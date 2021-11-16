@@ -25,16 +25,16 @@
     "vue-router": "^4.0.11"
   },
   "devDependencies": {
-    "@types/js-cookie": "^3.0.0",
-    "@types/lodash": "^4.14.176",
+    "@types/js-cookie": "^3.0.1",
+    "@types/lodash": "^4.14.177",
     "@types/node": "^16.11.7",
     "@types/nprogress": "^0.2.0",
     "@types/qs": "^6.9.7",
-    "@typescript-eslint/eslint-plugin": "^5.3.1",
-    "@typescript-eslint/parser": "^5.3.1",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
     "@vitejs/plugin-vue": "^1.9.4",
     "@vitejs/plugin-vue-jsx": "^1.2.0",
-    "@vue/compiler-sfc": "^3.2.21",
+    "@vue/compiler-sfc": "^3.2.22",
     "@vue/eslint-config-typescript": "^9.0.1",
     "autoprefixer": "^10.4.0",
     "eslint": "^8.2.0",
@@ -49,7 +49,7 @@
     "typescript": "^4.4.4",
     "vite": "^2.6.14",
     "vite-plugin-svg-icons": "^1.0.5",
-    "vue-tsc": "^0.29.3"
+    "vue-tsc": "^0.29.5"
   },
   "browserslist": [
     "> 1%",
