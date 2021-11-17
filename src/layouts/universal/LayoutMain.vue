@@ -8,11 +8,11 @@
 
 <template>
   <router-view v-slot="{ Component }">
-    <keep-alive :max="20">
-      <transition mode="out-in" name="fade-transform">
+    <transition mode="out-in" name="fade-transform">
+      <keep-alive :max="20">
         <component :is="Component" />
-      </transition>
-    </keep-alive>
+      </keep-alive>
+    </transition>
   </router-view>
 </template>
 

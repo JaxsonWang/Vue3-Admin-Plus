@@ -5,14 +5,16 @@
  * 创建日期：2021年09月06日
  * 创建作者：Jaxson
  */
-import { ContentTypeEnum } from '@/enums/http.enum'
-
 export interface ThemeConfig {
   showProgressBar: boolean
   menuBackgroundColor: string
   subMenuBackgroundColor: string
   menuTextColor: string
   menuActiveTextColor: string
+}
+
+export interface SidebarCollapseConfig {
+  collapse: boolean
 }
 
 export interface SettingConfig {

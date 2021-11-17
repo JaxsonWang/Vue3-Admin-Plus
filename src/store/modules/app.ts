@@ -22,11 +22,13 @@ interface ThemeState {
   sidebarCollapse: boolean
 }
 
-const getLocalStore = (key: string): ThemeConfig | false => {
+const getLocalStorage = (key: string) => {
   const value = localStorage.getItem(key)
   if (value === null || value === undefined) return false
   return JSON.parse(value)
 }
+
+const { collapse } = getLocalStorage('collapse')
 
 const { title, logo } = appConfig
 
@@ -36,8 +38,8 @@ export const useApp = defineStore({
     title,
     logo,
     device: DeviceEnum.DESKTOP,
-    theme: getLocalStore('appSettings') || themeConfig,
-    sidebarCollapse: true
+    theme: getLocalStorage('appSettings') || themeConfig,
+    sidebarCollapse: collapse || false
   }),
   getters: {
   },
@@ -46,7 +48,9 @@ export const useApp = defineStore({
      * 切换侧边栏
      */
     toggleCollapse(): void {
-      this.sidebarCollapse = !this.sidebarCollapse
+      const status = !this.sidebarCollapse
+      localStorage.setItem('collapse', `{"collapse": ${status}}`)
+      this.sidebarCollapse = status
     }
   }
 })

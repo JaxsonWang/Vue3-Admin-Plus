@@ -4,14 +4,15 @@
     <app-icon icon="ri-home-line" />
     <app-icon icon="el-apple" />
     <router-link to="/about">about</router-link>
-    {{ getName }}
+    {{ app.name }}
   </div>
 </template>
 
 <script lang="ts" setup>
 import AppIcon from '@/components/AppIcon'
 import { useUser } from '@/store/modules/user'
-const { name: getName } = useUser()
+const app = useUser()
+
 </script>
 <style lang="scss" scoped>
 </style>
